@@ -155,6 +155,11 @@ finalhandler@1.2.0:
     statuses "2.0.1"
     unpipe "~1.0.0"
 
+force-secure-express@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/force-secure-express/-/force-secure-express-1.0.1.tgz#b5c9fa105cc74bf4cf4929a26434dffd3a93e83d"
+  integrity sha512-s54CsKqwyi/1TlDu8NP57XsSoUvRvOE+g2RJIKxFDL0v7jOOJiVUIq1W53zK8Fl01e7Vv9bIY1qJMfD9m82+xg==
+
 forwarded@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"

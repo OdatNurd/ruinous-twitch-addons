@@ -1,4 +1,5 @@
 import express from 'express';
+import forceSecure from 'force-secure-express';
 import path from 'path';
 
 import { fileURLToPath } from 'url';
@@ -23,5 +24,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /* As a simple test, serve static files out of the public directory and listen
  * on the configured port. */
 express()
+  .use(forceSecure(["twitch.ruinouspileofcrap.com"]))
   .use(express.static(path.join(__dirname, '../public')))
   .listen(PORT, () => console.log(`Listening on ${PORT}`))
