@@ -2,10 +2,10 @@
   "name": "odatnurd-twitch-integrations",
   "version": "1.0.0",
   "description": "An app for testing Twitch integrations with Heroku",
-  "main": "src/index.mjs",
   "author": "Terence Martin <github@nurdz.com>",
   "license": "MIT",
   "private": false,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/OdatNurd/odatnurd-twitch-integrations"
@@ -15,10 +15,27 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "start": "node src/index.mjs"
+    "start": "node build",
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview",
+    "prepare": "svelte-kit sync",
+    "postinstall": "yarn build"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^1.0.0-next.78",
+    "@sveltejs/kit": "next",
+    "autoprefixer": "^10.4.7",
+    "svelte": "^3.44.0",
+    "tailwindcss": "^3.0.24"
   },
   "dependencies": {
-    "express": "^4.18.1",
-    "force-secure-express": "^1.0.1"
+    "@twurple/api": "^5.1.6",
+    "@twurple/auth": "^5.1.6",
+    "convict": "^6.2.3",
+    "cookie": "^0.5.0",
+    "dotenv": "^16.0.1",
+    "jsonwebtoken": "^8.5.1"
   }
 }
