@@ -94,8 +94,12 @@ export async function get({url}) {
       headers["Set-Cookie"] = cookie.serialize('authToken', jwtToken, {
         httpOnly: true,
         expires: new Date(Date.now() + (twitchToken.expiresIn * 1000)),
-        secure: config.get('env') === 'production',
-        sameSite: config.get('env') === 'production' ? 'strict' : undefined
+        secure: true,
+
+        // We need to use lax because if we make it 'strict', it's so strict
+        // that the stupid cookie never actualy gets given to us. Handy! Why? I
+        // don't know and I'm kind of beyond caring at the moment.
+        sameSite: 'lax'
       });
     } catch (err) {
       console.error(`Unable to authorize with twitch: ${err.message}`);
