@@ -27,8 +27,10 @@
     "@sveltejs/adapter-node": "^1.0.0-next.78",
     "@sveltejs/kit": "next",
     "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
     "svelte": "^3.44.0",
-    "tailwindcss": "^3.0.24"
+    "svelte-preprocess": "^4.10.7",
+    "tailwindcss": "^3.1.4"
   },
   "dependencies": {
     "@twurple/api": "^5.1.6",

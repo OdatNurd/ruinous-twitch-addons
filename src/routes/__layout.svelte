@@ -1,4 +1,5 @@
 <script>
+  import "../app.css";
   import Navigation from '../components/navigation.svelte';
 </script>
 
@@ -6,9 +7,3 @@
   <Navigation />
   <slot></slot>
 </div>
-
-<style>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>
