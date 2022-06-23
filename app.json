@@ -1,4 +1,5 @@
 {
+  "stack": "heroku-22",
   "name": "OdatNurd: Twitch Integrations",
   "description": "An app for testing Twitch integrations with Heroku",
   "repository": "https://github.com/OdatNurd/odatnurd-twitch-integrations",
