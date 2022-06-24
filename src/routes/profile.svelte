@@ -24,8 +24,10 @@
 <h1 class="text-4xl text-center my-8 uppercase">Profile: {$session.user.name}</h1>
 
 {#if $session.user !== undefined}
-  Welcome, {$session.user.name}
-  (<a class="text-sm underline" href="/login?force=true">Not you?</a>)
-  (<a class="underline" href="/logout">Log out</a>)
+  <div class="dark:text-white">
+    Welcome, {$session.user.name}
+    (<a class="text-sm underline" href="/login?force=true">Not you?</a>)
+    (<a class="underline" href="/logout">Log out</a>)
+  </div>
 <img class="w-15 h-15 p-8" src="{$session.user.profile}" alt="Twitch Avatar" />
 {/if}
