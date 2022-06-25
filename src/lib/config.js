@@ -93,4 +93,3 @@ export const config = convict({
 /* Validate that the configuration is correct; this will throw an error if
  * any required values are missing. */
 config.validate();
-console.log(config.toString());

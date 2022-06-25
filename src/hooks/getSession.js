@@ -1,3 +1,6 @@
+// =============================================================================
+
+
 /* This hook runs on the server and gets information from the event that's
  * provided by the handle() function in order to set up the session data that is
  * provided to the client side code.
@@ -20,3 +23,6 @@ export function getSession({ locals }) {
     },
   }
 }
+
+
+// =============================================================================

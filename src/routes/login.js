@@ -16,6 +16,9 @@ const authParams = {
 };
 
 
+// =============================================================================
+
+
 export async function get({url}) {
   // We get a code if the user authorized and an error if they did not; if those
   // are missing, then we're getting sent here so that someone can log in;
@@ -114,3 +117,6 @@ export async function get({url}) {
     headers
   }
 }
+
+
+// =============================================================================

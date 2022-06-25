@@ -1,7 +1,10 @@
-import { config} from '$lib/config';
+import { config } from '$lib/config';
 
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
+
+
+// =============================================================================
 
 
 /* This gets invoked on the server when pages are requested, including during
@@ -50,3 +53,6 @@ export async function handle({event, resolve}) {
 
   return await resolve(event)
 }
+
+
+// =============================================================================
