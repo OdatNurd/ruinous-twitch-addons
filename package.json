@@ -16,24 +16,28 @@
     "yarn": "1.x"
   },
   "scripts": {
+    "db:browse": "prisma studio",
+    "db:setup": "prisma db push",
     "start": "node build",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync",
-    "postinstall": "yarn build"
+    "postinstall": "yarn build && yarn db:setup"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.78",
-    "@sveltejs/kit": "next",
+    "@sveltejs/kit": "^1.0.0-next.354",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
+    "prisma": "^3.14.0",
     "svelte": "^3.44.0",
     "svelte-preprocess": "^4.10.7",
     "tailwindcss": "^3.1.4"
   },
   "dependencies": {
+    "@prisma/client": "^3.14.0",
     "@twurple/api": "^5.1.6",
     "@twurple/auth": "^5.1.6",
     "convict": "^6.2.3",

@@ -1,7 +1,8 @@
-import { config } from '$lib/config';
+import '$lib/config';
+import '$lib/db'
 
 
 // =============================================================================
 
 
-console.log(config.toString());
+console.log('Application back end setup complete');

@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This represents a Twitch user, which has a concrete userId that uniquely
+/// identifies the user, as well as a changeable username and display name. The
+/// userID never changes although the other values might.
+///
+/// We should do a periodic check to see if the information related to a user
+/// has changed since the record was added and update as appropriate.
+model TwitchUser {
+  // The core information for this user; their unique ID, their current username
+  // and their current display name; the display name is always the same as the
+  // user name except that the case can be different.
+  userId      String  @id @unique
+  username    String
+  displayName String
+
+  // Flag whether this particular Twitch user is a bot or not. For our purposes
+  // here, the only bot we expect to explcitly track is the one that we're
+  // running ourselves to be able to communicate between our users and the back
+  // end.
+  isBot       Boolean @default(false)
+
+  // The URL that points to the profile picture for this user; we prefetch this
+  // when we look up logged in users, so that we can keep it around without
+  // having to keep making requests.
+  profilePic  String
+
+  // Each user may optionally have a Twitch token stored for them which would
+  // allow the back end to make requests on their behalf. Not all users have
+  // tokens stored.
+  TwitchToken TwitchToken?
+}
+
+/// This represents a Twitch Token, which *MAY* associate with a specific user
+/// (for example a logged in user or the user that represents the bot) or just
+/// an application token in general.
+///
+/// When this is used to store user tokens, information about how to refresh the
+/// token may also be provided. That information is missing for application
+/// tokens as well as for user tokens we perhaps don't want to try and refresh.
+model TwitchToken {
+  // The owner of this token, if there is one; this is optional and will not be
+  // present for application tokens, for example.
+  owner  TwitchUser @relation(fields: [userId], references: [userId])
+  userId String     @id @unique
+
+  // The Twitch access token that we can use to make requests on behalf of this
+  // user, and the token to use in combination with it to refresh it when it
+  // expires.
+  accessToken  String
+  refreshToken String
+
+  // The list of scopes that this token is authorized for (in theory; either
+  // Twitch never sends it, or Twurple never populates it. Who can say?).
+  scopes String[]
+
+  // The time at which we obtained this token (or last refreshed it) and the
+  // time after which it is no longer valid.
+  obtainmentTimestamp Int @default(0)
+  expiresIn           Int @default(0)
+}

@@ -1,4 +1,5 @@
 import { config} from '$lib/config';
+import { db } from '$lib/db';
 
 import { StaticAuthProvider, exchangeCode } from '@twurple/auth';
 import { ApiClient } from '@twurple/api';
@@ -70,6 +71,26 @@ export async function get({url}) {
       // information about the user that just authenticated.
       const api = new ApiClient({ authProvider });
       const userInfo = await api.users.getMe();
+
+      // Create a new record for this user OR update an existing record with
+      // new information (for example the user could have altered their displayName
+      // since the last time they logged in)
+      await db.twitchUser.upsert({
+        where: {
+          userId: userInfo.id,
+        },
+        update: {
+          username: userInfo.name,
+          displayName: userInfo.displayName,
+          profilePic: userInfo.profilePictureUrl
+        },
+        create: {
+          userId: userInfo.id,
+          username: userInfo.name,
+          displayName: userInfo.displayName,
+          profilePic: userInfo.profilePictureUrl
+        }
+      });
 
       console.log(`Logged in ${userInfo.name}/${userInfo.displayName}/${userInfo.id}`);
 
