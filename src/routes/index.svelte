@@ -21,8 +21,6 @@
   <title>Svelte Kit TestBed</title>
 </svelte:head>
 
-<h1 class="text-4xl text-center my-8 uppercase">Svelte Kit TestBed</h1>
-
 {#each users as user}
   <UserCard {user} />
 {/each}

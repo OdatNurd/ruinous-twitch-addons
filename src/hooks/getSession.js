@@ -18,8 +18,8 @@ export function getSession({ locals }) {
     user: {
       username: locals.user.username,
       userId: locals.user.userId,
-      name: locals.user.name,
-      profile: locals.user.profileImg,
+      displayName: locals.user.displayName,
+      profilePic: locals.user.profilePic,
     },
   }
 }

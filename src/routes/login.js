@@ -80,8 +80,8 @@ export async function get({url}) {
         {
           username: userInfo.name,
           userId: userInfo.id,
-          name: userInfo.displayName,
-          profileImg: userInfo.profilePictureUrl,
+          displayName: userInfo.displayName,
+          profilePic: userInfo.profilePictureUrl,
         },
         config.get('jwt.private'),
         { algorithm: 'RS256', expiresIn: twitchToken.expiresIn }

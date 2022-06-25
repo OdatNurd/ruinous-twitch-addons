@@ -43,8 +43,8 @@ export async function handle({event, resolve}) {
       event.locals.user = {
         username: token.username,
         userId: token.userId,
-        name: token.name,
-        profileImg: token.profileImg,
+        displayName: token.displayName,
+        profilePic: token.profilePic,
       }
     }
   } catch (err) {

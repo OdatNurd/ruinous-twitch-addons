@@ -1,8 +1,11 @@
 <script>
   import { session } from '$app/stores';
+  import { goto } from '$app/navigation';
 
   export let menuHidden = true;
   const toggleMenu = () => menuHidden = !menuHidden;
+
+  const openProfile = () => goto('/profile');
 
   const toggleDarkMode = () => {
     if (localStorage.theme === undefined) {
@@ -47,7 +50,7 @@
           {#if $session.user === undefined}
             <a href="/login" class="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">Login</a>
           {:else}
-            <a href="/profile" class="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">Profile</a>
+            <a href="/logout" class="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">Logout</a>
           {/if}
         </div>
 
@@ -56,10 +59,10 @@
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
 
-          <button type="button" class="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
+          <button on:click={openProfile} type="button" class="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
             <div class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full text-gray-600 dark:text-gray-200">
             {#if $session.user !== undefined}
-              <img src="{$session.user.profile}" class="object-cover w-full h-full" alt="avatar">
+              <img src="{$session.user.profilePic}" class="object-cover w-full h-full" alt="avatar" title="{$session.user.displayName}">
             {:else}
               <svg class="w-full h-full fill-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8ZM12 11C13.6569 11 15 9.65685 15 8C15 6.34315 13.6569 5 12 5C10.3431 5 9 6.34315 9 8C9 9.65685 10.3431 11 12 11Z"></path>
@@ -69,7 +72,7 @@
             </div>
 
             {#if $session.user !== undefined}
-              <h3 class="mx-2 text-sm font-medium text-gray-700 dark:text-gray-200 md:hidden">{$session.user.name}</h3>
+              <h3 class="mx-2 text-sm font-medium text-gray-700 dark:text-gray-200 md:hidden">{$session.user.displayName}</h3>
             {/if}
           </button>
         </div>
