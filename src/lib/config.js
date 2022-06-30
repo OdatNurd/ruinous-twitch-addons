@@ -19,6 +19,20 @@ const required = value => {
 // =============================================================================
 
 
+/* This handler is an extension of the above and further verifies that the
+ * value is exactly 32 characters long; this is required for the encryption
+ * secret. */
+const required_len_32 = value => {
+  required(value);
+  if (value.length !== 32) {
+    throw new Error(`This value must be exactly 32 characters long (it is ${value.length}) currently`);
+  }
+}
+
+
+// =============================================================================
+
+
 /* This sets the configuration schema to be used for the overlay. */
 export const config = convict({
   env: {
@@ -36,6 +50,13 @@ export const config = convict({
       env: 'DATABASE_URL',
       sensitive: true,
       default: null,
+    },
+    cryptKey: {
+      doc: 'The encryption key used to encrypt sensitive data in the database',
+      format: required_len_32,
+      env: 'DATABASE_CRYPTO_SECRET',
+      sensitive: true,
+      default: null
     }
   },
 
