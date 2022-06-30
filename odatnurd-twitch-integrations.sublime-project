@@ -5,5 +5,8 @@
 			"path": ".",
 			"folder_exclude_patterns": [".svelte-kit", "build"],
 		}
-	]
+	],
+	"settings": {
+		"tab_size": 2,
+	},
 }

@@ -83,6 +83,12 @@ export const config = convict({
       default: null,
       env: 'TWITCH_AUTH_CALLBACK_URL'
     },
+    botUserId: {
+      doc: 'The Twitch userId of the user that represents the bot',
+      format: required,
+      default: null,
+      env: 'TWITCH_BOT_USERID'
+    }
   },
 
   // These options are used to securely sign and verifify the signatures of our
