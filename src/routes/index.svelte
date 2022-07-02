@@ -1,26 +1,26 @@
 <script context="module">
   export async function load({ params, fetch, session, stuff }) {
-    const res = await fetch('/api/v1/users');
+    const res = await fetch('/api/v1/addons');
 
     return {
       status: res.status,
       props: {
-        users: res.ok && (await res.json())
+        addons: res.ok && (await res.json())
       }
     };
   }
 </script>
 
 <script>
-  import UserCard from "../components/userCard.svelte";
+  import AddonCard from "../components/addonCard.svelte";
 
-  export let users;
+  export let addons;
 </script>
 
 <svelte:head>
   <title>Svelte Kit TestBed</title>
 </svelte:head>
 
-{#each users as user}
-  <UserCard {user} />
+{#each addons as addon}
+  <AddonCard {addon} />
 {/each}
