@@ -1,5 +1,5 @@
 <script context="module">
-  export async function load({ params, fetch, session, stuff }) {
+  export async function load({ params, fetch, session }) {
     const res = await fetch('/api/v1/addons');
 
     return {
