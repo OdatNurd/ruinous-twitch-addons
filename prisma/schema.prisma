@@ -36,6 +36,7 @@ model TwitchUser {
   // allow the back end to make requests on their behalf. Not all users have
   // tokens stored.
   TwitchToken TwitchToken?
+  TwitchUserAddons TwitchUserAddons[]
 }
 
 /// This represents a Twitch Token, which *MAY* associate with a specific user
@@ -66,3 +67,69 @@ model TwitchToken {
   obtainmentTimestamp Int @default(0)
   expiresIn           Int @default(0)
 }
+
+/// This represents one of the Twitch Addons that our application is meant to
+/// provide to our users; it consists of all of the information about any given
+/// Addon, including descrptive details like a name and icon as well as the
+/// information on what sort of configuration this addon requires and what a
+/// default config would look like.
+model TwitchAddon {
+  // A unique time-based ID value that represents this particular addon in the
+  // system.
+  addonId String @id @unique
+
+  // The name of this particular Addon, e.g "Drop Game" and a URL that can be
+  // fetched in order to display a distinct "profile image" of the Addon when it
+  // is visualized.
+  name String
+  iconPic String
+
+  // A simple one or two sentence title that quickly describes what this addon
+  // is for, and a more long form detailed description; which is used in any
+  // given display context depends on the depth of information desired.
+  title String
+  description String
+
+  // These flags indicate wether this particular addon requires a chatbot
+  // connection or not, and wether it provides an overlay for use in OBS or your
+  // streaming platform of choice in order to visualize something.
+  requiresChat Boolean
+  requiresOverlay Boolean
+
+  // Each addon has the potential for some configuration information that is per
+  // user and provides more details as to what the addon should do or how it
+  // should behave.
+  //
+  // Our plan currently is to have a JSON scheme that represents a valid config
+  // and an endpoint that will generate such a default.
+  configSchemaUrl String
+  defaultConfigUrl String
+
+  TwitchUserAddons TwitchUserAddons[]
+}
+
+/// This represents a record of a specific Twitch user having a specific Twitch
+/// addon enabled for their account. Each user can have many addons, and each
+/// addon can appear for multiple users, but we constrain the table so that we
+/// only allow each add-on to be used once.
+model TwitchUserAddons {
+  // The Twitch user that this record is for, and the addon that they are
+  // adding to their channel.
+  userId String
+  addonId String
+  owner TwitchUser @relation(fields: [userId], references: [userId])
+  addon TwitchAddon @relation(fields: [addonId], references: [addonId])
+
+  @@unique([userId, addonId])
+  @@id([userId, addonId])
+
+  // If this addon requires an overlay, then this is populated with the distinct
+  // overlay URL for this particular user's installation of this particular
+  // addon; this is missing for addons that don't need an overlay.
+  overlayUrl String?
+
+  // Each addon has some sort of configuration object; this specifies what that
+  // is for this particular user's installation of the addon.
+  configJSON String
+}
+

@@ -15,21 +15,26 @@
     "npm": "8.x",
     "yarn": "1.x"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "db:browse": "prisma studio",
     "db:setup": "prisma db push",
+    "db:seed": "prisma db seed",
     "start": "node build",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync",
-    "postinstall": "yarn build && yarn db:setup"
+    "postinstall": "yarn build && yarn db:setup && yarn db:seed"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.78",
     "@sveltejs/kit": "^1.0.0-next.357",
     "autoprefixer": "^10.4.7",
+    "ksuid-cli": "^1.1.0",
     "postcss": "^8.4.14",
     "prisma": "^4.0.0",
     "svelte": "^3.44.0",
@@ -44,6 +49,7 @@
     "convict": "^6.2.3",
     "cookie": "^0.5.0",
     "dotenv": "^16.0.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "ksuid": "^3.0.0"
   }
 }
