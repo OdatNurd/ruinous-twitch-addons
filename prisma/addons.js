@@ -14,6 +14,7 @@ export const addons = [
   {
     'addonId': '2BNIO9lVnPY9lKgIMsBVQICBLAM',
     'name': 'Addon One',
+    'slug': 'addon-one',
     'iconPic': icon('skull.png'),
     'title': 'The First Addon',
     'description': _(`The first, sample addon for use in testing.`),
@@ -25,6 +26,7 @@ export const addons = [
   {
     'addonId': '2BNIa2BOEP7kF10eeOdObXjNsQk',
     'name': 'Addon Two',
+    'slug': 'addon-two',
     'iconPic': icon('witch_hat.png'),
     'title': 'The Second Addon',
     'description': _(`The second, sample addon for use in testing. This one is 80% lamer.`),

@@ -78,6 +78,10 @@ model TwitchAddon {
   // system.
   addonId String @id @unique
 
+  // When generating pages that convey information about addons and their
+  // configuration, this is the page slug that's used in the URL.
+  slug String @unique
+
   // The name of this particular Addon, e.g "Drop Game" and a URL that can be
   // fetched in order to display a distinct "profile image" of the Addon when it
   // is visualized.
