@@ -12,7 +12,7 @@
 
     // There is a user, so fetch down the list of addons that they have
     // attached to their account.
-    const res = await fetch(`/api/v1/addons?${new URLSearchParams({ userId: session.user.userId })}`);
+    const res = await fetch('/api/v1/user/addons');
     return {
       status: res.status,
       props: {
@@ -33,8 +33,6 @@
 <svelte:head>
   <title>Svelte Kit TestBed User Profile</title>
 </svelte:head>
-
-<h1 class="text-4xl text-center my-8 uppercase">Profile: {$session.user.displayName}</h1>
 
 {#if $session.user !== undefined}
   <div class="dark:text-white">
