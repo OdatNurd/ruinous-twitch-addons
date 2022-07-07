@@ -1,26 +1,14 @@
-<script context="module">
-  export async function load({ params, fetch, session }) {
-    const res = await fetch('/api/v1/addons');
-
-    return {
-      status: res.status,
-      props: {
-        addons: res.ok && (await res.json())
-      }
-    };
-  }
-</script>
-
-<script>
-  import AddonCard from "$component/addonCard.svelte";
-
-  export let addons;
-</script>
-
 <svelte:head>
-  <title>Svelte Kit TestBed</title>
+  <title>Ruinous Pile of Crap</title>
 </svelte:head>
 
-{#each addons as addon}
-  <AddonCard {addon} />
-{/each}
+<div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
+  <div class="container px-6 py-4 mx-auto">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+</div>

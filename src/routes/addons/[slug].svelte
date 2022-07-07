@@ -18,11 +18,15 @@
 </script>
 
 <svelte:head>
-  <title>Svelte Kit TestBed</title>
+  <title>Ruinous Add-on: {addon.title || 'Unknown'}</title>
 </svelte:head>
 
 {#if addon.name !== undefined}
-  <AddonCard {addon} />
+  <AddonCard {addon} link={false} />
 {:else}
-  Invalid addon
+<div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
+  <div class="container px-6 py-4 mx-auto">
+    No such addon found
+  </div>
+</div>
 {/if}

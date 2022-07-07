@@ -31,15 +31,18 @@
 </script>
 
 <svelte:head>
-  <title>Svelte Kit TestBed User Profile</title>
+  <title>Ruinous Profile: {$session.user.displayName}</title>
 </svelte:head>
 
+
 {#if $session.user !== undefined}
-  <div class="dark:text-white">
+<div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
+  <div class="container px-6 py-4 mx-auto">
     Welcome, {$session.user.displayName}
     (<a class="text-sm underline" href="/login?force=true">Not you?</a>)
     (<a class="underline" href="/logout">Log out</a>)
   </div>
+</div>
 
 {#each addons as addon}
   <AddonCard {addon} />
