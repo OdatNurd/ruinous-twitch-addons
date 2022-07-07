@@ -1,7 +1,5 @@
 import { config } from '$lib/config';
-
-import cookie from 'cookie';
-import jwt from 'jsonwebtoken';
+import { getAuthToken } from '$lib/cookie';
 
 
 // =============================================================================
@@ -31,24 +29,17 @@ export async function handle({event, resolve}) {
     return Response.redirect(event.url.href, 302);
   }
 
-  try {
-    const cookieHeader = event.request.headers.get('cookie')
-    const cookies = cookie.parse(cookieHeader ?? '')
-
-    if (cookies.authToken !== undefined) {
-      const token = jwt.verify(cookies.authToken, config.get('jwt.public'), {
-        algorithms: ['RS256']
-      });
-
-      event.locals.user = {
-        username: token.username,
-        userId: token.userId,
-        displayName: token.displayName,
-        profilePic: token.profilePic,
-      }
+  // Check the event request for an auth cookie which contains our JWT and if
+  // found, verify it. If it's all good, set up the locals so that we can use it
+  // to set up the session.
+  const token = getAuthToken(event.request);
+  if (token !== null) {
+    event.locals.user = {
+      username: token.username,
+      userId: token.userId,
+      displayName: token.displayName,
+      profilePic: token.profilePic,
     }
-  } catch (err) {
-    console.error(`received JWT was invalid; rejecting: ${err.message}`);
   }
 
   return await resolve(event)
