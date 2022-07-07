@@ -25,7 +25,7 @@
 <script>
   import { session } from '$app/stores'
 
-  import AddonCard from "../components/addonCard.svelte";
+  import AddonCard from "$component/addonCard.svelte";
 
   export let addons;
 </script>
