@@ -8,7 +8,7 @@
     <img class="object-cover w-10 h-10 rounded-full" alt="Addon Icon" src="{addon.iconPic}">
 
     <div class="mx-3">
-        <p class="text-neutral-100">{addon.name}</p>
+        <a href="/addons/{addon.slug}" class="text-neutral-100">{addon.name}</a>
     </div>
   </div>
 </div>
