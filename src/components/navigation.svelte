@@ -29,7 +29,7 @@
     <div class="md:flex md:items-center md:justify-between">
       <div class="flex items-center justify-between">
         <div class="text-xl font-semibold text-gray-700">
-          <a class="text-2xl font-bold text-gray-800 transition-colors duration-200 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300" href="/">Ruinous Pile of Crap</a>
+          <a class="text-2xl font-bold text-gray-800 transition-colors duration-200 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300" href="/">Ruinous Addons</a>
         </div>
 
         <!-- Mobile menu button -->

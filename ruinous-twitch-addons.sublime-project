@@ -7,6 +7,7 @@
 		}
 	],
 	"settings": {
+		"word_wrap": false,
 		"tab_size": 2,
 	},
 }
