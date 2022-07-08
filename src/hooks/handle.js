@@ -8,7 +8,7 @@ import { getAuthToken } from '$lib/cookie';
 /* This gets invoked on the server when pages are requested, including during
  * server side page generation. Note however that requests for static assets
  * (including pre-rendered pages) are not handled by SvelteKit and as such this
- * method doesn't trigger. Observably, the main * site always triggers this, but
+ * method doesn't trigger. Observably, the main site always triggers this, but
  * visiting other pages doesn't unless you reload on them.
  *
  * This is because the first page access pre-renders the appropriate content
@@ -21,11 +21,12 @@ import { getAuthToken } from '$lib/cookie';
  * server (e.g. by hitting an endpoint to carry out the action or get data)
  * since that will force a re-request that allows us to validate the token. */
 export async function handle({event, resolve}) {
-  // We want our site to only ever be secure; so, if this is an insecure URL
-  // and we're not in development mode, redirect this request to a secured
-  // version of the page.
-  if (event.url.protocol === 'http:' && event.url.hostname.includes('twitch.ruinouspileofcrap.com')) {
-    event.url.protocol = 'https:'
+  // If this is a forwarded Heroku request from an insecure protocol, redirect
+  // the request to a secured URL because we absolutely require SSL.
+  //
+  // Regardless of the incoming protocol, the Heroku router hits us as https,
+  // which is why need to use the header to do this.
+  if (event.request.headers.get('x-forwarded-proto') === 'http') {
     return Response.redirect(event.url.href, 302);
   }
 
