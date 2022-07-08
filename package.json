@@ -19,8 +19,10 @@
     "seed": "node prisma/seed.js"
   },
   "scripts": {
+    "logs": "heroku addons:open papertrail",
     "db:browse": "prisma studio",
     "db:setup": "prisma db push",
+    "db:setup-force": "prisma db push --accept-data-loss",
     "db:seed": "prisma db seed",
     "start": "node build",
     "dev": "svelte-kit dev",
