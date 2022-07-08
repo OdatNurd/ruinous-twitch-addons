@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import { addons } from './addons.js';
+import { addons } from './data/addons.js';
 
 
 // =============================================================================
