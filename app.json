@@ -1,9 +1,9 @@
 {
   "stack": "heroku-22",
-  "name": "OdatNurd: Twitch Integrations",
-  "description": "An app for testing Twitch integrations with Heroku",
-  "repository": "https://github.com/OdatNurd/odatnurd-twitch-integrations",
-  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/main/public/node.svg",
+  "name": "Ruinous Twitch Addons",
+  "description": "A collection of ruinously bad addons for Twitch",
+  "repository": "https://github.com/OdatNurd/ruinous-twitch-addons",
+  "logo": "https://github.com/OdatNurd/ruinous-twitch-addons/raw/main/static/ruinous.svg",
   "keywords": ["node", "express", "heroku"],
   "image": "heroku/nodejs"
 }
