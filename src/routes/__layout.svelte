@@ -1,19 +1,19 @@
 <script>
   import "../app.css";
-  import Navigation from '$component/navigation.svelte';
-  import Footer from '$component/footer.svelte';
+  import NavBar from '$component/NavBar.svelte';
+  import Footer from '$component/Footer.svelte';
 </script>
 
 
 <div class="p-8 max-w-8xl mx-auto">
-  <Navigation />
+  <NavBar />
   <slot></slot>
   <Footer />
 </div>
 
 
 <!-- <div class="flex flex-col p-4 max-w-8xl mx-auto h-screen justify-between">
-  <Navigation />
+  <NavBar />
   <div class="mb-auto"><slot></slot></div>
   <Footer />
 </div> -->

@@ -12,13 +12,13 @@
 </script>
 
 <script>
-  import AddonCard from "$component/addonCard.svelte";
+  import AddonCard from "$component/AddonCard.svelte";
 
   export let addons;
 </script>
 
 <svelte:head>
-  <title>Available Ruinous Twitch Addons</title>
+  <title>Ruinous Twitch Addon List</title>
 </svelte:head>
 
 {#each addons as addon}

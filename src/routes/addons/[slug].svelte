@@ -12,7 +12,7 @@
 </script>
 
 <script>
- import AddonCard from "$component/addonCard.svelte";
+ import AddonCard from "$component/AddonCard.svelte";
 
  export let addon;
 </script>
