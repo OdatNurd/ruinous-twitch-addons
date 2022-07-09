@@ -21,16 +21,17 @@
   "scripts": {
     "logs": "heroku addons:open papertrail",
     "db:browse": "prisma studio",
+    "db:bootstrap": "yarn db:setup && yarn db:seed",
     "db:setup": "prisma db push",
     "db:setup-force": "prisma db push --accept-data-loss",
     "db:seed": "prisma db seed",
     "start": "node build",
     "dev": "svelte-kit dev",
+    "heroku-postbuild": "svelte-kit build && yarn db:bootstrap",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
-    "prepare": "svelte-kit sync",
-    "postinstall": "yarn build && yarn db:setup && yarn db:seed"
+    "prepare": "svelte-kit sync"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.78",
