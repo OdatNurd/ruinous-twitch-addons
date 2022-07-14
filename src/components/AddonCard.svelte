@@ -1,19 +1,33 @@
 <script>
+  import { marked } from 'marked';
+
   export let addon;
   export let link=true;
 </script>
 
+<div class="px-8 py-4 mx-auto my-2 bg-white rounded-lg shadow-md dark:bg-slate-800">
+  <div class="flex items-center justify-end">
+    <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500">Add to Channel</a>
+  </div>
 
-<div class="overflow-hidden bg-indigo-700 rounded-lg shadow-md dark:bg-indigo-900 text-neutral-100 m-2 p-4">
-  <div class="flex items-center px-2 py-3">
-    <img class="object-cover w-10 h-10 rounded-full" alt="Addon Icon" src="{addon.iconPic}">
+  <div class="mt-2">
+    <a href="#" class="text-2xl font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline">{addon.title}</a>
+    <div class="markdown mt-2 text-gray-600 dark:text-gray-300">{@html marked.parse(addon.description)}</div>
+  </div>
 
-    <div class="mx-3">
-        {#if link}
-          <a href="/addons/{addon.slug}" class="text-neutral-100">{addon.name}</a>
-        {:else}
-          <p class="text-neutral-100">{addon.name}</p>
-        {/if}
+  <div class="flex items-end justify-between mt-4">
+    {#if link}
+      <a class="text-blue-600 dark:text-blue-400 hover:underline" href="/addons/{addon.slug}">View Details</a>
+    {/if}
+
+    <div class="flex items-center">
+      <img class="object-cover w-28 h-28 mx-4" src="{addon.iconPic}" alt="Addon Icon">
     </div>
   </div>
 </div>
+
+<style type="text/css">
+  :global(div.markdown p) {
+    padding-bottom: 1rem;
+  }
+</style>
