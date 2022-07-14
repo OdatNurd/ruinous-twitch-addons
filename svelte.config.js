@@ -6,13 +6,6 @@ import path from "path";
 const config = {
   kit: {
     adapter: adapter(),
-    vite: {
-      resolve: {
-        alias: {
-          $component: path.resolve("./src/components"),
-        }
-      }
-    },
     prerender: {
       enabled: false
     }
