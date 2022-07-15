@@ -5,7 +5,7 @@ import { getAuthToken } from '$lib/cookie';
 // =============================================================================
 
 
-export async function get({ request, params }) {
+export async function GET({ request, params }) {
   // Look at the cookie. the beautiful cookie. get the userID from there or
   // signal that the person can go straight to hell without passing go or
   // collecting 200 dollars.

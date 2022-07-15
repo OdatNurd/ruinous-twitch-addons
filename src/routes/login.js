@@ -42,7 +42,7 @@ const authParams = {
  *     then this completes the login by updating the database as appropriate,
  *     creating a JWT and passing it back as a cookie via a redirect to the root
  *     of the site. */
-export async function get({url}) {
+export async function GET({url}) {
   // We get a code if the user authorized and an error if they did not; if those
   // are missing, then we're getting sent here so that someone can log in;
   // redirect to the twitch authorization page.

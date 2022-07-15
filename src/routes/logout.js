@@ -6,7 +6,7 @@ import cookie from 'cookie';
 // =============================================================================
 
 
-export async function get({url}) {
+export async function GET({url}) {
   // To log out, we just erase the cookie; this could be more intelligent and
   // check to see if there is one or whatever, but meh.
   return {
