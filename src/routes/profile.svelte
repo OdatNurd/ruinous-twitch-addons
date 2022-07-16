@@ -36,11 +36,13 @@
 
 
 {#if $session.user !== undefined}
-  <div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
-    <div class="container px-6 py-4 mx-auto">
-      Welcome, {$session.user.displayName}
-      (<a class="text-sm underline" href="/login?force=true">Not you?</a>)
-      (<a class="underline" href="/logout">Log out</a>)
+  <div class="alert shadow-lg mb-4">
+    <div class="w-full">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <div class="flex w-full justify-between ">
+        <span>Welcome, {$session.user.displayName}! (<a class="text-sm underline" href="/login?force=true">Not you?</a>)</span>
+        <span><a class="underline" href="/logout">Log out</a></span>
+      </div>
     </div>
   </div>
 
