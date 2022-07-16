@@ -1,4 +1,5 @@
 <script>
+  import { session } from '$app/stores'
   import { MarkdownBox } from '$components';
 
   export let addon;
@@ -16,8 +17,10 @@
       {/if}
     </h2>
     <MarkdownBox source={addon.description} />
-    <div class="card-actions justify-end">
-      <button class="btn btn-primary">Add to Channel</button>
-    </div>
+    {#if $session.user !== undefined}
+      <div class="card-actions justify-end">
+        <button class="btn btn-primary">{addon.installed ? 'Remove from channel' : 'Add to Channel'}</button>
+      </div>
+    {/if}
   </div>
 </div>
