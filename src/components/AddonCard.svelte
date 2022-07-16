@@ -12,7 +12,7 @@
 
   <div class="mt-2">
     <a href="#" class="text-2xl font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline">{addon.title}</a>
-    <div class="markdown mt-2 text-gray-600 dark:text-gray-300">{@html marked.parse(addon.description)}</div>
+    <div class="prose md:prose-lg lg:prose-xl max-w-none mt-2 text-gray-600 dark:text-gray-300">{@html marked.parse(addon.description)}</div>
   </div>
 
   <div class="flex items-end justify-between mt-4">
@@ -25,9 +25,3 @@
     </div>
   </div>
 </div>
-
-<style type="text/css">
-  :global(div.markdown p) {
-    padding-bottom: 1rem;
-  }
-</style>
