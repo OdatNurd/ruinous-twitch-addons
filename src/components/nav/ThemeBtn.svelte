@@ -6,13 +6,7 @@
       localStorage.theme = (localStorage.theme === 'dark' ? 'light' : 'dark')
     }
 
-    // Set the dark class any time the theme is specifically dark, or when it is
-    // not set to a specific value but the user's OS says that they prefer dark.
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    document.documentElement.setAttribute('data-theme', localStorage.theme);
   }
 </script>
 
