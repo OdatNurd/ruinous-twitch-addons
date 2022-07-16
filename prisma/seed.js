@@ -16,7 +16,7 @@ async function seed() {
   const result = await Promise.all(addons.map(async (item) => {
     return await prisma.twitchAddon.upsert({
       where: { addonId: item.addonId },
-      update: {},
+      update: item,
       create: item
     });
   }));

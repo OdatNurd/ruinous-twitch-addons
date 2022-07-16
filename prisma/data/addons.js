@@ -13,11 +13,15 @@ const icon = text => `/icons/addons/${text}`
 export const addons = [
   {
     'addonId': '2BNIO9lVnPY9lKgIMsBVQICBLAM',
-    'name': 'Addon One',
+    'name': 'Addon The First',
     'slug': 'addon-one',
     'iconPic': icon('skull.png'),
     'title': 'The First Addon',
-    'description': _(`The first, sample addon for use in testing.`),
+    'description': _(`
+      For testing purposes, this is a sample addon that only requires an
+      integration with the Twitch chat, but doesn't display anything and thus
+      doesn't need an overlay.
+    `),
     'requiresChat': true,
     'requiresOverlay': false,
     'configSchemaUrl': '',
@@ -25,26 +29,33 @@ export const addons = [
   },
   {
     'addonId': '2BNIa2BOEP7kF10eeOdObXjNsQk',
-    'name': 'Addon Two',
+    'name': 'Addon Part Two',
     'slug': 'addon-two',
     'iconPic': icon('witch_hat.png'),
     'title': 'The Second Addon',
     'description': _(`
-*Lorem* **ipsum** \`dolor\` sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      This addon is for testing purposes and is something that will display
+      content visually in stream via an overlay, but which doesn't have or need
+      an integration with the Twitch chat of the user that adds it.
     `),
     'requiresChat': false,
+    'requiresOverlay': true,
+    'configSchemaUrl': '',
+    'defaultConfigUrl': '',
+  },
+  {
+    'addonId': '2C0usq54Rpo4TZtuQa7mDADAhjV',
+    'name': 'Addon Numero Troi',
+    'slug': 'addon-three',
+    'iconPic': icon('power_plug.png'),
+    'title': 'The Third One',
+    'description': _(`
+      This extra special test addon is purely for having a test record for which
+      it is known that we both display something visually using an overlay and
+      also require a connection to the Twitch chat of the user to gather commands
+      and/or display output.
+    `),
+    'requiresChat': true,
     'requiresOverlay': true,
     'configSchemaUrl': '',
     'defaultConfigUrl': '',
