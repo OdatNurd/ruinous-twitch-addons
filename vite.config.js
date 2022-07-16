@@ -8,7 +8,7 @@ const config = {
   },
   resolve: {
     alias: {
-      $component: path.resolve("./src/components"),
+      $components: path.resolve("./src/components"),
     }
   }
 };

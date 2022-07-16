@@ -1,8 +1,7 @@
 <script>
   import { session } from '$app/stores';
 
-  import SiteMenu from '$component/nav/SiteMenu.svelte'
-  import MenuBtn from '$component/nav/MenuBtn.svelte';
+  import { SiteMenu, MenuBtn } from '$components';
 
   // The list of links in the navigation bar
   const navLinks = [

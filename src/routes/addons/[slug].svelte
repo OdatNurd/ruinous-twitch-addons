@@ -12,7 +12,7 @@
 </script>
 
 <script>
- import AddonCard from "$component/AddonCard.svelte";
+ import { AddonCard } from "$components";
 
  export let addon;
 </script>
@@ -24,9 +24,9 @@
 {#if addon.name !== undefined}
   <AddonCard {addon} link={false} />
 {:else}
-<div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
-  <div class="container px-6 py-4 mx-auto">
-    No such addon found
+  <div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
+    <div class="container px-6 py-4 mx-auto">
+      No such addon found
+    </div>
   </div>
-</div>
 {/if}

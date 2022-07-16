@@ -1,6 +1,5 @@
 <script>
-  import ProfileBtn from '$component/nav/ProfileBtn.svelte';
-  import ThemeBtn from '$component/nav/ThemeBtn.svelte';
+  import { ProfileBtn, ThemeBtn } from '$components';
 
   export let isMenuHidden = true;
 </script>
