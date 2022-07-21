@@ -26,7 +26,7 @@ export async function GET({ request }) {
 
   return {
     status: 200,
-    body: data.map(entry => entry.addon)
+    body: data.map(entry => ({ installed: true, ...entry.addon }))
   }
 }
 
