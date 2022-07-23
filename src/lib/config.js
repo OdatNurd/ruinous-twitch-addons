@@ -2,6 +2,13 @@ import 'dotenv/config';
 
 import convict from 'convict';
 
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+/* __dirname is not available in this module type, but we can create our own
+ * value with the same name based on the URL of the current file. */
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 
 // =============================================================================
 
@@ -35,6 +42,15 @@ const required_len_32 = value => {
 
 /* This sets the configuration schema to be used for the overlay. */
 export const config = convict({
+  // When we start up the configuration system, this value is populated with the
+  // current base directory of the project, so that it can be accessed
+  // throughout the system by anything that has access to the config.
+  baseDir: {
+    doc: 'The directory that represents the root of the project; set at runtime',
+    format: '*',
+    default: ''
+  },
+
   env: {
     doc: "The environment that we're running in",
     format: ['development', 'staging', 'production'],
@@ -112,6 +128,12 @@ export const config = convict({
     }
   }
 });
+
+
+/* Insert into the configuration object an item which will indicate what the
+ * root of the project folder structure is, in case we need to access local
+ * files. */
+config.set('baseDir', resolve(__dirname, '../..'));
 
 
 // =============================================================================
