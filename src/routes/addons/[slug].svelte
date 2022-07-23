@@ -12,7 +12,16 @@
 </script>
 
 <script>
- import { AddonCard } from "$components";
+ import { AddonCard, StringConfig, BooleanConfig, NumberConfig, EnumConfig } from "$components";
+
+ // Map between the type of a configuration element and the component that
+ // implements the settings for that type.
+ const configMap = {
+  "string": StringConfig,
+  "boolean": BooleanConfig,
+  "number": NumberConfig,
+  "enum": EnumConfig,
+ }
 
  export let addon;
 </script>
@@ -30,3 +39,7 @@
     </div>
   </div>
 {/if}
+
+{#each addon.configSchema as config }
+  <svelte:component this={configMap[config.type]} {config} />
+{/each}
