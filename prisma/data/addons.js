@@ -1,9 +1,18 @@
 // =============================================================================
 
 
+import { config as addonOneSchema } from './schemas/addon-one.js';
+import { config as addonTwoSchema } from './schemas/addon-two.js';
+import { config as addonThreeSchema } from './schemas/addon-three.js';
+
+
+// =============================================================================
+
+
 /* Some helper functions to make our configuration easier to read. */
 const _ = text => text.replace(/[ \t]+/g, ' ').trim();
 const icon = text => `/icons/addons/${text}`
+const schema = obj => JSON.stringify(obj)
 
 
 // =============================================================================
@@ -24,8 +33,7 @@ export const addons = [
     `),
     'requiresChat': true,
     'requiresOverlay': false,
-    'configSchemaUrl': '',
-    'defaultConfigUrl': '',
+    'configSchema': schema(addonOneSchema),
   },
   {
     'addonId': '2BNIa2BOEP7kF10eeOdObXjNsQk',
@@ -40,8 +48,7 @@ export const addons = [
     `),
     'requiresChat': false,
     'requiresOverlay': true,
-    'configSchemaUrl': '',
-    'defaultConfigUrl': '',
+    'configSchema': schema(addonTwoSchema),
   },
   {
     'addonId': '2C0usq54Rpo4TZtuQa7mDADAhjV',
@@ -57,8 +64,7 @@ export const addons = [
     `),
     'requiresChat': true,
     'requiresOverlay': true,
-    'configSchemaUrl': '',
-    'defaultConfigUrl': '',
+    'configSchema': schema(addonThreeSchema),
   }
 ]
 

@@ -48,6 +48,11 @@ export async function GET({ url, request }) {
   result.forEach(entry => {
     entry.timestamp = ksuid.parse(entry.addonId).timestamp;
     entry.installed = userAddons.has(entry.addonId);
+
+    // Parse the config schema into an object, if it's present.
+    if (entry.configSchema !== undefined) {
+      entry.configSchema = JSON.parse(entry.configSchema);
+    }
   });
   result.sort((a, b) => a.timestamp - b.timestamp);
 

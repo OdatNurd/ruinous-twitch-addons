@@ -104,10 +104,10 @@ model TwitchAddon {
   // user and provides more details as to what the addon should do or how it
   // should behave.
   //
-  // Our plan currently is to have a JSON scheme that represents a valid config
-  // and an endpoint that will generate such a default.
-  configSchemaUrl String
-  defaultConfigUrl String
+  // This value should be a JSON object that provides the configuration schema
+  // for this addon; this lists the configuration fields, their types, default
+  // values and constraints.
+  configSchema String
 
   TwitchUserAddons TwitchUserAddons[]
 }

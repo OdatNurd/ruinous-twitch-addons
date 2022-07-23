@@ -16,6 +16,12 @@ export async function GET({ params }) {
     }
   });
 
+  // If there's a schema defined, then try to parse it into an object for
+  // return.
+  if (body.configSchema !== undefined) {
+    body.configSchema = JSON.parse(body.configSchema);
+  }
+
   return {
     status: 200,
     body: body || {}
