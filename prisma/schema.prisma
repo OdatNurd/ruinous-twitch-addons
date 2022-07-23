@@ -88,10 +88,10 @@ model TwitchAddon {
   name String
   iconPic String
 
-  // A simple one or two sentence title that quickly describes what this addon
+  // A simple one or two sentence blurb that quickly describes what this addon
   // is for, and a more long form detailed description; which is used in any
   // given display context depends on the depth of information desired.
-  title String
+  blurb String
   description String
 
   // These flags indicate wether this particular addon requires a chatbot

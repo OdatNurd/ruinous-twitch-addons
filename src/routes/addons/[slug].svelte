@@ -18,11 +18,11 @@
 </script>
 
 <svelte:head>
-  <title>Ruinous Add-on: {addon.title || 'Unknown'}</title>
+  <title>Ruinous Add-on: {addon.name || 'Unknown'}</title>
 </svelte:head>
 
 {#if addon.name !== undefined}
-  <AddonCard {addon} link={false} />
+  <AddonCard {addon} detailed={true} />
 {:else}
   <div class="bg-gray-300 shadow dark:bg-slate-500 my-8">
     <div class="container px-6 py-4 mx-auto">

@@ -3,6 +3,7 @@
   import { MarkdownBox } from '$components';
 
   export let addon;
+  export let detailed = false;
 </script>
 
 <div class="card lg:card-side bg-base-100 shadow-2xl shadow-neutral text-base-content mb-8">
@@ -16,7 +17,7 @@
         <span class="badge">Overlay</span>
       {/if}
     </h2>
-    <MarkdownBox source={addon.description} />
+    <MarkdownBox source={detailed ? addon.description : addon.blurb} />
     {#if $session.user !== undefined}
       <div class="card-actions justify-end">
         <button class="btn btn-primary">{addon.installed ? 'Remove from channel' : 'Add to Channel'}</button>

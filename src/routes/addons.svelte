@@ -22,5 +22,5 @@
 </svelte:head>
 
 {#each addons as addon}
-  <AddonCard {addon} />
+  <AddonCard {addon} detailed={false} />
 {/each}
