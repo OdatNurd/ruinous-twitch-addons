@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This represents a Twitch user, which has a concrete userId that uniquely
+/// identifies the user, as well as a changeable username and display name. The
+/// userID never changes although the other values might.
+///
+/// We should do a periodic check to see if the information related to a user
+/// has changed since the record was added and update as appropriate.
+model TwitchUser {
+  // The core information for this user; their unique ID, their current username
+  // and their current display name; the display name is always the same as the
+  // user name except that the case can be different.
+  userId      String  @id @unique
+  username    String
+  displayName String
+
+  // Flag whether this particular Twitch user is a bot or not. For our purposes
+  // here, the only bot we expect to explcitly track is the one that we're
+  // running ourselves to be able to communicate between our users and the back
+  // end.
+  isBot       Boolean @default(false)
+
+  // The URL that points to the profile picture for this user; we prefetch this
+  // when we look up logged in users, so that we can keep it around without
+  // having to keep making requests.
+  profilePic  String
+
+  // Each user may optionally have a Twitch token stored for them which would
+  // allow the back end to make requests on their behalf. Not all users have
+  // tokens stored.
+  TwitchToken TwitchToken?
+  TwitchUserAddons TwitchUserAddons[]
+}
+
+/// This represents a Twitch Token, which *MAY* associate with a specific user
+/// (for example a logged in user or the user that represents the bot) or just
+/// an application token in general.
+///
+/// When this is used to store user tokens, information about how to refresh the
+/// token may also be provided. That information is missing for application
+/// tokens as well as for user tokens we perhaps don't want to try and refresh.
+model TwitchToken {
+  // The owner of this token, if there is one; this is optional and will not be
+  // present for application tokens, for example.
+  owner  TwitchUser @relation(fields: [userId], references: [userId])
+  userId String     @id @unique
+
+  // The Twitch access token that we can use to make requests on behalf of this
+  // user, and the token to use in combination with it to refresh it when it
+  // expires.
+  accessToken  String
+  refreshToken String
+
+  // The list of scopes that this token is authorized for (in theory; either
+  // Twitch never sends it, or Twurple never populates it. Who can say?).
+  scopes String[]
+
+  // The time at which we obtained this token (or last refreshed it) and the
+  // time after which it is no longer valid.
+  obtainmentTimestamp Int @default(0)
+  expiresIn           Int @default(0)
+}
+
+/// This represents one of the Twitch Addons that our application is meant to
+/// provide to our users; it consists of all of the information about any given
+/// Addon, including descrptive details like a name and icon as well as the
+/// information on what sort of configuration this addon requires and what a
+/// default config would look like.
+model TwitchAddon {
+  // A unique time-based ID value that represents this particular addon in the
+  // system.
+  addonId String @id @unique
+
+  // When generating pages that convey information about addons and their
+  // configuration, this is the page slug that's used in the URL.
+  slug String @unique
+
+  // The name of this particular Addon, e.g "Drop Game" and a URL that can be
+  // fetched in order to display a distinct "profile image" of the Addon when it
+  // is visualized.
+  name String
+  iconPic String
+
+  // A simple one or two sentence blurb that quickly describes what this addon
+  // is for, and a more long form detailed description; which is used in any
+  // given display context depends on the depth of information desired.
+  blurb String
+  description String
+
+  // These flags indicate wether this particular addon requires a chatbot
+  // connection or not, and wether it provides an overlay for use in OBS or your
+  // streaming platform of choice in order to visualize something.
+  requiresChat Boolean
+  requiresOverlay Boolean
+
+  // If this addon requires an overlay, then this value represents the name of
+  // the HTML file that is implementing this particular overlay. In other cases
+  // this string is empty and not used.
+  overlayFile String
+
+  // Each addon has the potential for some configuration information that is per
+  // user and provides more details as to what the addon should do or how it
+  // should behave.
+  //
+  // This value should be a JSON object that provides the configuration schema
+  // for this addon; this lists the configuration fields, their types, default
+  // values and constraints.
+  configSchema String
+
+  TwitchUserAddons TwitchUserAddons[]
+}
+
+/// This represents a record of a specific Twitch user having a specific Twitch
+/// addon enabled for their account. Each user can have many addons, and each
+/// addon can appear for multiple users, but we constrain the table so that we
+/// only allow each add-on to be used once.
+model TwitchUserAddons {
+  // The Twitch user that this record is for, and the addon that they are
+  // adding to their channel.
+  userId String
+  addonId String
+  owner TwitchUser @relation(fields: [userId], references: [userId])
+  addon TwitchAddon @relation(fields: [addonId], references: [addonId])
+
+  @@unique([userId, addonId])
+  @@id([userId, addonId])
+
+  // If this addon requires an overlay, then this is populated with the distinct
+  // overlay ID for this particular user's installation of this particular
+  // addon; this is combined with the overlay base URL to get a complete URL.
+  //
+  // For addons that don't require an overlay, this value is an empty string.
+  //
+  // The values of this are guaranteed to be unique based on how the keys are
+  // generated, though the database does not enforce that.
+  overlayId String
+
+  // Each addon has some sort of configuration object; this specifies what that
+  // is for this particular user's installation of the addon.
+  configJSON String
+}
+

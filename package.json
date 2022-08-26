@@ -1,0 +1,51 @@
+{
+  "name": "ruinous-twitch-api",
+  "author": "OdatNurd <odatnurd@gmail.com>",
+  "license": "MIT",
+  "version": "0.1.0",
+  "description": "The API portion of the Ruinous Twitch Addons project",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OdatNurd/ruinous-twitch-api"
+  },
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "logs": "heroku addons:open papertrail",
+    "db:browse": "prisma studio",
+    "db:bootstrap": "yarn db:setup && yarn db:seed",
+    "db:setup": "prisma db push",
+    "db:setup-force": "prisma db push --accept-data-loss",
+    "db:seed": "prisma db seed",
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": "16.x",
+    "yarn": "1.x"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "devDependencies": {
+    "prisma": "^4.2.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.2.1",
+    "@twurple/api": "^5.1.6",
+    "@twurple/auth": "^5.1.6",
+    "@twurple/chat": "^5.1.6",
+    "convict": "^6.2.3",
+    "cookie": "^0.5.0",
+    "dotenv": "^16.0.1",
+    "eiows": "^4.1.2",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "ksuid": "^3.0.0",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.6",
+    "utf-8-validate": "^5.0.9"
+  }
+}
