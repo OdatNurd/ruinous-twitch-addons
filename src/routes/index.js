@@ -6,6 +6,7 @@ import { getOverlayInfo } from './api/overlays.js';
 import { getUserAddons, installUserAddon, uninstallUserAddon } from './api/users.js';
 import { doTwitchLogin } from './login.js';
 import { doTwitchLogout } from './logout.js';
+import { redirectToStaticOverlay } from './overlay.js';
 
 
 // =============================================================================
@@ -31,6 +32,7 @@ function reportInvalidAPI(db, req, res) {
 export function setupRouting(app) {
   app.get('/login', (req, res) => doTwitchLogin(db, req, res));
   app.get('/logout', (req, res) => doTwitchLogout(db, req, res));
+  app.get('/overlay/:overlayId', (req, res) => redirectToStaticOverlay(db, req, res));
 
   app.get('/api/v1/addons', (req, res) => getAddonList(db, req, res));
   app.get('/api/v1/addons/:key', (req, res) => getAddonById(db, req, res));
