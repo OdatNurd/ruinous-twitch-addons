@@ -1,7 +1,7 @@
-import { config } from '../config.js';
-import { db, dbErrResponse } from '../lib/db.js';
-import { getAuthorizedUser } from '../lib/auth.js';
-import { NotFound } from '../lib/exceptions.js';
+import { config } from '../../config.js';
+import { dbErrResponse } from '../../lib/db.js';
+import { getAuthorizedUser } from '../../lib/auth.js';
+import { NotFound } from '../../lib/exceptions.js';
 
 import ksuid from 'ksuid';
 
@@ -16,7 +16,7 @@ import ksuid from 'ksuid';
  *
  * If there's not a JWT token in the cookie, or it's not valid, then this will
  * return an empty dict. */
-async function fetchUserAddons(db, req) {
+export async function fetchUserAddons(db, req) {
   const result = {};
 
   // If there's nobody logged in, the result set will be empty.
@@ -54,7 +54,7 @@ async function fetchUserAddons(db, req) {
  * The extra fields will not be present if there is not a logged in user. If
  * a user is logged in, then 'installed' is always added, even if its value
  * ends up being false. */
-async function getAddonList(db, req, res) {
+export async function getAddonList(db, req, res) {
   try {
     // Fetch the complete list of addons that are known and, if there is
     // currently a logged in user, the list of addons that they have installed.
@@ -115,7 +115,7 @@ async function getAddonList(db, req, res) {
  * The extra fields will not be present if there is not a logged in user. If
  * a user is logged in, then 'installed' is always added, even if its value
  * ends up being false. */
-async function getAddonById(db, req, res) {
+export async function getAddonById(db, req, res) {
   try {
     // Check to see if there's an authorized user or not
     const userId = getAuthorizedUser(req, false);
@@ -170,15 +170,3 @@ async function getAddonById(db, req, res) {
 
 
 // =============================================================================
-
-
-/* This does the work of adding all of the routes needed for the Addons portion
- * of the API to the provided application. */
-export function addAddonAPIs(app) {
-  app.get('/api/v1/addons', (req, res) => getAddonList(db, req, res));
-  app.get('/api/v1/addons/:key', (req, res) => getAddonById(db, req, res));
-}
-
-
-// =============================================================================
-

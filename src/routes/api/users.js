@@ -1,7 +1,7 @@
-import { config } from '../config.js';
-import { db, dbErrResponse } from '../lib/db.js';
-import { getAuthorizedUser } from '../lib/auth.js';
-import { NotFound } from '../lib/exceptions.js';
+import { config } from '../../config.js';
+import { dbErrResponse } from '../../lib/db.js';
+import { getAuthorizedUser } from '../../lib/auth.js';
+import { NotFound } from '../../lib/exceptions.js';
 
 import ksuid from 'ksuid';
 
@@ -149,7 +149,6 @@ export async function installUserAddon(db, req, res) {
  * The return is always an empty object, although an attempt to remove an addon
  * that is not installed will trigger an error. */
 export async function uninstallUserAddon(db, req, res) {
-  console.log('Doing an uninstall');
   try {
     // Get the authorized user; will throw if there is not a valid user.
     const userId = getAuthorizedUser(req, true);
@@ -168,18 +167,6 @@ export async function uninstallUserAddon(db, req, res) {
   catch (error) {
     dbErrResponse(error, res);
   }
-}
-
-
-// =============================================================================
-
-
-/* This does the work of adding all of the routes needed for the User portion
- * of the API to the provided application. */
-export function addUserAPIs(app) {
-  app.get('/api/v1/user/addons', (req, res) => getUserAddons(db, req, res));
-  app.post('/api/v1/user/addons/:addonId', (req, res) => installUserAddon(db, req, res));
-  app.delete('/api/v1/user/addons/:addonId', (req, res) => uninstallUserAddon(db, req, res));
 }
 
 

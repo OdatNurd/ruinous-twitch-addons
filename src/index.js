@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
 import { db } from './lib/db.js';
-import { setupAPIEndpoints } from './api/index.js';
+import { setupRouting } from './routes/index.js';
 import { setupTwitchIntegrations } from './twitch.js';
 
 import eiows from "eiows";
@@ -49,7 +49,7 @@ function setupSockets(io) {
 /* Try to load an existing token from the database, and if we find one, use it
  * to set up the database. */
 async function launch() {
-  console.log(config.toString());
+  // console.log(config.toString());
 
   // The express application that houses the routes that we use to carry out
   // authentication with Twitch as well as serve user requests.
@@ -70,7 +70,7 @@ async function launch() {
   });
 
   // Set up all of the API endpoints
-  setupAPIEndpoints(app);
+  setupRouting(app);
 
   // Set up our websocket handling.
   setupSockets(io);

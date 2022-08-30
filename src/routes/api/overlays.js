@@ -1,5 +1,5 @@
-import { NotFound } from '../lib/exceptions.js';
-import { db, dbErrResponse } from '../lib/db.js';
+import { NotFound } from '../../lib/exceptions.js';
+import { dbErrResponse } from '../../lib/db.js';
 
 
 // =============================================================================
@@ -18,7 +18,7 @@ import { db, dbErrResponse } from '../lib/db.js';
  * for any given overlay, and the inference that it us up to the user to not
  * leak the URL, since anyone that gets it can load the page and expose the
  * information. */
-async function getOverlayInfo(db, req, res) {
+export async function getOverlayInfo(db, req, res) {
   try {
     // We have a userId, so look up all of the addons that this particular user
     // has added; this will always be an array, even if that array is empty.
@@ -43,32 +43,6 @@ async function getOverlayInfo(db, req, res) {
   catch (error) {
     dbErrResponse(error, res);
   }
-}
-
-
-// =============================================================================
-
-
-/* A helper function that can be assigned to a route in order to generate an
- * error that indicates that this API endpoint does not exist. */
-function reportInvalidAPI(db, req, res) {
-  try {
-    throw new NotFound('invalid API endpoint')
-  }
-  catch (error) {
-    dbErrResponse(error, res);
-  }
-}
-
-
-// =============================================================================
-
-
-/* This does the work of adding all of the routes needed for the Overlays
- * portion of the API to the provided application. */
-export function addOverlayAPIs(app) {
-  app.get('/api/v1/overlay/', (req, res) => reportInvalidAPI(db, req, res));
-  app.get('/api/v1/overlay/:overlayId', (req, res) => getOverlayInfo(db, req, res));
 }
 
 
