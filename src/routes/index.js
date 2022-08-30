@@ -4,6 +4,8 @@ import { NotFound } from '../lib/exceptions.js';
 import { getAddonList, getAddonById } from './api/addons.js';
 import { getOverlayInfo } from './api/overlays.js';
 import { getUserAddons, installUserAddon, uninstallUserAddon } from './api/users.js';
+import { doTwitchLogin } from './login.js';
+import { doTwitchLogout } from './logout.js';
 
 
 // =============================================================================
@@ -27,6 +29,9 @@ function reportInvalidAPI(db, req, res) {
 /* Given an express app, add in all of the routes that specify operations that
  * can be taken as a part of the API. */
 export function setupRouting(app) {
+  app.get('/login', (req, res) => doTwitchLogin(db, req, res));
+  app.get('/logout', (req, res) => doTwitchLogout(db, req, res));
+
   app.get('/api/v1/addons', (req, res) => getAddonList(db, req, res));
   app.get('/api/v1/addons/:key', (req, res) => getAddonById(db, req, res));
 
