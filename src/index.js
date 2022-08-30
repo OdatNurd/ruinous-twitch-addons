@@ -20,7 +20,7 @@ import http from 'http';
 /* Set up all of our back end websocket connectivity. */
 function setupSockets(io) {
   io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log('=> Incoming websocket connection');
 
     socket.on('chat message', (msg) => {
       console.log('message: ' + msg);
@@ -28,16 +28,12 @@ function setupSockets(io) {
       // This will emit the event to every currently connected socket. We almost
       // certainly don't want this in the final code we're ultimately working
       // towards.
-      io.emit('chat message', msg);
-
-      // This is like io.emit, except that it goes to everyone but the socket
-      // that is doing the broadcast; so the docs say, but it no worky
-      // socket.broadcast.emit('chat message', msg);
+      io.emit('chat message', 'this is a message from the server');
     });
 
     // Set up to listen to when this user disconnects
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      console.log('=> client socket disconnected');
     });
   });
 }

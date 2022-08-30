@@ -17,6 +17,9 @@
     "db:setup": "prisma db push",
     "db:setup-force": "prisma db push --accept-data-loss",
     "db:seed": "prisma db seed",
+    "overlay:dev": "vite dev",
+    "overlay:build": "vite build",
+    "overlay:preview": "vite preview",
     "start": "node src/index.js"
   },
   "engines": {
@@ -27,7 +30,8 @@
     "seed": "node prisma/seed.js"
   },
   "devDependencies": {
-    "prisma": "^4.2.1"
+    "prisma": "^4.2.1",
+    "vite": "^3.0.0"
   },
   "dependencies": {
     "@prisma/client": "^4.2.1",
