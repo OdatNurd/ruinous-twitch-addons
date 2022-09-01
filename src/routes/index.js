@@ -1,3 +1,5 @@
+import express from 'express';
+
 import { db, dbErrResponse } from '../lib/db.js';
 import { NotFound } from '../lib/exceptions.js';
 
@@ -9,42 +11,32 @@ import { doTwitchLogout } from './logout.js';
 import { redirectToStaticOverlay } from './overlay.js';
 
 
-// =============================================================================
-
-
-/* A helper function that can be assigned to a route in order to generate an
- * error that indicates that this API endpoint does not exist. */
-function reportInvalidAPI(db, req, res) {
-  try {
-    throw new NotFound('invalid API endpoint');
-  }
-  catch (error) {
-    dbErrResponse(error, res);
-  }
-}
-
-
 // ============================================================================
 
 
-/* Given an express app, add in all of the routes that specify operations that
- * can be taken as a part of the API. */
-export function setupRouting(app) {
-  app.get('/login', (req, res) => doTwitchLogin(db, req, res));
-  app.get('/logout', (req, res) => doTwitchLogout(db, req, res));
-  app.get('/overlay/:overlayId', (req, res) => redirectToStaticOverlay(db, req, res));
+/* Create and return back an express router that contains all of the routes
+ * that we need in order to serve the API and the static content for addons
+ * that the back end portion is responsible for. */
+export function coreAPIRoutes() {
+  const router = express.Router();
 
-  app.get('/api/v1/addons', (req, res) => getAddonList(db, req, res));
-  app.get('/api/v1/addons/:key', (req, res) => getAddonById(db, req, res));
+  router.get('/login', (req, res) => doTwitchLogin(db, req, res));
+  router.get('/logout', (req, res) => doTwitchLogout(db, req, res));
+  router.get('/overlay/:overlayId', (req, res) => redirectToStaticOverlay(db, req, res));
 
-  app.get('/api/v1/overlay/:overlayId', (req, res) => getOverlayInfo(db, req, res));
+  router.get('/api/v1/addons', (req, res) => getAddonList(db, req, res));
+  router.get('/api/v1/addons/:key', (req, res) => getAddonById(db, req, res));
 
-  app.get('/api/v1/user/addons', (req, res) => getUserAddons(db, req, res));
-  app.post('/api/v1/user/addons/:addonId', (req, res) => installUserAddon(db, req, res));
-  app.delete('/api/v1/user/addons/:addonId', (req, res) => uninstallUserAddon(db, req, res));
+  router.get('/api/v1/overlay/:overlayId', (req, res) => getOverlayInfo(db, req, res));
+
+  router.get('/api/v1/user/addons', (req, res) => getUserAddons(db, req, res));
+  router.post('/api/v1/user/addons/:addonId', (req, res) => installUserAddon(db, req, res));
+  router.delete('/api/v1/user/addons/:addonId', (req, res) => uninstallUserAddon(db, req, res));
 
   // As a catch-all, catch any other API requests and flag them as invalid.
-  app.all('/api/*', (req, res) => reportInvalidAPI(db, req, res));
+  router.all('/api/*', (req, res) => dbErrResponse(new NotFound(`no such API endpoint: ${req.path}`), res));
+
+  return router;
 }
 
 

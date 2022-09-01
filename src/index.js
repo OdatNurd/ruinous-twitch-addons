@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
 import { db } from './lib/db.js';
-import { setupRouting } from './routes/index.js';
+import { coreAPIRoutes } from './routes/index.js';
 import { setupTwitchIntegrations } from './twitch.js';
 
 import eiows from "eiows";
@@ -65,8 +65,8 @@ async function launch() {
     wsEngine: eiows.Server
   });
 
-  // Set up all of the API endpoints
-  setupRouting(app);
+  // Set up all of the API endpoints and other core routes.
+  app.use(coreAPIRoutes());
 
   // Set up our websocket handling.
   setupSockets(io);
