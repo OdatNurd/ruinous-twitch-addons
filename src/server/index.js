@@ -86,13 +86,6 @@ async function launch() {
   // folder so that we don't have to inline the pages in code.
   app.use(express.static(process.env.NODE_ENV === "production" ? "www_root" : "www_root_dev"));
 
-  // Temporarily, to test our our front end integrations;
-  app.get("/api/v1/project", (req, res) => {
-    res.json({
-      name: "Svelte with Express"
-    });
-  });
-
   // Create a server to serve our content
   const server = http.createServer(app);
 

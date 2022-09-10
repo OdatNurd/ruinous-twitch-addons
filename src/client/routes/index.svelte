@@ -1,28 +1,14 @@
-<script>
-  import { Counter } from '$components';
+<svelte:head>
+  <title>Ruinous Twitch Addons</title>
+</svelte:head>
 
-  const project = fetch(`/api/v1/project`).then(res => res.json());
-</script>
-
-<div class="m-4 p-4 w-full">
-  <div class="alert alert-info shadow-lg mb-4">
-    <div>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      <span>If this looks like an info alert, this crap actually works.</span>
-    </div>
-  </div>
-
-  {#await project}
-    I'm doing a load...
-  {:then {name}}
-    <div class="card w-96 bg-neutral text-neutral-content mx-auto">
-      <div class="card-body">
-        <h2 class="card-title">{name}</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div class="card-actions justify-end">
-          <Counter />
-        </div>
-      </div>
-    </div>
-  {/await}
+<div class="prose md:prose-lg lg:prose-xl max-w-none">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </p>
 </div>
