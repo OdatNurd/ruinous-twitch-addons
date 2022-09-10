@@ -1,8 +1,8 @@
 {
-  "name": "Ruinous API",
-  "description": "The API portion of the Ruinous Twitch Addons project",
-  "repository": "https://github.com/OdatNurd/ruinous-twitch-api",
-  "logo": "https://github.com/OdatNurd/ruinous-twitch-ui/raw/main/static/ruinous.svg",
+  "name": "Ruinous Addons",
+  "description": "A Ruinous Pile of Twitch Addons",
+  "repository": "https://github.com/OdatNurd/ruinous-twitch-addons",
+  "logo": "https://github.com/OdatNurd/ruinous-twitch-addons/raw/main/static/ruinous.svg",
   "keywords": ["node", "express", "heroku"],
   "image": "heroku/nodejs"
 }

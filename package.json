@@ -1,14 +1,14 @@
 {
-  "name": "ruinous-twitch-api",
+  "name": "ruinous-twitch-addons",
   "author": "OdatNurd <odatnurd@gmail.com>",
   "license": "MIT",
   "version": "0.1.0",
-  "description": "The API portion of the Ruinous Twitch Addons project",
+  "description": "An application for serving custom Twitch addons to users",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OdatNurd/ruinous-twitch-api"
+    "url": "https://github.com/OdatNurd/ruinous-twitch-addons"
   },
-  "main": "index.js",
+  "main": "src/server/index.js",
   "type": "module",
   "scripts": {
     "logs": "heroku addons:open papertrail",
@@ -17,10 +17,10 @@
     "db:setup": "prisma db push",
     "db:setup-force": "prisma db push --accept-data-loss",
     "db:seed": "prisma db seed",
-    "overlay:dev": "vite dev",
-    "overlay:build": "vite build",
-    "overlay:preview": "vite preview",
-    "start": "node src/index.js"
+    "start": "node src/server",
+    "dev": "rollup -c -w",
+    "build": "rollup -c",
+    "heroku-postbuild": "yarn build && yarn db:bootstrap"
   },
   "engines": {
     "node": "16.x",
@@ -30,8 +30,19 @@
     "seed": "node prisma/seed.js"
   },
   "devDependencies": {
+    "@axel669/rollup-copy-static": "^0.1.2",
+    "@axel669/rollup-dollar-path": "^0.1.0",
+    "@axel669/rollup-html-input": "^0.1.2",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@tailwindcss/typography": "^0.5.7",
+    "autoprefixer": "^10.4.8",
+    "daisyui": "^2.25.0",
+    "postcss": "^8.4.16",
     "prisma": "^4.2.1",
-    "vite": "^3.0.0"
+    "rollup": "^2.79.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "tailwindcss": "^3.1.8"
   },
   "dependencies": {
     "@prisma/client": "^4.2.1",
@@ -46,8 +57,10 @@
     "jsonwebtoken": "^8.5.1",
     "ksuid": "^3.0.0",
     "node-fetch": "^3.2.10",
-    "socket.io": "^4.5.1",
-    "socket.io-client": "^4.5.1"
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2",
+    "svelte": "^3.50.0",
+    "svelte-navigator": "^3.2.2"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

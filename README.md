@@ -1,7 +1,8 @@
-# Ruinous Pile of Crap - API Portion
+# Ruinous Pile of Crap
 
-This project contains the back end portion of the Ruinous Pile of Crap Twitch
-Addons site, which you can find at https://twitch.ruinouspileofcrap.com.
+This is a Ruinous Pile of Twitch Addons. If you're reading this sentence I have
+not yet gotten around to documenting what this thing is actually for and does,
+for which you have my heartfelt apologies.
 
-This includes not only the API but also the Twitch related back end server
-code.
+However, you can find the site that relates to this at
+https://twitch.ruinouspileofcrap.com.

@@ -42,6 +42,36 @@ function setupSockets(io) {
 // =============================================================================
 
 
+/* Send the static file given in response to the request; this is used solely
+ * for client side routing reasons; it's needed for when the user hard reloads
+ * a route on the client end, since from our perspective the whole site is a
+ * single page. */
+function sendItemFile(res, filename) {
+  const options = {
+    root: "www_root_dev",
+    dotfiles: 'deny',
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true,
+      'x-item-filename': filename
+    }
+  };
+
+  // TODO: This should fail if the file doesn't exist; does that happen?
+  res.sendFile(filename, options, err => {
+    if (err) {
+      console.error(`Error: ${err}`);
+      res.status(404).send('Error sending file');
+    } else {
+      console.info('Transmitted:', filename);
+    }
+  });
+}
+
+
+// =============================================================================
+
+
 /* Try to load an existing token from the database, and if we find one, use it
  * to set up the database. */
 async function launch() {
@@ -54,7 +84,14 @@ async function launch() {
 
   // Set up some middleware that will serve static files out of the static
   // folder so that we don't have to inline the pages in code.
-  app.use(express.static('static'));
+  app.use(express.static(process.env.NODE_ENV === "production" ? "www_root" : "www_root_dev"));
+
+  // Temporarily, to test our our front end integrations;
+  app.get("/api/v1/project", (req, res) => {
+    res.json({
+      name: "Svelte with Express"
+    });
+  });
 
   // Create a server to serve our content
   const server = http.createServer(app);
@@ -67,6 +104,13 @@ async function launch() {
 
   // Set up all of the API endpoints and other core routes.
   app.use(coreAPIRoutes());
+
+  // Wildcard all unknown routes to the index page to support client side routing;
+  // this could maybe only cover routes we know exist? Or we need to know how to
+  // get the client side router to display something for routes that don't exist.
+  //
+  // This has to happen last or we'll end up capturing other routes (I think).
+  app.get("/*", (req, res) => sendItemFile(res, "index.html"));
 
   // Set up our websocket handling.
   setupSockets(io);

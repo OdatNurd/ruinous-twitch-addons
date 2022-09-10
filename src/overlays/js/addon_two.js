@@ -1,4 +1,4 @@
-import "$css/addon_two.css";
+import "../css/addon_two.css";
 
 let socket = io();
 

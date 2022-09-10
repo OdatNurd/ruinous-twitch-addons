@@ -6,3 +6,4 @@ node_modules
 *.sublime-*
 TODO
 yarn-error.log
+www_root_dev/
