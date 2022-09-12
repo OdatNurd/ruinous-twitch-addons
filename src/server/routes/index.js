@@ -5,6 +5,7 @@ import { NotFound } from '../lib/exceptions.js';
 
 import { getAddonList, getAddonById } from './api/addons.js';
 import { getOverlayInfo } from './api/overlays.js';
+import { getCurrentUser } from './api/user.js';
 import { getUserAddons, installUserAddon, uninstallUserAddon } from './api/users.js';
 import { doTwitchLogin } from './login.js';
 import { doTwitchLogout } from './logout.js';
@@ -28,6 +29,8 @@ export function coreAPIRoutes() {
   router.get('/api/v1/addons/:key', (req, res) => getAddonById(db, req, res));
 
   router.get('/api/v1/overlay/:overlayId', (req, res) => getOverlayInfo(db, req, res));
+
+  router.get('/api/v1/user', (req, res) => getCurrentUser(db, req, res));
 
   router.get('/api/v1/user/addons', (req, res) => getUserAddons(db, req, res));
   router.post('/api/v1/user/addons/:addonId', (req, res) => installUserAddon(db, req, res));
