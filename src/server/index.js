@@ -13,6 +13,8 @@ import eiows from "eiows";
 import express from 'express';
 import http from 'http';
 
+import { redirectToHTTPS } from 'express-http-to-https';
+
 
 // =============================================================================
 
@@ -81,6 +83,10 @@ async function launch() {
   // authentication with Twitch as well as serve user requests.
   const app = express();
   app.use(express.json());
+
+  // Redirect all insecure requests to a secure version of the URL, but not when
+  // the host is localhost.
+  app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 302));
 
   // Set up some middleware that will serve static files out of the static
   // folder so that we don't have to inline the pages in code.
