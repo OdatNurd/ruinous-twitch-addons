@@ -1,10 +1,8 @@
 <script>
+  import { user } from "$stores";
+
   import { link } from "svelte-navigator";
   import { Icon, ThemeBtn, ProfileBtn } from '$components';
-
-  // Fake things our to always be logged in; this should actually be the user
-  // information.
-  const user = {}
 
   // The list of links in the navigation bar
   const links = [
@@ -12,13 +10,14 @@
     { text: 'Available Addons', link: '/addons'},
   ];
 
-  // The link for logging in and out; this is distinct from the above because
-  // for this one we don't want to use client side routing; we want to be able
-  // to hit the server directly because cookies and redirects are involved.
-  const access = {
-    text: user.userId !== undefined ? 'Logout' : 'Login',
-    link: user.userId !== undefined ? '/logout' : '/login',
+  $: {
+    accessText = $user.userId !== undefined ? 'Logout' : 'Login';
+    accessLink = $user.userId !== undefined ? '/logout' : '/login';
   }
+
+  let accessText = $user.userId !== undefined ? 'Logout' : 'Login';
+  let accessLink = $user.userId !== undefined ? '/logout' : '/login';
+
 </script>
 
 
@@ -34,7 +33,7 @@
         {#each links as nav}
           <li><a href={nav.link} use:link>{nav.text}</a></li>
         {/each}
-        <li><a href={access.link}>{access.text}</a></li>
+        <li><a href={accessLink}>{accessText}</a></li>
       </ul>
     </div>
 
@@ -47,7 +46,7 @@
       {#each links as nav}
         <li><a href={nav.link} use:link>{nav.text}</a></li>
       {/each}
-      <li><a href={access.link}>{access.text}</a></li>
+      <li><a href={accessLink}>{accessText}</a></li>
     </ul>
   </div>
 

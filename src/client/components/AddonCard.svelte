@@ -1,8 +1,8 @@
 <script>
+  import { user } from "$stores";
+
   import { MarkdownBox, Icon } from '$components';
   import { toast } from '$lib/toast.js';
-
-  const user = {};
 
   export let addon;
   export let detailed = false;
@@ -66,7 +66,7 @@
       {/if}
     </h2>
     <MarkdownBox source={detailed ? addon.description : addon.blurb} />
-    {#if user.userId !== undefined}
+    {#if $user.userId !== undefined}
       <div class="card-actions justify-end">
         <button on:click={handleAddRemove} class="btn btn-primary">{addon.installed ? 'Remove from channel' : 'Add to Channel'}</button>
           <div class="tooltip tooltip-bottom tooltip-left" data-tip="{tooltip}">

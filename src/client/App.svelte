@@ -1,10 +1,15 @@
 <script>
   import { NavBar, Toaster, Content, Footer, Icon } from '$components';
   import { Router, Route } from "svelte-navigator";
+  import { user } from "$stores";
 
   import Index from "./routes/index.svelte";
   import About from "./routes/about.svelte";
   import Addons from "./routes/addons.svelte";
+
+  // Get information on the currently logged in user, and put it into our
+  // user store for other things to know about.
+  fetch('/api/v1/user').then(res => res.json()).then(res => $user = res);
 </script>
 
 
