@@ -5,7 +5,8 @@
 
   import Index from "./routes/index.svelte";
   import About from "./routes/about.svelte";
-  import Addons from "./routes/addons.svelte";
+  import AddonsList from "./routes/addons.svelte";
+  import AddonsSlug from "./routes/addons_slug.svelte";
   import Profile from "./routes/profile.svelte";
 
   // Get information on the currently logged in user, and put it into our
@@ -21,10 +22,11 @@
   <div class="flex flex-1 w-full overflow-auto p-0 m-0">
     <Content>
       <Router primary={false}>
-          <Route path="/"       component={Index} />
-          <Route path="about"   component={About} />
-          <Route path="addons"  component={Addons} />
-          <Route path="profile" component={Profile} />
+          <Route path="/"            component={Index} />
+          <Route path="about"        component={About} />
+          <Route path="addons"       component={AddonsList} />
+          <Route path="addons/:slug" component={AddonsSlug} />
+          <Route path="profile"      component={Profile} />
       </Router>
     </Content>
   </div>

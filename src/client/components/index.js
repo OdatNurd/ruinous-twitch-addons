@@ -1,3 +1,4 @@
+export * from './config/';
 export { default as Icon } from './Icon.svelte';
 
 export { default as ProfileBtn } from './layout/nav/ProfileBtn.svelte';
