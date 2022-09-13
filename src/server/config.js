@@ -51,6 +51,12 @@ export const config = convict({
     default: ''
   },
 
+  webRoot: {
+    doc: 'The base folder that our static content is served from; set at runtime',
+    format: '*',
+    default: ''
+  },
+
   env: {
     doc: "The environment that we're running in",
     format: ['development', 'staging', 'production'],
@@ -155,7 +161,10 @@ export const config = convict({
  * root of the project folder structure is, in case we need to access local
  * files. */
 config.set('baseDir', resolve(__dirname, '..'));
+config.set('webRoot', process.env.NODE_ENV === "production" ? "www_root" : "www_root_dev");
+
 console.log(`baseDir is ${config.get('baseDir')}`);
+console.log(`web root is is ${config.get('webRoot')}`);
 
 
 // =============================================================================
