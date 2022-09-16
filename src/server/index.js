@@ -1,4 +1,5 @@
 import { config } from './config.js';
+import { logger } from './logger.js';
 
 import { PrismaClient } from '@prisma/client';
 import { Server } from "socket.io";
@@ -19,13 +20,22 @@ import { redirectToHTTPS } from 'express-http-to-https';
 // =============================================================================
 
 
+/* Get our subsystem logger. */
+const log = logger('core');
+
+
+// =============================================================================
+
+
 /* Set up all of our back end websocket connectivity. */
 function setupSockets(io) {
+  const log = logger('websock');
+
   io.on('connection', (socket) => {
-    console.log('=> Incoming websocket connection');
+    log.debug(`new socket connection established: ${socket.id}`);
 
     socket.on('chat message', (msg) => {
-      console.log('message: ' + msg);
+      log.info(`received message: ${msg}`);
 
       // This will emit the event to every currently connected socket. We almost
       // certainly don't want this in the final code we're ultimately working
@@ -35,7 +45,7 @@ function setupSockets(io) {
 
     // Set up to listen to when this user disconnects
     socket.on('disconnect', () => {
-      console.log('=> client socket disconnected');
+      log.debug(`socket disconnected: ${socket.id}`);
     });
   });
 }
@@ -49,7 +59,8 @@ function setupSockets(io) {
  * a route on the client end, since from our perspective the whole site is a
  * single page. */
 function fullfillSPARequest(req, res) {
-  console.log(`performing a client side SPA reload for URL: ${req.url}`);
+  const log = logger('express');
+  log.debug(`client side SPA reload for URL: ${req.url}`);
 
   const options = {
     root: config.get('webRoot'),
@@ -61,11 +72,10 @@ function fullfillSPARequest(req, res) {
     }
   };
 
-  // TODO: This should fail if the file doesn't exist; does that happen?
   res.sendFile("index.html", options, err => {
     if (err) {
-      console.error(`Error: ${err}`);
-      res.status(404).send('Error sending file');
+      log.error(`SPA request error: ${err}`);
+      res.status(404).send('error sending file');
     }
   });
 }
@@ -77,7 +87,10 @@ function fullfillSPARequest(req, res) {
 /* Try to load an existing token from the database, and if we find one, use it
  * to set up the database. */
 async function launch() {
-  // console.log(config.toString());
+  // log.debug(`configuration is: \n${config.toString()}`);
+
+  log.debug(`baseDir: '${config.get('baseDir')}'`);
+  log.debug(`webRoot: '${config.get('webRoot')}'`);
 
   // The express application that houses the routes that we use to carry out
   // authentication with Twitch as well as serve user requests.
@@ -120,7 +133,7 @@ async function launch() {
   // Get the server to listen for incoming requests.
   const webPort = config.get('port');
   server.listen(webPort, () => {
-    console.log(`Listening for web requests on http://localhost:${webPort}`);
+    log.info(`listening for requests at http://localhost:${webPort}`);
   });
 }
 

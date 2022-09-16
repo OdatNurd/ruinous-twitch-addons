@@ -2,12 +2,6 @@
   import { user } from "$stores";
   import { AddonCard } from "$components";
 
-  // TODO: This doesn't detect the case where there's no user and do a page
-  // redirect to the login code.
-  //
-  // See also the addons.svelte page, which uses a svelte level promise to show
-  // a loading bar, though I think for our purposes we may want to do a few
-  // backfill requests at once or similar.
   let addons = [];
   fetch('/api/v1/user/addons').then(res => res.json()).then(res => { addons = res; console.log(addons) });
 

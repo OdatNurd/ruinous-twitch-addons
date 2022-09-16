@@ -1,4 +1,5 @@
 import { config } from './config.js';
+import { logger } from './logger.js';
 import { db, encrypt, decrypt } from './lib/db.js';
 
 import { RefreshingAuthProvider } from '@twurple/auth';
@@ -16,6 +17,9 @@ const botUserId = config.get('twitch.botUserId');
  * When it's undefined, there is no chat user set up yet and no chat messages
  * can be sent or received. */
 let chatClient = undefined;
+
+/* Get our subsystem logger. */
+const log = logger('twitch');
 
 
 // =============================================================================
@@ -99,9 +103,13 @@ export async function configureTwitchChat(botUserToken) {
   // If we're already configured to talk to the chat, OR we were not given a
   // token that can be used to do that, leave now without doing anything.
   if (chatClient !== undefined || botUserToken === null) {
-    console.log('No Twitch credentials are available for the bot user; cannot start chat');
+    log.warn('no Twitch credentials available for the bot; cannot start chat');
     return
   }
+
+  // Determine if we should log incoming chat or not.
+  const logChat = config.get('twitch.logChat');
+  log.info(`chat logging is ${logChat ? 'enabled' : 'disabled'}`)
 
   // Using the token information we were given, set up an authorization provider
   // that knows how to refresh itself when the token expires.
@@ -110,7 +118,7 @@ export async function configureTwitchChat(botUserToken) {
       clientId: config.get('twitch.clientId'),
       clientSecret: config.get('twitch.clientSecret'),
       onRefresh: async newData => {
-        console.log(`Refreshing the bot token`);
+        log.debug(`refreshing bot token`);
         await db.twitchToken.update({
           where: { userId: botUserId },
           data: {
@@ -138,44 +146,43 @@ export async function configureTwitchChat(botUserToken) {
     isAlwaysMod: false,
   });
 
-  // When a chat message is received, display it to the console.
+  // When a chat message is received, display it.
   chatClient.onMessage((channel, user, message, rawMsg) => {
-    console.log(`${channel}:<${user}> ${message}`);
+    if (logChat) {
+      log.info(`${channel}:<${user}> ${message}`);
+    }
   });
 
   // Display a notification when the chat connects,.
   chatClient.onConnect(() => {
-    console.log('Twitch chat connection established');
+    log.info('chat connection established');
   });
 
   // Display a notification when the chat disconnects.
   chatClient.onDisconnect((_manually, _reason) => {
-    console.log('Twitch chat has been disconnected');
+    log.info('chat has been disconnected');
   });
 
   // Handle a situation in which authentication of the bot failed; this would
   // happen if the bot user redacts our ability to talk to chat from within
   // Twitch without disconnecting in the app, for example.
   chatClient.onAuthenticationFailure(message => {
-    console.log(`Twitch chat Authentication failed: ${message}`);
+    log.error(`chat authentication failed: ${message}`);
   });
 
   // As a part of the connection mechanism, we also need to tell the server
   // what name we're known by. Once that happens, this event triggers.
   chatClient.onRegister(() => {
-    console.log(`Registered with Twitch chat as ${chatClient.currentNick}`);
-    if (process.env.NODE_ENV === 'production') {
-      chatClient.say('#odatnurd', 'The production version of the integration application has successfully connected to Twitch chat');
-    }
+    log.info(`registered with chat as ${chatClient.currentNick}`);
   });
 
   // Handle cases where sending messages fails due to being rate limited or
   // other reasons.
-  chatClient.onMessageFailed((channel, reason) => console.log(`${channel}: message send failed: ${reason}`));
-  chatClient.onMessageRatelimit((channel, message) => console.log(`${channel}: rate limit hit; did not send: ${message}`));
+  chatClient.onMessageFailed((channel, reason) => log.error(`${channel}: message send failed: ${reason}`));
+  chatClient.onMessageRatelimit((channel, message) => log.error(`${channel}: rate limit hit; did not send: ${message}`));
 
   // We're done, so indicate that we're connecting to twitch.
-  console.log('Connecting to Twitch chat and joining channel(s)');
+  log.info('connecting to chat and joining channel(s)');
   await chatClient.connect();
 }
 

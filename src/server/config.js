@@ -51,6 +51,9 @@ export const config = convict({
     default: ''
   },
 
+  // When we start up the configuration system, this value is populated with the
+  // directory that static content is served from, which changes depending on
+  // wether or not we're in production mode or not.
   webRoot: {
     doc: 'The base folder that our static content is served from; set at runtime',
     format: '*',
@@ -85,10 +88,25 @@ export const config = convict({
     default: null
   },
 
-  // For connecting to the PostgreSQL database
+  logging: {
+    level: {
+        doc: 'Sets the logging level that rhe server uses',
+        format: ['error', 'warn', 'info', 'debug', 'silly'],
+        default: 'info',
+        env: 'LOG_LEVEL'
+    },
+    timestamp: {
+      doc: 'The format string for the timestamps that get written as part of the log',
+      format: '*',
+      default: 'YYYY-MM-DD HH:mm:ss.SSS',
+      env: 'LOG_TIMESTAMP'
+    }
+  },
+
   db: {
+    // For connecting to the PostgreSQL database
     url: {
-      doc: 'The URL to connect to the PostgreSWL database with',
+      doc: 'The URL to connect to the PostgreSQL database with',
       format: required,
       env: 'DATABASE_URL',
       sensitive: true,
@@ -131,6 +149,12 @@ export const config = convict({
       format: required,
       default: null,
       env: 'TWITCH_BOT_USERID'
+    },
+    logChat: {
+      doc: 'Controls wether incoming chat messages are logged or not',
+      format: 'Boolean',
+      default: true,
+      env: 'TWITCH_LOG_CHAT'
     }
   },
 
@@ -162,9 +186,6 @@ export const config = convict({
  * files. */
 config.set('baseDir', resolve(__dirname, '..'));
 config.set('webRoot', process.env.NODE_ENV === "production" ? "www_root" : "www_root_dev");
-
-console.log(`baseDir is ${config.get('baseDir')}`);
-console.log(`web root is is ${config.get('webRoot')}`);
 
 
 // =============================================================================

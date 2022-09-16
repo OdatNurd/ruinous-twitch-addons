@@ -1,4 +1,5 @@
 import { config } from '../config.js';
+import { logger } from '../logger.js';
 import { Unauthorized, NotFound } from './exceptions.js';
 
 import { PrismaClient, Prisma } from '@prisma/client';
@@ -12,6 +13,10 @@ import crypto from 'crypto';
 /* Some helper functions for sending results of queries back to the initiating
  * client end, if those queries don't need to contain a specific body. */
 const error = (res, status, reason) => res.status(status).json({ success: false, reason })
+
+
+/* Get our subsystem logger. */
+const log = logger('db');
 
 
 // =============================================================================
@@ -62,7 +67,7 @@ const prismaErrorMap = {
 export function dbErrResponse(errorObj, res) {
   // Pluck out the error, sanitize it, and display it
   const msg = errorObj.message.replace(/\n/g, '');
-  console.error(msg);
+  log.error(msg);
 
   // Is the error related to the user not being authorized?
   if (errorObj instanceof Unauthorized) {

@@ -1,8 +1,18 @@
 import { config } from '../config.js';
+import { logger } from '../logger.js';
 import { Unauthorized } from './exceptions.js';
 
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
+
+
+// =============================================================================
+
+
+/* Get our subsystem logger; this subsystem is shared with the login code but
+ * separation of concerns makes it make more sense to have both sets of code
+ * separate. */
+const log = logger('auth');
 
 
 // =============================================================================
@@ -25,7 +35,7 @@ export function getAuthToken(req) {
       });
     }
   } catch (err) {
-    console.error(`received JWT was invalid; rejecting: ${err.message}`);
+    log.error(`JWT could not be verified; rejecting: ${err.message}`);
   }
 
   // There was not a cookie for the auth token, or there was but it did not have

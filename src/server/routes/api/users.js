@@ -5,14 +5,6 @@ import { NotFound } from '../../lib/exceptions.js';
 
 import ksuid from 'ksuid';
 
-// TODO:
-//   When an addon is added or removed, other code needs to be told; for example
-//   the bot will need to join or leave chats, overlays may need to remove
-//   integrations from the channel, etc.
-//
-//   Currently that's not happening because overlays aren't actualy a thing and
-//   addons are not actualy implemented yet.
-
 
 // =============================================================================
 

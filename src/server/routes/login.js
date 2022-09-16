@@ -1,4 +1,5 @@
 import { config } from '../config.js';
+import { logger } from '../logger.js';
 
 import { db, dbErrResponse, encrypt } from '../lib/db.js';
 import { configureTwitchChat } from '../twitch.js';
@@ -27,6 +28,11 @@ const authParams = {
   response_type: 'code',
   scope: bot_token_scopes.join(' ')
 };
+
+/* Get our subsystem logger; this subsystem is shared with the auth code but
+ * separation of concerns makes it make more sense to have both sets of code
+ * separate. */
+const log = logger('auth');
 
 
 // =============================================================================
@@ -117,7 +123,7 @@ export async function doTwitchLogin(db, req, res) {
           }
         });
 
-        console.log(`Logged in ${userInfo.name}/${userInfo.displayName}/${userInfo.id}`);
+        log.debug(`logged in ${userInfo.name}/${userInfo.displayName}/${userInfo.id}`);
 
         // If this user is the Twitch user, then we also need to make sure that
         // we persist the token into the database (or update it if it's already
@@ -182,7 +188,7 @@ export async function doTwitchLogin(db, req, res) {
           sameSite: 'lax'
         });
       } catch (err) {
-        console.error(`Unable to authorize with twitch: ${err.message}`);
+        log.error(`unable to authorize with twitch: ${err.message}`);
       }
     }
 
