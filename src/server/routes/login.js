@@ -56,6 +56,12 @@ export async function doTwitchLogin(db, req, res) {
     // redirect to the twitch authorization page.
     const params = req.query;
     if (params.code === undefined && params.error == undefined) {
+      // Pull from the incoming route what the redirected result should be on
+      // success; this is any extra path after the main /login base route, and
+      // defaults to the root of the site if not provided.
+      let returnRoute = req.url.substr('/login'.length);
+      returnRoute = (returnRoute === '') ? '/' : returnRoute
+
       // If the request we get has a force paramter in it, then we want to include
       // a field in our Twitch authorization request that tells Twitch to force
       // the user to verify that they want to grant permission.
@@ -68,19 +74,26 @@ export async function doTwitchLogin(db, req, res) {
         loginParams.set('force_verify', true)
       }
 
+      // Use the state paramter to indicate what route to return on; this will
+      // come back to us unmolested.
+      loginParams.set('state', returnRoute);
+
       return res.status(302).set({
         location: `https://id.twitch.tv/oauth2/authorize?${loginParams}`
       }).send();
     }
 
     // The headers that we will inject into our returned response, if any.
+    // This defaults to the root unless the operation was a success, in which
+    // case we use the state that came back in the response.
     const headers = {
       location: '/'
     };
 
     // If there's not a code, then there must be an error; either the user decided
     // to bail or something untoward happened; either way back to the root page.
-    const code = params.code
+    const code = params.code;
+    const state = params.state;
     if (code !== undefined) {
       try {
         // Exchange the code we were given with Twitch to get an access code. This
@@ -187,6 +200,9 @@ export async function doTwitchLogin(db, req, res) {
           // don't know and I'm kind of beyond caring at the moment.
           sameSite: 'lax'
         });
+
+        // All is well; send the browser to the location that we got back
+        headers.location = state;
       } catch (err) {
         log.error(`unable to authorize with twitch: ${err.message}`);
       }

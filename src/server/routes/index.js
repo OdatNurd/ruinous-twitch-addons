@@ -21,7 +21,12 @@ import { redirectToStaticOverlay } from './overlay.js';
 export function coreAPIRoutes() {
   const router = express.Router();
 
+  // TODO: Is there a nicer way to get this sort of thing? We need both
+  // variations as far as limited testing has shown, or without the extra path
+  // we end up at a client side route.
   router.get('/login', (req, res) => doTwitchLogin(db, req, res));
+  router.get('/login/*', (req, res) => doTwitchLogin(db, req, res));
+
   router.get('/logout', (req, res) => doTwitchLogout(db, req, res));
   router.get('/overlay/:overlayId', (req, res) => redirectToStaticOverlay(db, req, res));
 
