@@ -1,20 +1,24 @@
-// =============================================================================
-
-
-const _ = text => text.replace(/[ \t]+/g, ' ').trim();
+import { trim, schema, icon } from '#seed/tools';
 
 
 // =============================================================================
 
 
-export const config = [
+/* The unique ID for this addon; this is a ksuid and is the only part of an
+ * addon that is guaranteed not to chance once an addon is made publicly
+ * available (unless the addon is removed from the applciation entirely). */
+export const addonId ='2BNIO9lVnPY9lKgIMsBVQICBLAM';
+
+
+/* The configuration schema for this addon. */
+const config = [
   // Simple String; has a default value, and that's that.
   {
     "type": "string",
     "field": "nickname",
     "default": "Curmudgeon",
     "name": "Nickname of a guy somewhere",
-    "description": _(`
+    "description": trim(`
       This sets the nickname to use for whatever it is that this addon is
       actually doing. I have ***no idea*** what that might actually be though.
     `),
@@ -29,7 +33,7 @@ export const config = [
     "field": "kickTheZed",
     "default": false,
     "name": "Should we kick people whose nicks include a Z?",
-    "description": _(`
+    "description": trim(`
       Because we need to test the \`boolean\` type, this setting controls
       whether or not people whose nicks start with a Z are kicked somewhere
       for some unknown reason.
@@ -43,7 +47,7 @@ export const config = [
     "field": "placeOfZeke",
     "default": "third",
     "name": "What place to give people named Zeke",
-    "description": _(`
+    "description": trim(`
       In the olympics, what place do we want to pretend Zeke got in the melon
       growing event?
 
@@ -62,7 +66,7 @@ export const config = [
     "field": "coolnessFactor",
     "default": 10,
     "name": "Coolness Level",
-    "description": _(`
+    "description": trim(`
       On a scale of *0* to *10*, where *0* is a low number and *10* is a high
       number, make an arbitrary determination for how cool something random is.
     `),
@@ -80,7 +84,7 @@ export const config = [
     "field": "femtoRaidTime",
     "default": 69,
     "name": "Raid frequency in femtoseconds",
-    "description": _(`
+    "description": trim(`
       Sets the time between automated raids in the super handy time base of
       femtoseconds, because we like big numbers and we cannot lie.
     `),
@@ -91,6 +95,28 @@ export const config = [
     "maxValue": 10,
   },
 ]
+
+
+/* The core data for the addon. This pulls in the ID and the above schema
+ * info into a complete object describing the properties of the addon. */
+export const addon_one = {
+  'addonId': addonId,
+  'name': 'Addon The First',
+  'slug': 'addon-one',
+  'iconPic': icon('skull.png'),
+  'blurb': trim(`
+    A simple addon that does something cool.
+  `),
+  'description': trim(`
+    For testing purposes, this is a sample addon that only requires an
+    integration with the Twitch chat, but doesn't display anything and thus
+    doesn't need an overlay.
+  `),
+  'requiresChat': true,
+  'requiresOverlay': false,
+  'overlayFile': '',
+  'configSchema': schema(config),
+};
 
 
 // =============================================================================

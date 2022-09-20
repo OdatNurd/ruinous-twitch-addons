@@ -33,7 +33,8 @@
     "#core/*": "./src/server/*.js",
     "#lib/*": "./src/server/lib/*.js",
     "#routes/*": "./src/server/routes/*.js",
-    "#api/*": "./src/server/routes/api/*.js"
+    "#api/*": "./src/server/routes/api/*.js",
+    "#seed/*": "./prisma/data/*.js"
   },
   "devDependencies": {
     "@axel669/rollup-copy-static": "^0.1.2",
