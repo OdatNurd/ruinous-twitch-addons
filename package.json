@@ -34,6 +34,9 @@
     "#lib/*": "./src/server/lib/*.js",
     "#routes/*": "./src/server/routes/*.js",
     "#api/*": "./src/server/routes/api/*.js",
+
+    "#addons/*": "./src/addons/*.js",
+
     "#seed/*": "./prisma/data/*.js"
   },
   "devDependencies": {

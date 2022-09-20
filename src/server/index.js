@@ -9,6 +9,7 @@ import { dirname, resolve } from 'path';
 import { db } from '#lib/db';
 import { coreAPIRoutes } from '#routes/index';
 import { setupTwitchIntegrations } from '#core/twitch';
+import { initializeAddons } from '#addons/index';
 
 import eiows from "eiows";
 import express from 'express';
@@ -22,33 +23,6 @@ import { redirectToHTTPS } from 'express-http-to-https';
 
 /* Get our subsystem logger. */
 const log = logger('core');
-
-
-// =============================================================================
-
-
-/* Set up all of our back end websocket connectivity. */
-function setupSockets(io) {
-  const log = logger('websock');
-
-  io.on('connection', (socket) => {
-    log.debug(`new socket connection established: ${socket.id}`);
-
-    socket.on('chat message', (msg) => {
-      log.info(`received message: ${msg}`);
-
-      // This will emit the event to every currently connected socket. We almost
-      // certainly don't want this in the final code we're ultimately working
-      // towards.
-      io.emit('chat message', 'this is a message from the server');
-    });
-
-    // Set up to listen to when this user disconnects
-    socket.on('disconnect', () => {
-      log.debug(`socket disconnected: ${socket.id}`);
-    });
-  });
-}
 
 
 // =============================================================================
@@ -124,11 +98,11 @@ async function launch() {
   // This has to happen last or we'll end up capturing other routes (I think).
   app.get("/*", (req, res) => fullfillSPARequest(req, res,));
 
-  // Set up our websocket handling.
-  setupSockets(io);
-
   // Initialize Twitch
   setupTwitchIntegrations();
+
+  // Initialize the back end code for all of the addons now.
+  initializeAddons(db, io);
 
   // Get the server to listen for incoming requests.
   const webPort = config.get('port');

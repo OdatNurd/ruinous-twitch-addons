@@ -23,7 +23,13 @@ function getOverlays() {
           },
           plugins: [
             html (),
-            resolve(),
+            $path({
+              root: ".",
+              paths: {
+                $seed: "prisma/data",
+              }
+            }),
+            resolve({ browser: true }),
             postcss(),
           ]
         }

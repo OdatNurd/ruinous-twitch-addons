@@ -32,7 +32,7 @@ export async function redirectToStaticOverlay(db, req, res) {
     // represents.
     if (result.ok) {
       const overlay = await result.json();
-      const staticFileUrl = `${config.get('overlayRedirect')}/${overlay.addon.overlayFile}#${overlay.userId}:${params.overlayId}`;
+      const staticFileUrl = `${config.get('overlayRedirect')}/${overlay.addon.overlayFile}#${params.overlayId}`;
 
       return res.status(302).set({
         location: staticFileUrl

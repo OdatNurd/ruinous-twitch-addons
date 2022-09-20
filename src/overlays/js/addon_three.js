@@ -1,6 +1,7 @@
 import "../css/addon_common.css";
 
-import { addonId } from '$seed/addons/addon_two.js';
+import { addonId } from '$seed/addons/addon_three.js';
+
 
 const overlayId = location.hash.substr(1);
 
@@ -14,7 +15,7 @@ let socket = io(`/${addonId}`);
 
 socket.on('connect', () => {
   console.log(`our connected client socket is ${socket.id}`);
-  socket.emit('message', 'this is a message from an addon_two overlay');
+  socket.emit('message', 'this is a message from an addon_three overlay');
 });
 
 socket.on('disconnect', () => {
