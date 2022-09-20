@@ -1,4 +1,4 @@
-import { config } from './config.js';
+import { config } from '#core/config';
 import { createLogger, format, transports } from 'winston';
 
 

@@ -1,7 +1,7 @@
-import { config } from '../../config.js';
-import { dbErrResponse } from '../../lib/db.js';
-import { getAuthorizedUser } from '../../lib/auth.js';
-import { NotFound } from '../../lib/exceptions.js';
+import { config } from '#core/config';
+import { dbErrResponse } from '#lib/db';
+import { getAuthorizedUser } from '#lib/auth';
+import { NotFound } from '#lib/exceptions';
 
 import ksuid from 'ksuid';
 

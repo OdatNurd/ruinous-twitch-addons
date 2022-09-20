@@ -1,15 +1,15 @@
 import express from 'express';
 
-import { db, dbErrResponse } from '../lib/db.js';
-import { NotFound } from '../lib/exceptions.js';
+import { db, dbErrResponse } from '#lib/db';
+import { NotFound } from '#lib/exceptions';
 
-import { getAddonList, getAddonById } from './api/addons.js';
-import { getOverlayInfo } from './api/overlays.js';
-import { getCurrentUser } from './api/user.js';
-import { getUserAddons, installUserAddon, uninstallUserAddon } from './api/users.js';
-import { doTwitchLogin } from './login.js';
-import { doTwitchLogout } from './logout.js';
-import { redirectToStaticOverlay } from './overlay.js';
+import { getAddonList, getAddonById } from '#api/addons';
+import { getOverlayInfo } from '#api/overlays';
+import { getCurrentUser } from '#api/user';
+import { getUserAddons, installUserAddon, uninstallUserAddon } from '#api/users';
+import { doTwitchLogin } from '#routes/login';
+import { doTwitchLogout } from '#routes/logout';
+import { redirectToStaticOverlay } from '#routes/overlay';
 
 
 // ============================================================================

@@ -1,8 +1,8 @@
-import { config } from '../config.js';
-import { logger } from '../logger.js';
+import { config } from '#core/config';
+import { logger } from '#core/logger';
 
-import { db, dbErrResponse, encrypt } from '../lib/db.js';
-import { configureTwitchChat } from '../twitch.js';
+import { db, dbErrResponse, encrypt } from '#lib/db';
+import { configureTwitchChat } from '#core/twitch';
 
 import { StaticAuthProvider, exchangeCode } from '@twurple/auth';
 import { ApiClient } from '@twurple/api';

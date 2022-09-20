@@ -1,7 +1,7 @@
-import { config } from '../config.js';
+import { config } from '#core/config';
 
-import { dbErrResponse } from '../lib/db.js';
-import { NotFound } from '../lib/exceptions.js';
+import { dbErrResponse } from '#lib/db';
+import { NotFound } from '#lib/exceptions';
 
 import fetch from 'node-fetch';
 

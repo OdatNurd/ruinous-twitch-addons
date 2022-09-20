@@ -1,6 +1,6 @@
-import { config } from '../config.js';
-import { logger } from '../logger.js';
-import { Unauthorized, NotFound } from './exceptions.js';
+import { config } from '#core/config';
+import { logger } from '#core/logger';
+import { Unauthorized, NotFound } from '#lib/exceptions';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 

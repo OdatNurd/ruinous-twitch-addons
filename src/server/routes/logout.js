@@ -1,5 +1,5 @@
-import { config } from '../config.js';
-import { dbErrResponse } from '../lib/db.js';
+import { config } from '#core/config';
+import { dbErrResponse } from '#lib/db';
 
 import cookie from 'cookie';
 

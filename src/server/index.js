@@ -1,14 +1,14 @@
-import { config } from './config.js';
-import { logger } from './logger.js';
+import { config } from '#core/config';
+import { logger } from '#core/logger';
 
 import { PrismaClient } from '@prisma/client';
 import { Server } from "socket.io";
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
-import { db } from './lib/db.js';
-import { coreAPIRoutes } from './routes/index.js';
-import { setupTwitchIntegrations } from './twitch.js';
+import { db } from '#lib/db';
+import { coreAPIRoutes } from '#routes/index';
+import { setupTwitchIntegrations } from '#core/twitch';
 
 import eiows from "eiows";
 import express from 'express';

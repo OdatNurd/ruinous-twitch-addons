@@ -1,5 +1,5 @@
-import { dbErrResponse } from '../../lib/db.js';
-import { getAuthToken } from '../../lib/auth.js';
+import { dbErrResponse } from '#lib/db';
+import { getAuthToken } from '#lib/auth';
 
 
 // =============================================================================

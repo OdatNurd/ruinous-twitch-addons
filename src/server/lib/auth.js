@@ -1,6 +1,6 @@
-import { config } from '../config.js';
-import { logger } from '../logger.js';
-import { Unauthorized } from './exceptions.js';
+import { config } from '#core/config';
+import { logger } from '#core/logger';
+import { Unauthorized } from '#lib/exceptions';
 
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';

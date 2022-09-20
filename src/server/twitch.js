@@ -1,6 +1,6 @@
-import { config } from './config.js';
-import { logger } from './logger.js';
-import { db, encrypt, decrypt } from './lib/db.js';
+import { config } from '#core/config';
+import { logger } from '#core/logger';
+import { db, encrypt, decrypt } from '#lib/db';
 
 import { RefreshingAuthProvider } from '@twurple/auth';
 import { ChatClient } from '@twurple/chat';
