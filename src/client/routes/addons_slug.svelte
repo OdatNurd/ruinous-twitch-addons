@@ -1,5 +1,6 @@
 <script>
-  import { AddonCard, MarkdownBox, StringConfig, BooleanConfig, NumberConfig, RangeConfig, EnumConfig } from "$components";
+  import { AddonCard, MarkdownBox, StringConfig, BooleanConfig, NumberConfig, RangeConfig, EnumConfig } from '$components';
+
 
   // Map between the type of a configuration element and the component that
   // implements the settings for that type.

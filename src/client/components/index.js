@@ -1,8 +1,6 @@
 export * from './config/';
-export { default as Icon } from './Icon.svelte';
 
-export { default as ProfileBtn } from './layout/nav/ProfileBtn.svelte';
-export { default as ThemeBtn } from './layout/nav/ThemeBtn.svelte';
+export { default as Icon } from './Icon.svelte';
 
 export { default as NavBar } from './layout/NavBar.svelte';
 export { default as Content } from './layout/Content.svelte';

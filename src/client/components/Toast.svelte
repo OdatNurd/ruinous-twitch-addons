@@ -1,5 +1,5 @@
 <script>
-  import { Icon } from '$components';
+  import Icon from './Icon.svelte';
 
   export let type;
   export let message;

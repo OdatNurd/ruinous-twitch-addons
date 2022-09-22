@@ -2,7 +2,8 @@
   import { user } from "$stores";
 
   import { navigate } from "svelte-navigator";
-  import { Icon } from '$components';
+
+  import Icon from '../../Icon.svelte';
 
   $: {
     tooltip = ($user.userId === undefined ? 'Login with Twitch' : 'View Profile');

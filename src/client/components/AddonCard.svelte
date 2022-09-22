@@ -1,8 +1,10 @@
 <script>
   import { user } from "$stores";
 
-  import { MarkdownBox, Icon } from '$components';
   import { toast } from '$lib/toast.js';
+
+  import MarkdownBox from './MarkdownBox.svelte';
+  import Icon from './Icon.svelte';
 
   export let addon;
   export let detailed = false;

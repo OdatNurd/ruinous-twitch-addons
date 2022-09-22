@@ -1,6 +1,7 @@
 <script>
-  import { Icon } from '$components';
   import { onMount } from 'svelte';
+
+  import Icon from '../../Icon.svelte';
 
   // The name of the icon to use on the theme button, and a simple lambda for
   // setting the appropriat value based on the theme.

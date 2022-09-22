@@ -2,7 +2,10 @@
   import { user } from "$stores";
 
   import { link } from "svelte-navigator";
-  import { Icon, ThemeBtn, ProfileBtn } from '$components';
+
+  import Icon from '../Icon.svelte';
+  import ThemeBtn from './nav/ThemeBtn.svelte';
+  import ProfileBtn from './nav/ProfileBtn.svelte';
 
   // The list of links in the navigation bar
   const links = [
