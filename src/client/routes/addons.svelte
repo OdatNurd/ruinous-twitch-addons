@@ -1,5 +1,5 @@
 <script>
-  import { AddonCard } from "$components";
+  import { AddonCard } from '$components';
 
   const addons = fetch('/api/v1/addons').then(res => res.json());
 </script>

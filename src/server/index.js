@@ -2,7 +2,7 @@ import { config } from '#core/config';
 import { logger } from '#core/logger';
 
 import { PrismaClient } from '@prisma/client';
-import { Server } from "socket.io";
+import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
@@ -11,7 +11,7 @@ import { coreAPIRoutes } from '#routes/index';
 import { setupTwitchIntegrations } from '#core/twitch';
 import { initializeAddons } from '#addons/index';
 
-import eiows from "eiows";
+import eiows from 'eiows';
 import express from 'express';
 import http from 'http';
 

@@ -1,7 +1,7 @@
 <script>
-  import { user } from "$stores";
+  import { user } from '$stores';
 
-  import { navigate } from "svelte-navigator";
+  import { navigate } from 'svelte-navigator';
 
   import Icon from '../../Icon.svelte';
 

@@ -1,4 +1,4 @@
-import "../css/addon_common.css";
+import '../css/addon_common.css';
 
 import { addonId } from '$seed/addons/addon_three.js';
 

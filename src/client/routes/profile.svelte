@@ -1,6 +1,6 @@
 <script>
-  import { user } from "$stores";
-  import { AddonCard } from "$components";
+  import { user } from '$stores';
+  import { AddonCard } from '$components';
 
   let addons = [];
   fetch('/api/v1/user/addons').then(res => res.json()).then(res => { addons = res; console.log(addons) });

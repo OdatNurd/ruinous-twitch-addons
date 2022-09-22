@@ -1,5 +1,5 @@
 <script>
-  import MarkdownBox from "../MarkdownBox.svelte";
+  import MarkdownBox from '../MarkdownBox.svelte';
 
   export let config;
   export let value = 0;

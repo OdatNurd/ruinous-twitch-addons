@@ -1,13 +1,13 @@
 <script>
   import { NavBar, Toaster, Content, Footer, Icon } from '$components';
-  import { Router, Route } from "svelte-navigator";
-  import { user } from "$stores";
+  import { Router, Route } from 'svelte-navigator';
+  import { user } from '$stores';
 
-  import Index from "./routes/index.svelte";
-  import About from "./routes/about.svelte";
-  import AddonsList from "./routes/addons.svelte";
-  import AddonsSlug from "./routes/addons_slug.svelte";
-  import Profile from "./routes/profile.svelte";
+  import Index from './routes/index.svelte';
+  import About from './routes/about.svelte';
+  import AddonsList from './routes/addons.svelte';
+  import AddonsSlug from './routes/addons_slug.svelte';
+  import Profile from './routes/profile.svelte';
 
   // Get information on the currently logged in user, and put it into our
   // user store for other things to know about.

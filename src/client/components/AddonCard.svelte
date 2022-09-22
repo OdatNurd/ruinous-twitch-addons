@@ -1,5 +1,5 @@
 <script>
-  import { user } from "$stores";
+  import { user } from '$stores';
 
   import { toast } from '$lib/toast.js';
 
