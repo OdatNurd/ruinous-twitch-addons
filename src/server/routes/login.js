@@ -59,7 +59,12 @@ export async function doTwitchLogin(db, req, res) {
       // Pull from the incoming route what the redirected result should be on
       // success; this is any extra path after the main /login base route, and
       // defaults to the root of the site if not provided.
-      let returnRoute = req.url.substr('/login'.length);
+      //
+      // In order to construct a URL we need to add in the protocol and such;
+      // the hostname doesn't matter since we're just getting it to parse the
+      // path.
+      const url = new URL(`https://localhost${req.url}`);
+      let returnRoute = url.pathname.substr('/login'.length);
       returnRoute = (returnRoute === '') ? '/' : returnRoute
 
       // If the request we get has a force paramter in it, then we want to include
