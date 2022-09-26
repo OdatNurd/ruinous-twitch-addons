@@ -5,11 +5,17 @@
 
   import Icon from '../../Icon.svelte';
 
+  let tooltip = '';
   $: {
-    tooltip = ($user.userId === undefined ? 'Login with Twitch' : 'View Profile');
+    tooltip = ($user.userId === undefined ? 'Login with Twitch and View Profile' : 'View Profile');
   }
-  let tooltip = ($user.userId === undefined ? 'Login with Twitch' : 'View Profile')
-  const openProfile = () => navigate($user.userId === undefined ? '/login' : '/profile');
+  const openProfile = () => {
+    if ($user.userId === undefined) {
+      window.location.href = '/login/profile';
+    } else {
+      navigate('/profile');
+    }
+  }
 </script>
 
 <div class="tooltip tooltip-bottom tooltip-left" data-tip={tooltip}>

@@ -13,13 +13,13 @@
     { text: 'Available Addons', link: '/addons'},
   ];
 
+  let accessText = '';
+  let accessLink = '';
   $: {
     accessText = $user.userId !== undefined ? 'Logout' : 'Login';
-    accessLink = $user.userId !== undefined ? '/logout' : '/login';
+    accessLink = $user.userId !== undefined ? '/logout' : '/login/profile';
   }
 
-  let accessText = $user.userId !== undefined ? 'Logout' : 'Login';
-  let accessLink = $user.userId !== undefined ? '/logout' : '/login';
 
 </script>
 
