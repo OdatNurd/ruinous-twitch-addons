@@ -1,5 +1,6 @@
 <script>
   import { user } from '$stores';
+  import { link } from 'svelte-navigator';
 
   import { toast } from '$lib/toast.js';
 
@@ -59,7 +60,7 @@
 <div class="card lg:card-side bg-base-100 shadow-2xl shadow-neutral text-base-content mb-8">
   <figure><img class="w-28 h-28 mx-4" src={addon.iconPic} alt="Addon Icon"></figure>
   <div class="card-body">
-    <h2 class="card-title"><a href="/addons/{addon.slug}">{addon.name}</a>
+    <h2 class="card-title"><a href="/addons/{addon.slug}" use:link>{addon.name}</a>
       {#if addon.requiresChat}
         <span class="badge">Chat</span>
       {/if}

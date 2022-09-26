@@ -34,9 +34,7 @@
     "#lib/*": "./src/server/lib/*.js",
     "#routes/*": "./src/server/routes/*.js",
     "#api/*": "./src/server/routes/api/*.js",
-
     "#addons/*": "./src/addons/*.js",
-
     "#seed/*": "./prisma/data/*.js"
   },
   "devDependencies": {
@@ -56,6 +54,8 @@
   },
   "dependencies": {
     "@prisma/client": "^4.2.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-replace": "^4.0.0",
     "@twurple/api": "^5.1.6",
     "@twurple/auth": "^5.1.6",
     "@twurple/chat": "^5.1.6",
@@ -72,6 +72,7 @@
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2",
     "svelte": "^3.50.0",
+    "svelte-doric": "^1.7.10",
     "svelte-navigator": "^3.2.2",
     "winston": "^3.8.2"
   },

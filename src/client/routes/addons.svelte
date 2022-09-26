@@ -1,7 +1,11 @@
 <script>
   import { AddonCard } from '$components';
 
-  const addons = fetch('/api/v1/addons').then(res => res.json());
+  import { HexagonSpinner } from 'svelte-doric'
+
+  import { loadJSON } from '$lib/loader.js'
+
+  const addons = loadJSON('/api/v1/addons');
 </script>
 
 <svelte:head>
@@ -9,7 +13,9 @@
 </svelte:head>
 
 {#await addons}
-    Loading addons list...
+  <div class="grid h-screen place-items-center">
+    <HexagonSpinner size={125} />
+  </div>
 {:then addons}
   {#each addons as addon (addon.addonId)}
     <AddonCard {addon} detailed={false} />

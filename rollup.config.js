@@ -1,5 +1,9 @@
+import 'dotenv/config';
+
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import commonjs from '@rollup/plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
 import copyStatic from '@axel669/rollup-copy-static';
 import html from '@axel669/rollup-html-input';
@@ -55,6 +59,12 @@ export default [
           },
           extensions: [".js", ".mjs", ".svelte", ".jsx"]
       }),
+      replace(
+      {
+        'preventAssignment': true,
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      }),
+      commonjs(),
       resolve({ browser: true }),
       postcss(),
       copyStatic("static")

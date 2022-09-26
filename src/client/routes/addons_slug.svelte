@@ -1,6 +1,9 @@
 <script>
   import { AddonCard, MarkdownBox, StringConfig, BooleanConfig, NumberConfig, RangeConfig, EnumConfig } from '$components';
 
+  import { HexagonSpinner } from 'svelte-doric'
+
+  import { loadJSON } from '$lib/loader.js'
 
   // Map between the type of a configuration element and the component that
   // implements the settings for that type.
@@ -13,7 +16,7 @@
   }
 
   export let slug = 'unknown';
-  const addon = fetch(`/api/v1/addons/${slug}`).then(res => res.json());
+  const addon = loadJSON(`/api/v1/addons/${slug}`);
 </script>
 
 <svelte:head>
@@ -23,7 +26,9 @@
 </svelte:head>
 
 {#await addon}
-    Loading addon info...
+  <div class="grid h-screen place-items-center">
+    <HexagonSpinner size={125} />
+  </div>
 {:then addon}
 
   {#if addon.name !== undefined}

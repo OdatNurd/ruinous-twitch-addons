@@ -19,8 +19,6 @@
     accessText = $user.userId !== undefined ? 'Logout' : 'Login';
     accessLink = $user.userId !== undefined ? '/logout' : '/login/profile';
   }
-
-
 </script>
 
 
