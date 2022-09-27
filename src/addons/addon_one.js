@@ -1,8 +1,16 @@
+import { logger } from '#core/logger';
 
-/* The unique AddonID that represents this addon; this is the ID that the record
- * for this addon is represented as in the database, which is also used by the
+
+// =============================================================================
+
+
+/* The unique addon data that represents this addon; this is full data record
+ * for this addon as represented as in the database, which is also used by the
  * client side code. */
-import { addonId } from '#seed/addons/addon_one';
+import { data } from '#seed/addons/addon_one';
+
+/* Get our subsystem logger. */
+const log = logger(data.slug);
 
 
 // =============================================================================
@@ -12,7 +20,7 @@ import { addonId } from '#seed/addons/addon_one';
  * allows it to access the database and the top level socket.io handle so that
  * it can register any listeners that it needs. */
 export default function initialize(db, io) {
-  console.log('Server side code for Addon One has initialized');
+  // Currently, no logic is defined for this addon.
 }
 
 

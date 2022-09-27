@@ -1,16 +1,18 @@
 import { logger } from '#core/logger';
 
+import { initOverlayCommunications, overlayInfoHandler } from '#addons/lib/common';
+
 
 // =============================================================================
 
 
-/* Get our subsystem logger. */
-const log = logger('addon_two');
-
-/* The unique AddonID that represents this addon; this is the ID that the record
- * for this addon is represented as in the database, which is also used by the
+/* The unique addon data that represents this addon; this is full data record
+ * for this addon as represented as in the database, which is also used by the
  * client side code. */
-import { addonId } from '#seed/addons/addon_two';
+import { data } from '#seed/addons/addon_two';
+
+/* Get our subsystem logger. */
+const log = logger(data.slug);
 
 
 // =============================================================================
@@ -20,26 +22,11 @@ import { addonId } from '#seed/addons/addon_two';
  * allows it to access the database and the top level socket.io handle so that
  * it can register any listeners that it needs. */
 export default function initialize(db, io) {
-  log.info('server side code for Addon Two has initialized');
-
-  // Create a custom namespace just for consumers of this addon
-  const namespace = io.of(`/${addonId}`);
-
-  // Set up handlers for when a new socket connects
-  namespace.on('connection', (socket) => {
-    log.debug(`incoming addon_two socket connection: ${socket.id}`);
-
-    // If the socket sends a message, display it
-    socket.on('message', (msg) => {
-      log.info(`message from overlay: ${msg}`);
-
-      socket.emit('message', 'message acknowledged');
-    });
-
-    // Set up to listen to when this user disconnects
-    socket.on('disconnect', () => {
-      log.debug(`socket connection closed: ${socket.id}`);
-    });
+  // Use the library routine to initialize communications for our addon; we
+  // have an overlay component, so we should also listen for the overlay asking
+  // for information about itself.
+  initOverlayCommunications(io, log, data, (socket) => {
+    overlayInfoHandler(socket, log);
   });
 }
 
