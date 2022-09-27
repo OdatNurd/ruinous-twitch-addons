@@ -29,7 +29,7 @@ const config = [
 
 /* The core data for the addon. This pulls in the ID and the above schema
  * info into a complete object describing the properties of the addon. */
-export const addon_two = {
+export const data = {
   'addonId': addonId,
   'name': 'Addon Part Two',
   'slug': 'addon-two',
