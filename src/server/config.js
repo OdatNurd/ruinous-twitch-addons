@@ -74,17 +74,10 @@ export const config = convict({
     default: 3000
   },
 
-  overlayBase: {
-    doc: 'When generating overlay URLs for users, this sets what the base URL is',
+  rootUrl: {
+    doc: 'The root URL of the site; all URLs that we create are based on this',
     format: required,
-    env: 'OVERLAY_URL_BASE',
-    default: null
-  },
-
-  overlayRedirect: {
-    doc: 'When generating overlay URLs for users, this sets where the static overlay files live',
-    format: required,
-    env: 'OVERLAY_REDIRECT_BASE',
+    env: 'ROOT_URL',
     default: null
   },
 

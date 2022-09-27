@@ -79,7 +79,7 @@ export async function getAddonList(db, req, res) {
       if (entry.installed === true) {
         entry.config = JSON.parse(userInfo.configJSON);
         if (userInfo.overlayId !== '') {
-          entry.overlayUrl = `${config.get('overlayBase')}/${userInfo.overlayId}`;
+          entry.overlayUrl = `${config.get('rootUrl')}/overlay/${userInfo.overlayId}`;
         }
       }
 
@@ -157,7 +157,7 @@ export async function getAddonById(db, req, res) {
     if (body.installed === true) {
       const overId = userConfig.overlayId;
 
-      body.overlayUrl = (overId === '' ? '' : `${config.get('overlayBase')}/${overId}`)
+      body.overlayUrl = (overId === '' ? '' : `${config.get('rootUrl')}/overlay/${overId}`)
       body.config = JSON.parse(userConfig.configJSON);
     }
 

@@ -44,7 +44,7 @@ export async function getUserAddons(db, req, res) {
       addon.configSchema = JSON.parse(addon.configSchema);
       addon.config = JSON.parse(entry.configJSON);
       if (entry.overlayId !== '') {
-        addon.overlayUrl = `${config.get('overlayBase')}/${entry.overlayId}`;
+        addon.overlayUrl = `${config.get('rootUrl')}/overlay/${entry.overlayId}`;
       }
       return addon;
     }));
@@ -122,7 +122,7 @@ export async function installUserAddon(db, req, res) {
     // needs to be a URL since the client has no direct access to the config
     // to know what the base is,
     data.configJSON = configJSON;
-    data.overlayUrl = `${config.get('overlayBase')}/${data.overlayId}`
+    data.overlayUrl = `${config.get('rootUrl')}/overlay/${data.overlayId}`
 
     return res.status(201).json(data);
   }
