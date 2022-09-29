@@ -52,7 +52,8 @@ export const data = {
   `),
   'requiresChat': true,
   'requiresOverlay': true,
-  'overlayFile': 'addon_three.html',
+  'overlayFile': 'AddonThree.svelte',
+  'staticFile': 'addon_three.html',
   'configSchema': schema(config),
 };
 

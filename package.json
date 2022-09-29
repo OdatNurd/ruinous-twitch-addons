@@ -40,11 +40,11 @@
   "devDependencies": {
     "@axel669/rollup-copy-static": "^0.1.2",
     "@axel669/rollup-dollar-path": "^0.1.0",
-    "@axel669/rollup-html-input": "^0.1.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@tailwindcss/typography": "^0.5.7",
     "autoprefixer": "^10.4.8",
     "daisyui": "^2.25.0",
+    "fs-jetpack": "^5.0.0",
     "postcss": "^8.4.16",
     "prisma": "^4.4.0",
     "rollup": "^2.79.0",

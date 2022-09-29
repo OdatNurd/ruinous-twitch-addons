@@ -24,23 +24,20 @@ export async function redirectToStaticOverlay(db, req, res) {
     // URL.
     const baseURL = `${req.protocol}://${req.headers.host}`
 
-    // Make a request of the API that knows about overlays to get information
-    // about this one.
-    const result = await fetch(`${baseURL}/api/v1/overlay/${params.overlayId}`);
+    // Default to there being no overlay result in case the lookup fails.
+    let staticFileUrl = `${config.get('rootUrl')}/overlay/no_such_overlay.html`;
 
-    // If the request worked, do a redirect to the static page that it
-    // represents.
+    // Make a request of the API that knows about overlays to get information
+    // about this one; if it worked, then create a full URL to redirect there
+    const result = await fetch(`${baseURL}/api/v1/overlay/${params.overlayId}`);
     if (result.ok) {
       const overlay = await result.json();
-      const staticFileUrl = `${config.get('rootUrl')}/overlay/${overlay.addon.overlayFile}#${params.overlayId}`;
-
-      return res.status(302).set({
-        location: staticFileUrl
-      }).send();
+      staticFileUrl = `${config.get('rootUrl')}/overlay/${overlay.addon.staticFile}#${params.overlayId}`;
     }
 
-    // Trigger an error
-    throw new NotFound('Unable to find the overlay to redirect to')
+    return res.status(302).set({
+      location: staticFileUrl
+    }).send();
   }
   catch (error) {
     dbErrResponse(error, res);

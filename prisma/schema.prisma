@@ -101,9 +101,14 @@ model TwitchAddon {
   requiresOverlay Boolean
 
   // If this addon requires an overlay, then this value represents the name of
-  // the HTML file that is implementing this particular overlay. In other cases
-  // this string is empty and not used.
+  // the svelte file that is implementing this particular overlay. In other
+  // cases this string is empty and not used.
   overlayFile String
+
+  // When addons have overlays, this specifies the name of the static HTML file
+  // that provides the concrete implementation of the overlay. In other cases
+  // this string is empty and not used.
+  staticFile String
 
   // Each addon has the potential for some configuration information that is per
   // user and provides more details as to what the addon should do or how it

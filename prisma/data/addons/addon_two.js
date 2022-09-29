@@ -44,7 +44,8 @@ export const data = {
   `),
   'requiresChat': false,
   'requiresOverlay': true,
-  'overlayFile': 'addon_two.html',
+  'overlayFile': 'AddonTwo.svelte',
+  'staticFile': 'addon_two.html',
   'configSchema': schema(config),
 };
 

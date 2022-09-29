@@ -1,10 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import { data as addon_one } from '#seed/addons/addon_one';
-import { data as addon_two } from '#seed/addons/addon_two';
-import { data as addon_three } from '#seed/addons/addon_three';
 
+import { addons } from '#seed/addons/index';
 import { users } from '#seed/users';
 import { userAddons } from '#seed/userAddons';
 
@@ -13,7 +11,6 @@ import { userAddons } from '#seed/userAddons';
 
 
 async function seedAddons() {
-  const addons = [ addon_one, addon_two, addon_three ];
   const result = await Promise.all(addons.map(async (item) => {
     return prisma.twitchAddon.upsert({
       where: { addonId: item.addonId },

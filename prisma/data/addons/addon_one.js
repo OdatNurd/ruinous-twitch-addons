@@ -115,6 +115,7 @@ export const data = {
   'requiresChat': true,
   'requiresOverlay': false,
   'overlayFile': '',
+  'staticFile': '',
   'configSchema': schema(config),
 };
 
