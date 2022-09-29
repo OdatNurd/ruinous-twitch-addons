@@ -27,7 +27,7 @@
 
 
 <div class="tooltip tooltip-bottom" data-tip="Toggle Theme">
-  <button on:click={toggleDarkMode} class="btn btn-circle">
+  <button on:click={toggleDarkMode} class="btn btn-circle" aria-label="Toggle page theme">
     <Icon {name} size="1.5rem" />
   </button>
 </div>

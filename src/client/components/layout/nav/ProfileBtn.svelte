@@ -19,7 +19,7 @@
 </script>
 
 <div class="tooltip tooltip-bottom tooltip-left" data-tip={tooltip}>
-  <button class="btn btn-circle btn-ghost" on:click={openProfile}>
+  <button class="btn btn-circle btn-ghost" on:click={openProfile} aria-label="View user profile">
     <div class="avatar">
       <div class="w-8 rounded-full">
         {#if $user.userId !== undefined}

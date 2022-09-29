@@ -19,9 +19,9 @@
     <p>Copyright © 2022 OdatNurd - All right reserved</p>
   </div>
   <div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-    <a href="https://twitter.com/OdatNurd"><Icon name="twitter:brands" size="1.5rem" /></a>
-    <a href="https://youtube.com/c/OdatNurd"><Icon name="youtube:brands" size="1.5rem" /></a>
-    <a href="https://twitch.tv/odatnurd"><Icon name="twitch:brands" size="1.5rem" /></a>
-    <a href="https://github.com/OdatNurd/ruinous-twitch-addons"><Icon name="github:brands" size="1.5rem" /></a>
+    <a href="https://twitter.com/OdatNurd" aria-label="OdatNurd's Twitter Profile"><Icon name="twitter:brands" size="1.5rem"/></a>
+    <a href="https://youtube.com/c/OdatNurd" aria-label="OdatNurd's YouTube Channel"><Icon name="youtube:brands" size="1.5rem"/></a>
+    <a href="https://twitch.tv/odatnurd" aria-label="OdatNurd's Twitch Channel"><Icon name="twitch:brands" size="1.5rem"/></a>
+    <a href="https://github.com/OdatNurd/ruinous-twitch-addons" aria-label="Source code for this application"><Icon name="github:brands" size="1.5rem"/></a>
   </div>
 </footer>

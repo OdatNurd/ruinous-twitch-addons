@@ -73,7 +73,7 @@
       <div class="card-actions justify-end">
         <button on:click={handleAddRemove} class="btn btn-primary">{addon.installed ? 'Remove from channel' : 'Add to Channel'}</button>
           <div class="tooltip tooltip-bottom tooltip-left" data-tip="{tooltip}">
-            <button on:click={copyUrl} class="btn btn-circle btn-ghost" disabled={addon.installed == false || addon.requiresOverlay == false}>
+            <button on:click={copyUrl} class="btn btn-circle btn-ghost" disabled={addon.installed == false || addon.requiresOverlay == false} aria-label="Copy overlay URL to clipboard">
               <Icon name="chain" size="1.5rem" />
             </button>
           </div>
