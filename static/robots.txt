@@ -1,0 +1,4 @@
+User-Agent: Googlebot
+Allow: /
+Allow: /about
+Allow: /addons
