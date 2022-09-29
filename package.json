@@ -59,6 +59,7 @@
     "@twurple/api": "^5.1.6",
     "@twurple/auth": "^5.1.6",
     "@twurple/chat": "^5.1.6",
+    "compression": "^1.7.4",
     "convict": "^6.2.3",
     "cookie": "^0.5.0",
     "dotenv": "^16.0.1",

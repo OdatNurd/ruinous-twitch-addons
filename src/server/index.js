@@ -13,6 +13,7 @@ import { initializeAddons } from '#addons/index';
 
 import eiows from 'eiows';
 import express from 'express';
+import compression from 'compression';
 import http from 'http';
 
 import { redirectToHTTPS } from 'express-http-to-https';
@@ -70,6 +71,7 @@ async function launch() {
   // authentication with Twitch as well as serve user requests.
   const app = express();
   app.use(express.json());
+  app.use(compression());
 
   // Redirect all insecure requests to a secure version of the URL, but not when
   // the host is localhost.
