@@ -34,7 +34,9 @@ function getOverlays() {
               }
             }),
             resolve({ browser: true }),
-            postcss(),
+            postcss({
+              extract: true
+            }),
           ]
         }
     });
