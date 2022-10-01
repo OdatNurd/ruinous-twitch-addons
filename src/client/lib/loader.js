@@ -14,7 +14,8 @@ const debugDelay = delay => new Promise(resolve => setTimeout(resolve, delay));
 
 
 /* Given a URL, invoke a fetch for it to gather the JSON result, which will be
- * returned back.
+ * returned back. An exception is thrown if the request fails, where the text
+ * of the exception tells you the reason for the failure.
  *
  * If the code is currently running in a development mode, then the result will
  * be delayed for a period before the result is actually returned, to help with
@@ -23,6 +24,9 @@ export async function loadJSON(url) {
   // Fetch the URL provided, and grab the result as data
   const res = await fetch(url);
   const result = await res.json();
+  if (res.ok === false) {
+    throw Error(`request failed: ${result.reason}`);
+  }
 
   // If we're in development mode, let the spinner stick around a bit before
   // we proceed.

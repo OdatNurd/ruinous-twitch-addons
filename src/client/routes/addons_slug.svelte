@@ -3,6 +3,8 @@
 
   import { HexagonSpinner } from 'svelte-doric'
 
+  import { navigate } from 'svelte-navigator';
+
   import { loadJSON } from '$lib/loader.js'
 
   // Map between the type of a configuration element and the component that
@@ -48,4 +50,6 @@
       <svelte:component this={configMap[config.type]} {config} value={config.default}/>
     </div>
   {/each}
+{:catch}
+  {navigate('/error')}
 {/await}
