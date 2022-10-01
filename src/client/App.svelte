@@ -13,6 +13,8 @@
   import AddonsSlug from './routes/addons_slug.svelte';
   import Profile from './routes/profile.svelte';
 
+  import Error404 from './routes/404.svelte';
+
   // Gather the user information for the currently logged in user; this could
   // be no user, in which case the result will end up being an empty object.
   //
@@ -34,6 +36,7 @@
             <Route path="addons"       component={AddonsList} />
             <Route path="addons/:slug" component={AddonsSlug} />
             <Route path="profile"      component={Profile} />
+            <Route path="*"            component={Error404} />
         </Router>
       </Content>
     </div>
