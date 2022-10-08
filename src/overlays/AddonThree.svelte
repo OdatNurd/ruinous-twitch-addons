@@ -1,15 +1,16 @@
 <script>
-  export let details;
+  export let overlayInfo;
+  export const socket = undefined;
 </script>
 
-<h1>{details.addon.name}</h1>
+<h1>{overlayInfo.addon.name}</h1>
 
 <p>
-  {details.addon.description}
+  {overlayInfo.addon.description}
 </p>
 
 <p>
-  This overlay instance is owned by <img src={details.owner.profilePic} alt="cool dude"/> {details.owner.displayName}
+  This overlay instance is owned by <img src={overlayInfo.owner.profilePic} alt="cool dude"/> {overlayInfo.owner.displayName}
 </p>
 
 <style>

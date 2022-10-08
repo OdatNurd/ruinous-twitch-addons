@@ -49,18 +49,19 @@ export function launch(addonId) {
 
     // When we connect for the very first time, request information about this
     // overlay from the back end code; this will respond with an overlay-info
-    // message that tells us about ourselves.
+    // message that tells us about ourselves and also provides the socket
+    // instance so that the overlay can talk to the back end for any other
+    // requests it needs to.
     //
     // This only happens on initial connect; in other cases we should silently
     // pick up where we left off; the server side can apprise of of any missing
     // information when we reconnect.
     socket.once('connect', () => {
-      console.log(`addon two overlay ${socket.id} requesting overlay info`);
-      socket.emit('get-overlay-info', overlayId, (info) => {
-        if (info.success === false) {
-          reject(info.reason);
+      socket.emit('get-overlay-info', overlayId, (overlayInfo) => {
+        if (overlayInfo.success === false) {
+          reject(overlayInfo.reason);
         } else {
-          resolve(info);
+          resolve({overlayInfo, socket});
         }
       });
     });

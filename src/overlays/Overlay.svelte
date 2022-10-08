@@ -6,15 +6,15 @@
   export let addon;
   export let addonId;
 
-  const addonData = launch(addonId);
+  const launchData = launch(addonId);
 </script>
 
 <div>
   <slot>
-    {#await addonData}
+    {#await launchData}
       Getting addon data
-    {:then details}
-      <svelte:component this={addon} {details}/>
+    {:then {overlayInfo, socket}}
+      <svelte:component this={addon} {overlayInfo} {socket}/>
     {:catch message}
       <Error {message} />
     {/await}
