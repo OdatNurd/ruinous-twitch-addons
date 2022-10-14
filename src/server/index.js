@@ -6,11 +6,13 @@ import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
-import { db } from '#lib/db';
-import { coreAPIRoutes } from '#routes/index';
+import { db, dbErrResponse } from '#lib/db';
+import { NotFound } from '#lib/exceptions';
+
 import { setupTwitchIntegrations } from '#core/twitch';
 import { initializeAddons } from '#addons/index';
 
+import fileRoutes from '@labyrinthos/file-routes/express';
 import eiows from 'eiows';
 import express from 'express';
 import compression from 'compression';
@@ -90,14 +92,12 @@ async function launch() {
     wsEngine: eiows.Server
   });
 
-  // Set up all of the API endpoints and other core routes.
-  app.use(coreAPIRoutes());
+  // Use the magic router to do magic. <insert wand here>
+  app.use(await fileRoutes("src/server/routes"));
 
-  // Wildcard all unknown routes to the index page to support client side routing;
-  // this could maybe only cover routes we know exist? Or we need to know how to
-  // get the client side router to display something for routes that don't exist.
-  //
-  // This has to happen last or we'll end up capturing other routes (I think).
+  // Set up some wildcard routes for unknown API routes. We also wildcard any
+  // unknown page routes to the index page to support client side routing.
+  app.all('/api/*', (req, res) => dbErrResponse(new NotFound(`no such API endpoint: ${req.path}`), res));
   app.get("/*", (req, res) => fullfillSPARequest(req, res,));
 
   // Initialize Twitch

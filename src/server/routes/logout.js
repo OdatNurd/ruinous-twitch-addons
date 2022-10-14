@@ -13,22 +13,26 @@ import cookie from 'cookie';
  *
  * No back end information needs to change as a result of a logout because the
  * login doesn't actually persist anything on the server either. */
-export async function doTwitchLogout(db, req, res) {
-  try {
-    // To log out, we just erase the cookie; this could be more intelligent and
-    // check to see if there is one or whatever, but meh.
-    return res.status(302).set({
-      location: '/',
-      "Set-Cookie": cookie.serialize('authToken', '', {
-        httpOnly: true,
-        expires: new Date(1970,1,1),
-        secure: config.get('env') === 'production',
-        sameSite: config.get('env') === 'production' ? 'strict' : undefined
-      })
-    }).send();
-  }
-  catch (error) {
-    dbErrResponse(error, res);
+export const GET = {
+  description: 'Log out the currently active user, if any',
+
+  handler: async (req, res) => {
+    try {
+      // To log out, we just erase the cookie; this could be more intelligent and
+      // check to see if there is one or whatever, but meh.
+      return res.status(302).set({
+        location: '/',
+        "Set-Cookie": cookie.serialize('authToken', '', {
+          httpOnly: true,
+          expires: new Date(1970,1,1),
+          secure: config.get('env') === 'production',
+          sameSite: config.get('env') === 'production' ? 'strict' : undefined
+        })
+      }).send();
+    }
+    catch (error) {
+      dbErrResponse(error, res);
+    }
   }
 }
 

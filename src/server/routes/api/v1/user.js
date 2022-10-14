@@ -16,26 +16,30 @@ import { getAuthToken } from '#lib/auth';
  * The result will always be an empty object if there's no cookie, or the token
  * it contains is not valid (e.g. expired, does not pass the signing key,
  * and so on. */
-export async function getCurrentUser(db, req, res) {
-  try {
-    const user = {};
+export const GET = {
+  description: 'Obtain information on the addon with the given slug or id',
 
-    // Get the token and decode it; if we get one, use the information to populate
-    // the user object. If there is not a token, the empty object will be used
-    // as-is.
-    const token = getAuthToken(req);
-    if (token !== null) {
-      user.username = token.username;
-      user.userId = token.userId;
-      user.displayName = token.displayName;
-      user.profilePic = token.profilePic;
+  handler: async (req, res) => {
+    try {
+      const user = {};
+
+      // Get the token and decode it; if we get one, use the information to populate
+      // the user object. If there is not a token, the empty object will be used
+      // as-is.
+      const token = getAuthToken(req);
+      if (token !== null) {
+        user.username = token.username;
+        user.userId = token.userId;
+        user.displayName = token.displayName;
+        user.profilePic = token.profilePic;
+      }
+
+      return res.json(user);
     }
 
-    return res.json(user);
-  }
-
-  catch (error) {
-    dbErrResponse(error, res);
+    catch (error) {
+      dbErrResponse(error, res);
+    }
   }
 }
 
