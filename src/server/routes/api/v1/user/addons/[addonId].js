@@ -32,7 +32,7 @@ export const POST = {
     // and we can handle that below.
     try {
       // Get the authorized user; will throw if there is not a valid user.
-      const userId = getAuthorizedUser(req, true);
+      const userInfo = getAuthorizedUser(req, true);
       const addonId = req.params.addonId;
 
       // Look up the database record for the addon being added, so that we can
@@ -66,7 +66,7 @@ export const POST = {
       // will throw an error.
       const data = await db.twitchUserAddons.create({
         data: {
-          userId,
+          userId: userInfo.userId,
           addonId,
           overlayId,
           configJSON: JSON.stringify(configJSON)
@@ -104,14 +104,14 @@ export const DELETE = {
   handler: async (req, res) => {
     try {
       // Get the authorized user; will throw if there is not a valid user.
-      const userId = getAuthorizedUser(req, true);
+      const userInfo = getAuthorizedUser(req, true);
       const addonId = req.params.addonId;
 
       // Remove the given record; this will generate an error if the record is
       // not actually present
       await db.twitchUserAddons.delete({
         where: {
-          userId_addonId: { userId, addonId }
+          userId_addonId: { userId: userInfo.userId, addonId }
         },
       });
 

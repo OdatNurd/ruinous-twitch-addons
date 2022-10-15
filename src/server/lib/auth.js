@@ -23,7 +23,7 @@ const log = logger('auth');
  *
  * The return value is null if there is no cookie in the request, or if the
  * authorization token is not valid (i.e. the signature cannot be verified). */
-export function getAuthToken(req) {
+function getAuthToken(req) {
   try {
     const cookies = cookie.parse(req.headers.cookie ?? '')
 
@@ -47,15 +47,22 @@ export function getAuthToken(req) {
 // =============================================================================
 
 
-/* Get the user that is currently logged in for the request given, and return
- * back their userId. The required value, if true, indicates that authorization
- * is required and cannot be missing.
+/* Get the token for the user that is currently logged in for the request given,
+ * The required value, if true, indicates that authorization is required and
+ * cannot be missing.
  *
- * The return value is the userId, or null if there is not currently anyone
+ * The return value is the user info, or null if there is not currently anyone
  * logged in (or their token is invalid/expired).
  *
  * If required is true and there is no authorization, this will throw an
- * exception to that effect. */
+ * exception to that effect.
+ *
+ * The returned object (when provided) will contain:
+ *   - username
+ *   - userId
+ *   - displayName
+ *   - profilePic
+ */
 export function getAuthorizedUser(req, required) {
   // Get the auth token and decode it; if there isn't one, then there is no
   // user (or their auth is expired/invalid).
@@ -71,7 +78,7 @@ export function getAuthorizedUser(req, required) {
   }
 
   // Must be good.
-  return token?.userId;
+  return token;
 }
 
 

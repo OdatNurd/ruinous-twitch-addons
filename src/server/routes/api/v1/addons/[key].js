@@ -27,7 +27,7 @@ export const GET = {
   handler: async (req, res) => {
     try {
       // Check to see if there's an authorized user or not
-      const userId = getAuthorizedUser(req, false);
+      const userInfo = getAuthorizedUser(req, false);
 
       // Find the addon with the slug or ID provided.
       const body = await db.twitchAddon.findFirst({
@@ -50,10 +50,10 @@ export const GET = {
       // If we got a user, we need to look to see if they have installed this
       // addon or not; if not, assume the lookup failed.
       let userConfig = null;
-      if (userId !== null) {
+      if (userInfo !== null) {
         userConfig = await db.twitchUserAddons.findUnique({
           where: {
-            userId_addonId: { userId, addonId: body.addonId }
+            userId_addonId: { userId: userInfo.userId, addonId: body.addonId }
           },
         });
       }

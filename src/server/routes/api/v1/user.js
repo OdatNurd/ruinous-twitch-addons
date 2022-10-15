@@ -1,5 +1,5 @@
 import { dbErrResponse } from '#lib/db';
-import { getAuthToken } from '#lib/auth';
+import { getAuthorizedUser } from '#lib/auth';
 
 
 // =============================================================================
@@ -17,7 +17,7 @@ import { getAuthToken } from '#lib/auth';
  * it contains is not valid (e.g. expired, does not pass the signing key,
  * and so on. */
 export const GET = {
-  description: 'Obtain information on the addon with the given slug or id',
+  description: 'Obtain information on the currently logged in user, if any',
 
   handler: async (req, res) => {
     try {
@@ -26,7 +26,7 @@ export const GET = {
       // Get the token and decode it; if we get one, use the information to populate
       // the user object. If there is not a token, the empty object will be used
       // as-is.
-      const token = getAuthToken(req);
+      const token = getAuthorizedUser(req, false);
       if (token !== null) {
         user.username = token.username;
         user.userId = token.userId;

@@ -23,12 +23,12 @@ export const GET = {
   handler: async (req, res) => {
     try {
       // Get the authorized user; will throw if there is not a valid user.
-      const userId = getAuthorizedUser(req, true);
+      const userInfo = getAuthorizedUser(req, true);
 
       // We have a userId, so look up all of the addons that this particular user
       // has added; this will always be an array, even if that array is empty.
       const data = await db.twitchUserAddons.findMany({
-        where: { userId },
+        where: { userId: userInfo.userId },
         include: { addon: true }
       });
 

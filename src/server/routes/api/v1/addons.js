@@ -16,15 +16,15 @@ async function fetchUserAddons(db, req) {
   const result = {};
 
   // If there's nobody logged in, the result set will be empty.
-  const userId = getAuthorizedUser(req, false);
-  if (userId === null) {
+  const userInfo = getAuthorizedUser(req, false);
+  if (userInfo === null) {
     return result;
   }
 
   // Find all of the addons that this user has installed; then add their ID's
   // to the set.
   const data = await db.twitchUserAddons.findMany({
-    where: { userId },
+    where: { userId: userInfo.userId },
   });
 
   data.forEach(addon => result[addon.addonId] = addon);
