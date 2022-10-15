@@ -25,6 +25,51 @@ const log = logger('twitch');
 // =============================================================================
 
 
+/* This checks the database to find all of the addons that have a chat component
+ * and then finds the set of uniaue userId's that currently have that addon
+ * added to their channel.
+ *
+ * The ultimate return is a list of userID's that the chat component should
+ * join when it joins a Twitch chat. This list can conceivably be empty.
+ *
+ * This is generally meant to be used only at startup, and the addition and
+ * removal of addons at runtime will adjust the list accordingly. */
+async function getChatChannels() {
+  // Find the list of all users where at least one of the addons installed
+  // requires chat access. That represents the list of people whose channels
+  // we need to be in.
+  //
+  // For succinctness this only pulls out the username, since that's all we
+  // need.
+  const userInfo = await db.twitchUser.findMany({
+    where: {
+      TwitchUserAddons: {
+        some: {
+          addon: {
+            is: {
+              requiresChat: true
+            }
+          }
+        }
+      }
+    },
+
+    select: {
+      username: true
+    },
+  });
+
+  // Map out just the list of users that we need
+  const userList = userInfo.map(user => user.username)
+  log.info(`users with installed addons that need chat access: [${userList}]`);
+
+  return userList;
+}
+
+
+// =============================================================================
+
+
 /* This is intended to be called only at startup, and cleans up the database
  * information in case the configured userId that represents the bot account
  * has changed.
@@ -36,7 +81,7 @@ const log = logger('twitch');
  * If the bot account is logged in, and then the configuration changes, we don't
  * want to keep that old bot token around, and we don't want the user to be
  * flagged as a bot if they're not. */
-async function pruneOutdatedBotInformation(db) {
+async function pruneOutdatedBotInformation() {
   // Find all TwitchToken records in the database for whom the userId of the
   // token is not the current bot account; those need to be removed from the
   // table because that user is no longer the bot account.
@@ -71,7 +116,7 @@ async function pruneOutdatedBotInformation(db) {
  * and, if there is one, decrypt it and return it back.
  *
  * If the record can't be found, then this returns null. */
-async function getBotToken(db) {
+async function getBotToken() {
   // Try to find the token associated with the currently configured bot account;
   // there might not be one.
   const dbToken = await db.twitchToken.findFirst({
@@ -137,7 +182,7 @@ export async function configureTwitchChat(botUserToken) {
   // Create a new chat client using the provided authorization.
   chatClient = new ChatClient({
     authProvider: botUserAuth,
-    channels: ['#odatnurd'],
+    channels: getChatChannels(),
     botLevel: "known",   // "none", "known" or "verified"
 
     // When this is true, the code assumes that the bot account is a mod and
@@ -146,10 +191,26 @@ export async function configureTwitchChat(botUserToken) {
     isAlwaysMod: false,
   });
 
-  // When a chat message is received, display it.
+  // When a chat message is received, display it. This also checks for the
+  // sentinel chat text and responds, to let the user know the bot is present.
   chatClient.onMessage((channel, user, message, rawMsg) => {
+    // As a mechanism for being able to test if the bot is actually in your
+    // channel or not, look for messages with the key phrase and respond in the
+    // chat.
+    if (message.includes('$ruinous')) {
+      chatClient.say(channel, "Did someone say my name?");
+    }
+
     if (logChat) {
       log.info(`${channel}:<${user}> ${message}`);
+    }
+  });
+
+  // This event triggers when people join; when the bot joins a channel,
+  // log that; other generic joins are not interesting.
+  chatClient.onJoin((channel, user) => {
+    if (chatClient.currentNick === user) {
+      log.info(`${user} joined channel ${channel}`);
     }
   });
 
@@ -198,10 +259,10 @@ export async function setupTwitchIntegrations() {
   // account to use for the bot has changed since the last run, this will make
   // sure that they're not flagged as a bot and that any stord token we might
   // have had is discarded.
-  await pruneOutdatedBotInformation(db);
+  await pruneOutdatedBotInformation();
 
   // Using some sort of token, set up; only if there is one though.
-  await configureTwitchChat(await getBotToken(db));
+  await configureTwitchChat(await getBotToken());
 }
 
 
