@@ -18,6 +18,12 @@ const botUserId = config.get('twitch.botUserId');
  * can be sent or received. */
 let chatClient = undefined;
 
+/* When the bot is connected to Twitch chat, this represents a list of the
+ * channels that it is currently joined with (or trying to). This list can be
+ * adjusted at runtime by users adding or removing addons that require a chat
+ * integeation. */
+let channelList = [];
+
 /* Get our subsystem logger. */
 const log = logger('twitch');
 
@@ -60,10 +66,7 @@ async function getChatChannels() {
   });
 
   // Map out just the list of users that we need
-  const userList = userInfo.map(user => user.username)
-  log.info(`users with installed addons that need chat access: [${userList}]`);
-
-  return userList;
+  return userInfo.map(user => user.username)
 }
 
 
@@ -179,10 +182,19 @@ export async function configureTwitchChat(botUserToken) {
     botUserToken
   );
 
+  // Fetch the list of channels that we should be connecting to; this can be
+  // an empty list if no users have chat addons installed.
+  channelList = await getChatChannels();
+  if (channelList.length === 0) {
+    log.info(`no users currently have installed chat addons; not joining chat`)
+  } else {
+    log.info(`users with installed addons that need initial chat access: ${channelList}`);
+  }
+
   // Create a new chat client using the provided authorization.
   chatClient = new ChatClient({
     authProvider: botUserAuth,
-    channels: getChatChannels(),
+    channels: channelList,
     botLevel: "known",   // "none", "known" or "verified"
 
     // When this is true, the code assumes that the bot account is a mod and
@@ -196,9 +208,9 @@ export async function configureTwitchChat(botUserToken) {
   chatClient.onMessage((channel, user, message, rawMsg) => {
     // As a mechanism for being able to test if the bot is actually in your
     // channel or not, look for messages with the key phrase and respond in the
-    // chat.
-    if (message.includes('$ruinous')) {
-      chatClient.say(channel, "Did someone say my name?");
+    // chat if the broadcaster says it.
+    if (message.includes('$ruinous') && rawMsg.userInfo.isBroadcaster === true) {
+      chatClient.say(channel, "I'm the ruinous addon bot and I can confirm your chat is ruinous");
     }
 
     if (logChat) {
@@ -211,6 +223,13 @@ export async function configureTwitchChat(botUserToken) {
   chatClient.onJoin((channel, user) => {
     if (chatClient.currentNick === user) {
       log.info(`${user} joined channel ${channel}`);
+    }
+  });
+
+  // As above, but for parts.
+  chatClient.onPart((channel, user) => {
+    if (chatClient.currentNick === user) {
+      log.info(`${user} left channel ${channel}`);
     }
   });
 
@@ -263,6 +282,54 @@ export async function setupTwitchIntegrations() {
 
   // Using some sort of token, set up; only if there is one though.
   await configureTwitchChat(await getBotToken());
+}
+
+
+// =============================================================================
+
+
+/* Given the username of a Twitch user, get the chat client to join that channel
+ * if it is not already joined.
+ *
+ * Calling this has no effect if the bot is already in the channel for that
+ * user, or if the chat client is not currently initialized. */
+export function joinTwitchChannel(username) {
+  // If there is a chat client and this user is not in the list of channels,
+  // then add it and try to join.
+  if (chatClient !== null && channelList.includes(username) === false) {
+    log.debug(`trying to join channel for ${username}`);
+
+    channelList.push(username);
+    chatClient.join(username);
+  }
+}
+
+
+// =============================================================================
+
+
+/* Given the username of a Twitch user, check to see if they have any active
+ * addons that require chat access, and if there are none, leave the channel.
+ *
+ * If there is at least one addon for this user that needs chat access, or the
+ * chat client is not currently initialized, this does nothing. */
+export async function leaveTwitchChannel(username) {
+  // Leave if there's no chat client.
+  if (chatClient === null) {
+    return;
+  }
+
+  // Get the list of channels that the bot thinks it should be in right now;
+  // if the user is not in it, we can leave the channel now. Otherwise they
+  // still have active addons.
+  const currentUsers = await getChatChannels();
+  const idx = currentUsers.indexOf(username);
+  if (idx === -1) {
+    log.debug(`trying to leave channel for ${username}`)
+
+    channelList.splice(idx, 1);
+    chatClient.part(username);
+  }
 }
 
 

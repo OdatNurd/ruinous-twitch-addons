@@ -3,6 +3,8 @@ import { db, dbErrResponse } from '#lib/db';
 import { getAuthorizedUser } from '#lib/auth';
 import { NotFound } from '#lib/exceptions';
 
+import { joinTwitchChannel, leaveTwitchChannel } from '#core/twitch';
+
 import ksuid from 'ksuid';
 
 
@@ -80,6 +82,12 @@ export const POST = {
       data.configJSON = configJSON;
       data.overlayUrl = `${config.get('rootUrl')}/overlay/${data.overlayId}`
 
+      // If this addon requires chat, then we might need to join the chat if
+      // we haven't already.
+      if (addonInfo.requiresChat === true) {
+        joinTwitchChannel(userInfo.username);
+      }
+
       return res.status(201).json(data);
     }
     catch (error) {
@@ -109,11 +117,19 @@ export const DELETE = {
 
       // Remove the given record; this will generate an error if the record is
       // not actually present
-      await db.twitchUserAddons.delete({
+      const addonInfo = await db.twitchUserAddons.delete({
         where: {
           userId_addonId: { userId: userInfo.userId, addonId }
         },
+        include: { addon: true }
       });
+
+      // If this addon requires chat, then we might need to leave the chat if
+      // deleting this addon removed the last reason for us to be in this
+      // channel.
+      if (addonInfo.addon.requiresChat === true) {
+        leaveTwitchChannel(userInfo.username);
+      }
 
       return res.status(204).send();
     }
