@@ -81,6 +81,15 @@ export const config = convict({
     default: null
   },
 
+  cors: {
+    origin: {
+      doc: 'The list of CORS hosts to allow as a request origin',
+      format: Array,
+      env: 'CORS_ORIGIN',
+      default: []
+    }
+  },
+
   logging: {
     level: {
         doc: 'Sets the logging level that rhe server uses',
