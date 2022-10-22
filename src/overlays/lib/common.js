@@ -35,6 +35,33 @@ function getClientSocket(addonId) {
 // =============================================================================
 
 
+/* Transmit a HELO message to the back end with the provided overlayInfo object
+ * to tell it who we are.
+ *
+ * The back end, while it will acknowledge our connection and respond to some
+ * incoming requests (such as the request for overlay information) will not
+ * treat us as connected until we announce ourselves and it knows who we are. */
+function announce(socket, overlayInfo) {
+  socket.emit('HELO', {
+    overlayId: overlayInfo.overlayId,
+    addonId: overlayInfo.addonId,
+    owner: overlayInfo.owner
+  });
+}
+
+
+// =============================================================================
+
+
+/* "Launch" the overlay; this will create a socket connection to the back end,
+ * gather the overlayId from the hash in the URL, and use it to request info
+ * from the back end on this particular overlay.
+ *
+ * If the overlayId cannot be found or is not valid as far as the back end is
+ * concerned, this will reject with an error that indicates what went wrong.
+ *
+ * On success it will announce itself to the back end code as an overlay for a
+ * specific Addon associated with a specific user. */
 export function launch(addonId) {
   return new Promise((resolve, reject) => {
     // Get the overlayID from the window location hash; if there isn't one, we
@@ -61,6 +88,18 @@ export function launch(addonId) {
         if (overlayInfo.success === false) {
           reject(overlayInfo.reason);
         } else {
+          // Announce to the back end code who we are so that it can track our
+          // socket with more context.
+          announce(socket, overlayInfo)
+
+          // Set up to listen for further connects by just announcing to the
+          // back end with the information that we already have.
+          setTimeout(() => {
+            socket.on('connect', () => {
+              announce(socket, overlayInfo)
+            });
+          }, 0);
+
           resolve({overlayInfo, socket});
         }
       });

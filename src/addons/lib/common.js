@@ -1,4 +1,7 @@
 import { config } from '#core/config';
+import { logger } from '#core/logger';
+
+import { addSocket, removeSocket } from '#addons/lib/socketmap';
 
 import fetch from 'node-fetch';
 
@@ -9,6 +12,9 @@ import fetch from 'node-fetch';
 /* Pull out the base URL that we should use when we make our requests to get
  * overlay information. */
 const baseURL = config.get('rootUrl');
+
+/* Get our subsystem logger. */
+const log = logger('addon-common');
 
 
 // =============================================================================
@@ -37,6 +43,17 @@ export function overlayInfoHandler(socket, log) {
     const body = await result.json();
     callback(body);
   });
+
+  // We consider a socket to be connected when it introduces itself to us with
+  // a HELO message that tells us who it is. Prior to that we don't track the
+  // socket in any meaningful way because we don't know what it represents.
+  socket.on('HELO', (overlayInfo) => {
+    addSocket(socket, overlayInfo);
+
+    // Synthesize a connect message; we really only consider things connected
+    // once they have told us who they are.
+    // bridge.emit(`addon.${overlayInfo.addonId}.connect`, socket);
+  })
 }
 
 
@@ -61,8 +78,20 @@ export function initOverlayCommunications(io, log, addonData, socketInit) {
   // Simplistically, log when connections and disconnections happen. The driver
   // on the API is actually the client.
   namespace.on('connection', (socket) => {
-    log.debug(`incoming ${addonData.slug} socket connection: ${socket.id}`);
-    socket.on('disconnect', () => log.debug(`socket connection for ${addonData.slug} closed: ${socket.id}`));
+    // console.log(`*** Incoming socket headers: ${JSON.stringify(socket.handshake.headers, null, 2)}`);
+    // Let people interested in information on our addon know that this socket
+    // has connected.
+    // bridge.emit(`addon.${addonData.addonId}.connect`, socket);
+
+    log.debug(`new incoming ${addonData.slug} socket connection: ${socket.id}; waiting for HELO`);
+    socket.on('disconnect', () => {
+      // Drop the connection from our tables
+      removeSocket(socket);
+
+      // Let interested parties know that this socket is gone now
+      // bridge.emit(`addon.${addonData.addonId}.disconnect`, socket);
+      log.debug(`socket connection for ${addonData.slug} closed: ${socket.id}`);
+    });
 
     // If we were given a supplemental initializtion function, then invoked it
     // now do the remainder of the setup.
