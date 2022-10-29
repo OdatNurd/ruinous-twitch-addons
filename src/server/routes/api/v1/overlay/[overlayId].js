@@ -37,11 +37,7 @@ export const GET = {
         throw new NotFound(`no such overlay '${req.params.overlayId}'`);
       }
 
-      const body = data[0];
-      body.addon.configSchema = JSON.parse(body.addon.configSchema);
-      body.configJSON = JSON.parse(body.configJSON);
-
-      return res.json(body);
+      return res.json(data[0]);
     }
     catch (error) {
       dbErrResponse(error, res);

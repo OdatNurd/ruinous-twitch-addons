@@ -1,4 +1,4 @@
-import { trim, schema, icon } from '#seed/tools';
+import { trim, icon } from '#seed/tools';
 
 
 // =============================================================================
@@ -46,7 +46,7 @@ export const data = {
   'requiresOverlay': true,
   'overlayFile': 'AddonTwo.svelte',
   'staticFile': 'addon_two.html',
-  'configSchema': schema(config),
+  'configSchema': config,
 };
 
 

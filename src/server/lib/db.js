@@ -4,6 +4,7 @@ import { Unauthorized, NotFound } from '#lib/exceptions';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 
+import ksuid from 'ksuid';
 import crypto from 'crypto';
 
 
@@ -14,6 +15,8 @@ import crypto from 'crypto';
  * client end, if those queries don't need to contain a specific body. */
 const error = (res, status, reason) => res.status(status).json({ success: false, reason })
 
+/* Generate a new ksuid for using as an object ID. */
+export const newObjId = () => ksuid.randomSync().string;
 
 /* Get our subsystem logger. */
 const log = logger('db');

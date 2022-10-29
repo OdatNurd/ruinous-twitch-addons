@@ -44,9 +44,6 @@ export const GET = {
         throw new NotFound(`no such addon '${req.params.key}'`);
       }
 
-      // Parse the config schema into an object.
-      body.configSchema = JSON.parse(body.configSchema);
-
       // If we got a user, we need to look to see if they have installed this
       // addon or not; if not, assume the lookup failed.
       let userConfig = null;
@@ -67,7 +64,6 @@ export const GET = {
         const overId = userConfig.overlayId;
 
         body.overlayUrl = (overId === '' ? '' : `${config.get('rootUrl')}/overlay/${overId}`)
-        body.config = JSON.parse(userConfig.configJSON);
       }
 
       res.json(body || {})

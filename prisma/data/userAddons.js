@@ -13,7 +13,9 @@ export const userAddons = [
     'userId': '66586458',
     'addonId': '2C0usq54Rpo4TZtuQa7mDADAhjV',
     'overlayId': '2CyMoAegwJMpHmTqBgJpvKeLNxw',
-    'configJSON': '{"coolnessFactor":10}',
+    'config': {
+      "coolnessFactor": 10
+    },
   }
 ];
 

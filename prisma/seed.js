@@ -1,10 +1,18 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
+import ksuid from 'ksuid';
 
 import { addons } from '#seed/addons/index';
 import { users } from '#seed/users';
 import { userAddons } from '#seed/userAddons';
+
+
+// =============================================================================
+
+
+/* Generate a new ksuid for using as an object ID. */
+const newObjId = () => ksuid.randomSync().string;
 
 
 // =============================================================================
@@ -15,7 +23,7 @@ async function seedAddons() {
     return prisma.twitchAddon.upsert({
       where: { addonId: item.addonId },
       update: item,
-      create: item
+      create: { ...item, id: newObjId() }
     });
   }));
 
@@ -33,7 +41,7 @@ async function seedUsers() {
         userId: item.userId
       },
       update: item,
-      create: item
+      create: { ...item, id: newObjId() }
     });
   }));
 
@@ -54,7 +62,7 @@ async function seedUserAddons() {
         }
       },
       update: item,
-      create: item
+      create: { ...item, id: newObjId() }
     });
   }));
 

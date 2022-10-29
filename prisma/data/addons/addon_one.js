@@ -1,4 +1,4 @@
-import { trim, schema, icon } from '#seed/tools';
+import { trim, icon } from '#seed/tools';
 
 
 // =============================================================================
@@ -116,7 +116,7 @@ export const data = {
   'requiresOverlay': false,
   'overlayFile': '',
   'staticFile': '',
-  'configSchema': schema(config),
+  'configSchema': config,
 };
 
 

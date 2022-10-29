@@ -14,7 +14,8 @@ import { getAuthorizedUser } from '#lib/auth';
  *
  *   - installed = true
  *   - config = { config object }
- *   - overlayUrl = 'http://something'
+ *   - overlayId = overlayKeyId
+ *   - overlayUrl = 'http://something/overlayKeyId'
  *
  * If there is not currently a logged in user, this will trigger an error. */
 export const GET = {
@@ -37,12 +38,9 @@ export const GET = {
       // we need to post-process the data a bit.
       return res.json(data.map(entry => {
         // Set up the base record that we wantr to transmit back
-        const addon = { installed: true, ...entry.addon };
+        const addon = { installed: true, ...entry.addon, overlayId: entry.overlayId };
 
-        // Parse the config schema into an object, and also add in the config
-        // and the overlay URL.
-        addon.configSchema = JSON.parse(addon.configSchema);
-        addon.config = JSON.parse(entry.configJSON);
+        // Add in the overlay URL if this item requires one.
         if (entry.overlayId !== '') {
           addon.overlayUrl = `${config.get('rootUrl')}/overlay/${entry.overlayId}`;
         }

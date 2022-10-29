@@ -1,4 +1,4 @@
-import { trim, schema, icon } from '#seed/tools';
+import { trim, icon } from '#seed/tools';
 
 
 // =============================================================================
@@ -54,7 +54,7 @@ export const data = {
   'requiresOverlay': true,
   'overlayFile': 'AddonThree.svelte',
   'staticFile': 'addon_three.html',
-  'configSchema': schema(config),
+  'configSchema': config,
 };
 
 

@@ -1,7 +1,7 @@
 import { config } from '#core/config';
 import { logger } from '#core/logger';
 
-import { db, dbErrResponse, encrypt } from '#lib/db';
+import { db, dbErrResponse, encrypt, newObjId } from '#lib/db';
 import { configureTwitchChat } from '#core/twitch';
 
 import { StaticAuthProvider, exchangeCode } from '@twurple/auth';
@@ -142,6 +142,7 @@ export const GET = {
             },
             update: userRecord,
             create: {
+              id: newObjId(),
               userId: userInfo.id,
               ...userRecord
             }
@@ -171,6 +172,7 @@ export const GET = {
               },
               update: tokenRecord,
               create: {
+                id: newObjId(),
                 userId: userInfo.id,
                 ...tokenRecord
               }

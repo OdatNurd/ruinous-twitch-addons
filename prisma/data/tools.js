@@ -18,12 +18,5 @@ export const trim = text => text.replace(/[ \t]+/g, ' ').trim();
  * addon images in a single location. */
 export const icon = text => `/icons/addons/${text}`
 
-/* This is a simple abstraction which converts a schema object into the proper
- * format for storage into the database.
- *
- * Currently this is just a simple JSON conversion, but in the future more could
- * be done with this, such as validations etc. */
-export const schema = obj => JSON.stringify(obj)
-
 
 // =============================================================================

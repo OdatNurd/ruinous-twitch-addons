@@ -1,5 +1,5 @@
 import { config } from '#core/config';
-import { db, dbErrResponse } from '#lib/db';
+import { db, dbErrResponse, newObjId } from '#lib/db';
 import { getAuthorizedUser } from '#lib/auth';
 import { NotFound } from '#lib/exceptions';
 
@@ -51,35 +51,29 @@ export const POST = {
         throw new NotFound(`no such addon '${req.params.addonId}'`);
       }
 
-      // The config schema is stored as a string of JSON, so parse that out into
-      // an object for us to work with.
-      addonInfo.configSchema = JSON.parse(addonInfo.configSchema);
-
       // If this addon requires an overlay, then generate a custom, randomized
       // URL for this user.
       const overlayId = addonInfo.requiresOverlay === false ? '' : ksuid.randomSync().string;
 
       // Generate a default configuration setup for this user's use.
-      const configJSON = {};
-      addonInfo.configSchema.forEach(item => configJSON[item.field] = item.default);
+      const configData = {};
+      addonInfo.configSchema.forEach(item => configData[item.field] = item.default);
 
       // Insert a new record for this user to associate them with this addon;
       // if the addon is invalid or they already have this addon installed, this
       // will throw an error.
       const data = await db.twitchUserAddons.create({
         data: {
+          id: newObjId(),
           userId: userInfo.userId,
           addonId,
           overlayId,
-          configJSON: JSON.stringify(configJSON)
+          config: configData
         }
       });
 
-      // We insert the config JSON into the database as a string, but we want to
-      // return it back from the request as an actual object. Also, the overlayId
-      // needs to be a URL since the client has no direct access to the config
-      // to know what the base is,
-      data.configJSON = configJSON;
+      // The overlayId needs to be a URL since the client has no direct access
+      // to the config to know what the base is.
       data.overlayUrl = `${config.get('rootUrl')}/overlay/${data.overlayId}`
 
       // If this addon requires chat, then we might need to join the chat if

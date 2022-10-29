@@ -46,7 +46,7 @@
     "daisyui": "^2.25.0",
     "fs-jetpack": "^5.0.0",
     "postcss": "^8.4.16",
-    "prisma": "^4.4.0",
+    "prisma": "^4.5.0",
     "rollup": "^2.79.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-svelte": "^7.1.0",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@labyrinthos/file-routes": "^0.1.5",
-    "@prisma/client": "^4.4.0",
+    "@prisma/client": "^4.5.0",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-replace": "^4.0.0",
     "@twurple/api": "^5.2.4",
