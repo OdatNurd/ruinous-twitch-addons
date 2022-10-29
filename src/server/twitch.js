@@ -296,7 +296,7 @@ export async function setupTwitchIntegrations() {
 export function joinTwitchChannel(username) {
   // If there is a chat client and this user is not in the list of channels,
   // then add it and try to join.
-  if (chatClient !== null && channelList.includes(username) === false) {
+  if (chatClient !== undefined && channelList.includes(username) === false) {
     log.debug(`trying to join channel for ${username}`);
 
     channelList.push(username);
@@ -315,7 +315,7 @@ export function joinTwitchChannel(username) {
  * chat client is not currently initialized, this does nothing. */
 export async function leaveTwitchChannel(username) {
   // Leave if there's no chat client.
-  if (chatClient === null) {
+  if (chatClient === undefined) {
     return;
   }
 
