@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@axel669/aegis@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@axel669/aegis/-/aegis-0.2.3.tgz#447dc1252fb532be22bfae384c9f05a81450825a"
+  integrity sha512-wMS4rC0f9HzxvZ+wx8ihSTgH0NI/OYx3tIdkJ/Dc3o2D2t3WwqwvM6rLi+JY7kn/nYBHKxYf055j7ZRKc/I87g==
+  dependencies:
+    fast-glob "^3.2.11"
+
 "@axel669/rollup-copy-static@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@axel669/rollup-copy-static/-/rollup-copy-static-0.1.2.tgz#632dc62829cbbe3056036389274247328bffaf83"
@@ -1236,6 +1243,11 @@ express@^4.18.2:
     type-is "~1.6.18"
     utils-merge "1.0.1"
     vary "~1.1.2"
+
+fast-deep-equal@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
+  integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
 fast-glob@^3.2.11, fast-glob@^3.2.12:
   version "3.2.12"
