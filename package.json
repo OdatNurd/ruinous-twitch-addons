@@ -21,7 +21,10 @@
     "dev": "rollup -c -w",
     "build": "rollup -c",
     "heroku-postbuild": "yarn build && yarn db:bootstrap",
-    "test": "aegis \"test/**/*.test.{js,mjs}\" test/hooks.js"
+    "test": "aegis \"test/**/*.test.{js,mjs}\" test/hooks.js",
+    "test-addons": "aegis \"test/addons/**/*.test.{js,mjs}\" test/hooks.js",
+    "test-overlays": "aegis \"test/overlays/**/*.test.{js,mjs}\" test/hooks.js",
+    "test-user": "aegis \"test/user/**/*.test.{js,mjs}\" test/hooks.js"
   },
   "engines": {
     "node": "16.x",
