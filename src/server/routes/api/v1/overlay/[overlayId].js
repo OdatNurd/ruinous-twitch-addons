@@ -1,3 +1,4 @@
+import { config } from '#core/config';
 import { db, dbErrResponse } from '#lib/db';
 import { NotFound } from '#lib/exceptions';
 
@@ -36,6 +37,19 @@ export const GET = {
       if (data.length !== 1) {
         throw new NotFound(`no such overlay '${req.params.overlayId}'`);
       }
+
+      // We can infer that this addon is installed because otherwise there would
+      // be no record. Additionally the information on the addon should include
+      // the overlayId; technically redundant, but we want the addon field to
+      // look the same no matter where it comes from so it can be used
+      // interchangeably.
+      data[0].addon.installed = true;
+      data[0].addon.overlayId = req.params.overlayId;
+      data[0].addon.overlayUrl = `${config.get('rootUrl')}/overlay/${req.params.overlayId}`
+
+      // The data for the user includes the bot field, but that is not something
+      // that we want or need to convey.
+      delete data[0].owner.isBot;
 
       return res.json(data[0]);
     }

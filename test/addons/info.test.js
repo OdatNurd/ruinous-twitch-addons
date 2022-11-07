@@ -1,6 +1,6 @@
 import { apiJSON } from '#test/utils';
 
-import objEqual from 'fast-deep-equal';
+import { validAddon } from '#test/validators';
 
 
 // =============================================================================
@@ -57,7 +57,13 @@ async function request(endpoint, token) {
   Assert(res3)('status').eq(200);
   Assert(valid1)
     ('installed').eq(false)
-    ('overlayUrl').eq(undefined);
+    ('overlayUrl').eq('');
+
+  // ---------------------------------
+
+  Section('Addon Info: Schema validation for installed addon record (no user)');
+  Assert(valid1)
+    (validAddon).eq(true);
 
   // ---------------------------------
 
@@ -73,7 +79,6 @@ async function request(endpoint, token) {
     ('overlayUrl')
       (url => url.endsWith(`/${context.overlayId}`)).eq(true);
 
-
   // ---------------------------------
 
   // Search for information on the test addon that we know is not installed
@@ -84,7 +89,13 @@ async function request(endpoint, token) {
   Assert(res5)('status').eq(200);
   Assert(valid3)
     ('installed').eq(false)
-    ('overlayUrl').eq(undefined);
+    ('overlayUrl').eq('');
+
+  // ---------------------------------
+
+  Section('Addon Info: Schema validation for uninstalled addon record (with user)');
+  Assert(valid3)
+    (validAddon).eq(true);
 
   // ---------------------------------
 
@@ -96,7 +107,7 @@ async function request(endpoint, token) {
   Assert(res6)('status').eq(200);
   Assert(valid3)
     ('installed').eq(false)
-    ('overlayUrl').eq(undefined);
+    ('overlayUrl').eq('');
 }
 
 

@@ -1,5 +1,5 @@
 import { api, apiJSON } from '#test/utils';
-
+import { validAddonInstall, validAddonList } from '#test/validators';
 
 
 // =============================================================================
@@ -50,8 +50,11 @@ async function request(endpoint, method, token, resolveJSON) {
   const { res: res2, json: added } = await request(`/api/v1/user/addons/${context.addonId}`, 'POST', context.authToken, true);
 
   Assert(res2)('status').eq(201);
-  Assert(added)
-    (Object.keys)('length').neq(0);
+
+  // ---------------------------------
+
+  Section('User Addons: Schema validation for install record');
+  Assert(added)(validAddonInstall).eq(true);
 
   // ---------------------------------
 
@@ -107,6 +110,12 @@ async function request(endpoint, method, token, resolveJSON) {
     ('addonId').eq(context.overlayAddonId)
     ('installed').eq(true)
     ('overlayId').eq(context.overlayId);
+
+  // ---------------------------------
+
+  Section('User Addons: Schema validation for list of installed addons');
+  Assert(addonList)
+     (validAddonList).eq(true);
 
   // ---------------------------------
 

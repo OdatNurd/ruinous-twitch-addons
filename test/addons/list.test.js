@@ -1,6 +1,5 @@
 import { apiJSON } from '#test/utils';
-
-import objEqual from 'fast-deep-equal';
+import { validAddonList } from '#test/validators';
 
 
 // =============================================================================
@@ -66,8 +65,8 @@ async function request(endpoint, token) {
   const userAddon1 = emptyUser.find(el => el.addonId === context.overlayAddonId)
   Assert(userAddon1)
     ('installed').eq(false)
-    ('overlayId').eq(undefined)
-    ('overlayUrl').eq(undefined);
+    ('overlayId').eq('')
+    ('overlayUrl').eq('');
 
 
   // ---------------------------------
@@ -94,8 +93,8 @@ async function request(endpoint, token) {
   const userAddon3 = emptyUser.find(el => el.addonId === context.addonId)
   Assert(userAddon3)
     ('installed').eq(false)
-    ('overlayId').eq(undefined)
-    ('overlayUrl').eq(undefined);
+    ('overlayId').eq('')
+    ('overlayUrl').eq('');
 
   // ---------------------------------
 
@@ -107,8 +106,20 @@ async function request(endpoint, token) {
   const userAddon4 = emptyUser.find(el => el.addonId === context.addonId)
   Assert(userAddon4)
     ('installed').eq(false)
-    ('overlayId').eq(undefined)
-    ('overlayUrl').eq(undefined);
+    ('overlayId').eq('')
+    ('overlayUrl').eq('');
+
+  // ---------------------------------
+
+  Section('Addon List: Schema validation for addon list (with user)');
+  Assert(withUser)
+    (validAddonList).eq(true);
+
+  // ---------------------------------
+
+  Section('Addon List: Schema validation for addon list (no user)');
+  Assert(emptyUser)
+    (validAddonList).eq(true);
 
 }
 

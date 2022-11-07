@@ -1,4 +1,5 @@
 import { apiJSON } from '#test/utils';
+import { validUser } from '#test/validators';
 
 import objEqual from 'fast-deep-equal';
 
@@ -52,11 +53,16 @@ export async function test({Assert, Section}, context) {
 
   // When presented with a token for a user, we should get that user back
   Section('User Info: Valid Token');
-  const { res: res3, json: validUser } = await request('/api/v1/user', context.authToken);
+  const { res: res3, json: user } = await request('/api/v1/user', context.authToken);
 
   Assert(res3)('status').eq(200);
-  Assert(validUser)
+  Assert(user)
     (obj => objEqual(context.userInfo, obj)).eq(true);
+
+  // ---------------------------------
+
+  Section('User Info: Schema validation');
+  Assert(user)(validUser).eq(true);
 }
 
 

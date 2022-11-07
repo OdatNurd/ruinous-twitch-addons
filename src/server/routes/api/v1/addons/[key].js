@@ -58,13 +58,21 @@ export const GET = {
       // Flag whether or not this is installed;
       body.installed = userConfig !== null;
 
-      // If this addon is installed, then set up the overlay URL and the
-      // configuration information and add them to the body.
-      if (body.installed === true) {
-        const overId = userConfig.overlayId;
+      // All records include an overlayId and overlayUrl, even if they are just
+      // empty (say because not installed, or because this is not something that
+      // uses an overlay in the first place).
+      let overlayId = '';
+      let overlayUrl = '';
 
-        body.overlayUrl = (overId === '' ? '' : `${config.get('rootUrl')}/overlay/${overId}`)
+      // If this addon is installed, then set up the overlay URL and the
+      // configuration information for this user.
+      if (body.installed === true) {
+        overlayId = userConfig.overlayId;
+        overlayUrl = (overlayId === '' ? '' : `${config.get('rootUrl')}/overlay/${overlayId}`)
       }
+
+      body.overlayId = overlayId;
+      body.overlayUrl = overlayUrl;
 
       res.json(body || {})
     }

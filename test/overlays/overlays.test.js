@@ -1,5 +1,5 @@
 import { api, apiJSON, endpointMatch } from '#test/utils';
-
+import { validOverlay } from '#test/validators';
 
 // =============================================================================
 
@@ -45,7 +45,13 @@ export async function test({Assert, Section}, context) {
   Assert(overlay)
     ('userId').eq(context.userInfo.userId)
     ('addonId').eq(context.overlayAddonId)
-    ('overlayId').eq(context.overlayId);
+    ('overlayId').eq(context.overlayId)
+
+  // ---------------------------------
+
+  Section('Overlays: Schema validation for overlay record');
+  Assert(overlay)
+    (validOverlay).eq(true);
 
   // ---------------------------------
 

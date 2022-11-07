@@ -75,12 +75,12 @@ export const GET = {
         // to know if this is installed or not.
         const userInfo = userAddons[entry.addonId];
         entry.installed = userInfo !== undefined;
-        entry.overlayId = userInfo?.overlayId ;
 
-        // If this addon is installed, then populate the overlay URL (if any).
-        if (entry.installed === true && userInfo.overlayId !== '') {
-          entry.overlayUrl = `${config.get('rootUrl')}/overlay/${userInfo.overlayId}`;
-        }
+        // OverlayId is empty when not installed, or the overlayId from the
+        // record if this is installed. When there is a nonempty overlayId,
+        // there should also be a nonempty overlayUrl too.
+        entry.overlayId = (entry.installed === true) ? userInfo.overlayId : '';
+        entry.overlayUrl = (entry.overlayId === '') ? '' : `${config.get('rootUrl')}/overlay/${userInfo.overlayId}`;
       });
       result.sort((a, b) => a.timestamp - b.timestamp);
 
