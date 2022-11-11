@@ -82,6 +82,11 @@ export function dbErrResponse(errorObj, res) {
     return error(res, 404, msg);
   }
 
+  // Is the error that some provided JSON did not properly parse?
+  if (errorObj instanceof SyntaxError) {
+    return error(res, 400, msg)
+  }
+
   // If this is a Prisma error, handle it specifically.
   if (errorObj instanceof Prisma.PrismaClientKnownRequestError) {
 

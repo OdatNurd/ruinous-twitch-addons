@@ -79,6 +79,19 @@ async function launch() {
   // the host is localhost.
   app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 302));
 
+  // If any requests are incoming that have invalid JSON in the body, catch
+  // the error and make the body be an empty object, with an extra flag so that
+  // downstream code knows this is an error.
+  app.use((err, req, res, next) => {
+    // If this is a JSON parse error, then log it but otherwise do nothing.
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+      log.error('incoming request contains invalid json');
+      req.invalid_json = true;
+    }
+
+    next();
+  });
+
   // Set up some middleware that will serve static files out of the static
   // folder so that we don't have to inline the pages in code.
   app.use(express.static(config.get('webRoot')));

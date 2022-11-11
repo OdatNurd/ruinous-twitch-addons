@@ -73,6 +73,19 @@ const overlaySchema = {
 }
 
 
+/* Information that is returned when asking the configuration endpoint to
+ * provide the configuration information for a specific addon installed by a
+ * specific user. */
+const configResponseSchema = {
+  "id": "string",
+  "userId": "string",
+  "addonId": "string",
+  "overlayId": "string",
+  "overlayUrl": "string",
+  "config": {},
+  "schema[]": {}
+}
+
 
 // =============================================================================
 
@@ -82,7 +95,8 @@ export const validUser = joker.compile({ root: userSchema });
 export const validAddonInstall = joker.compile({ root: addonInstallSchema });
 export const validAddon = joker.compile({ root: addonSchema });
 export const validAddonList = joker.compile({ "root[]": addonSchema });
-export const validOverlay = joker.compile({ root: overlaySchema })
+export const validOverlay = joker.compile({ root: overlaySchema });
+export const validConfigResponse = joker.compile( { root: configResponseSchema });
 
 
 // =============================================================================
