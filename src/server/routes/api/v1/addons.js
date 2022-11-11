@@ -39,17 +39,20 @@ async function fetchUserAddons(db, req) {
  * their details in an array; in theory the array could be empty, although in
  * practice there is always data seeded into the database.
  *
- * If there is a user that is currently logged in, a check is done to see if
- * their channel has this addon installed, and if so the returned value will
- * indicate that by adding the following fields to the object.
+ * In addition to the core fields for the addon, there are also some extra
+ * synthesized fields that are added:
  *
- *   - installed = true
- *   - config = { config object }
+ *   - installed = true/false
+ *   - overlayId = something
  *   - overlayUrl = 'http://something'
  *
- * The extra fields will not be present if there is not a logged in user. If
- * a user is logged in, then 'installed' is always added, even if its value
- * ends up being false. */
+ * Installed indicates if the current user has this addon installed or not; if
+ * the request does not include a user, this is present but always contains the
+ * value false.
+ *
+ * If an addon is installed, and it also supports an overlay, then overlayId
+ * and overlayUrl will be present, which gives you the unique ID for this user's
+ * installation of the overlay, and the Url that you can use to fetch it. */
 export const GET = {
   description: 'Obtain a list of all of the currently known addons',
 
@@ -72,12 +75,12 @@ export const GET = {
         // to know if this is installed or not.
         const userInfo = userAddons[entry.addonId];
         entry.installed = userInfo !== undefined;
-        entry.overlayId = userInfo?.overlayId ;
 
-        // If this addon is installed, then populate the overlay URL (if any).
-        if (entry.installed === true && userInfo.overlayId !== '') {
-          entry.overlayUrl = `${config.get('rootUrl')}/overlay/${userInfo.overlayId}`;
-        }
+        // OverlayId is empty when not installed, or the overlayId from the
+        // record if this is installed. When there is a nonempty overlayId,
+        // there should also be a nonempty overlayUrl too.
+        entry.overlayId = (entry.installed === true) ? userInfo.overlayId : '';
+        entry.overlayUrl = (entry.overlayId === '') ? '' : `${config.get('rootUrl')}/overlay/${userInfo.overlayId}`;
       });
       result.sort((a, b) => a.timestamp - b.timestamp);
 
