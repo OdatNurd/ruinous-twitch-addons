@@ -39,7 +39,7 @@ async function request(endpoint, token) {
  export async function test({Assert, Section}, context) {
   // With no user, the list of addons should contain all of the addons from the
   // seed data.
-  Section('Addon List: Addon count with no current user');
+  Section `Addon List: Addon count with no current user`;
   const { res: res1, json: emptyUser } = await request('/api/v1/addons');
 
   Assert(res1)('status').eq(200);
@@ -49,7 +49,7 @@ async function request(endpoint, token) {
 
   // When there is a user, the result count should be the same as when there is
   // a user.
-  Section('Addon List: Addon count with current user');
+  Section `Addon List: Addon count with current user`;
   const { res: res2, json: withUser } = await request('/api/v1/addons', context.authToken);
 
   Assert(res2)('status').eq(200);
@@ -59,7 +59,7 @@ async function request(endpoint, token) {
 
   // In the no-user result set, the test addon should not be flagged as
   // installed.
-  Section('Addon List: Test addon 1 not installed when no user');
+  Section `Addon List: Test addon 1 not installed when no user`;
 
   // Should not be installed, which means no overlay info
   const userAddon1 = emptyUser.find(el => el.addonId === context.overlayAddonId)
@@ -72,7 +72,7 @@ async function request(endpoint, token) {
   // ---------------------------------
 
   // In the user result set, the test addon should be flagged as installed.
-  Section('Addon List: Test addon 1 installed with current user');
+  Section `Addon List: Test addon 1 installed with current user`;
 
   // SHould be installed, which means the overlayId matches and the URL looks
   // correct.
@@ -87,7 +87,7 @@ async function request(endpoint, token) {
 
   // In the no-user result set, the second test addon should not be flagged as
   // installed.
-  Section('Addon List: Test addon 2 not installed when no user');
+  Section `Addon List: Test addon 2 not installed when no user`;
 
   // Should not be installed, which means no overlay info
   const userAddon3 = emptyUser.find(el => el.addonId === context.addonId)
@@ -100,7 +100,7 @@ async function request(endpoint, token) {
 
   // In the no-user result set, the second test addon should not be flagged as
   // installed.
-  Section('Addon List: Test addon 2 not installed with current user');
+  Section `Addon List: Test addon 2 not installed with current user`;
 
   // Should not be installed, which means no overlay info
   const userAddon4 = emptyUser.find(el => el.addonId === context.addonId)
@@ -111,13 +111,13 @@ async function request(endpoint, token) {
 
   // ---------------------------------
 
-  Section('Addon List: Schema validation for addon list (with user)');
+  Section `Addon List: Schema validation for addon list (with user)`;
   Assert(withUser)
     (validAddonList).eq(true);
 
   // ---------------------------------
 
-  Section('Addon List: Schema validation for addon list (no user)');
+  Section `Addon List: Schema validation for addon list (no user)`;
   Assert(emptyUser)
     (validAddonList).eq(true);
 

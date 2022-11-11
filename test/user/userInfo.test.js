@@ -32,7 +32,7 @@ async function request(endpoint, token) {
  * and a user object if there is a valid user. */
 export async function test({Assert, Section}, context) {
   // When there is no token, there should be no user; object should be empty
-  Section('User Info: No Current User');
+  Section `User Info: No Current User`;
   const { res: res1, json: emptyUser } = await request('/api/v1/user');
 
   Assert(res1)('status').eq(200);
@@ -42,7 +42,7 @@ export async function test({Assert, Section}, context) {
   // ---------------------------------
 
   // An invalid/corrupted token should behave as if there is no token at all.
-  Section('User Info: Invalid Token');
+  Section `User Info: Invalid Token`;
   const { res: res2, json: invalidUser } = await request('/api/v1/user', context.brokenToken);
 
   Assert(res2)('status').eq(200);
@@ -52,7 +52,7 @@ export async function test({Assert, Section}, context) {
   // ---------------------------------
 
   // When presented with a token for a user, we should get that user back
-  Section('User Info: Valid Token');
+  Section `User Info: Valid Token`;
   const { res: res3, json: user } = await request('/api/v1/user', context.authToken);
 
   Assert(res3)('status').eq(200);
@@ -61,7 +61,7 @@ export async function test({Assert, Section}, context) {
 
   // ---------------------------------
 
-  Section('User Info: Schema validation');
+  Section `User Info: Schema validation`;
   Assert(user)(validUser).eq(true);
 }
 

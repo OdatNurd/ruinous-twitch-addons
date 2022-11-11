@@ -43,7 +43,7 @@
     "#test/*": "./test/*.js"
   },
   "devDependencies": {
-    "@axel669/aegis": "^0.2.3",
+    "@axel669/aegis": "^0.2.6",
     "@axel669/rollup-copy-static": "^0.1.2",
     "@axel669/rollup-dollar-path": "^0.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",

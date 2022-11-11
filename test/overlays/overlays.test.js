@@ -30,7 +30,7 @@ async function request(endpoint, token) {
  * page that represents that addon's overlay based on the ID of the overlay. */
 export async function test({Assert, Section}, context) {
   // Attempt to fetch information for a nonexistant overlay should fail
-  Section('Overlays: Fetch invalid overlay info');
+  Section `Overlays: Fetch invalid overlay info`;
   const { res: res1, json: invalid } = await request(`/api/v1/overlay/${context.overlayId}-invalid`);
 
   Assert(res1)('status').eq(404);
@@ -39,7 +39,7 @@ export async function test({Assert, Section}, context) {
   // ---------------------------------
 
   // We should be able to request information for a valid overlay.
-  Section('Overlays: Fetch valid overlay info');
+  Section `Overlays: Fetch valid overlay info`;
   const { res: res2, json: overlay } = await request(`/api/v1/overlay/${context.overlayId}`);
   Assert(res2)('status').eq(200);
   Assert(overlay)
@@ -49,13 +49,13 @@ export async function test({Assert, Section}, context) {
 
   // ---------------------------------
 
-  Section('Overlays: Schema validation for overlay record');
+  Section `Overlays: Schema validation for overlay record`;
   Assert(overlay)
     (validOverlay).eq(true);
 
   // ---------------------------------
 
-  Section('Overlays: Redirect for invalid overlay ID');
+  Section `Overlays: Redirect for invalid overlay ID`;
   const res3 = await api(`/overlay/${context.overlayId}-invalid`);
 
   // All overlay requests should redirect, but a request for an invalid overlay
@@ -68,7 +68,7 @@ export async function test({Assert, Section}, context) {
   // ---------------------------------
 
 
-  Section('Overlays: Redirect for valid overlay ID');
+  Section `Overlays: Redirect for valid overlay ID`;
   const res4 = await api(`/overlay/${context.overlayId}`);
 
   // The valid overlay should not send us to the invalid overlay page, and the

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@axel669/aegis@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@axel669/aegis/-/aegis-0.2.3.tgz#447dc1252fb532be22bfae384c9f05a81450825a"
-  integrity sha512-wMS4rC0f9HzxvZ+wx8ihSTgH0NI/OYx3tIdkJ/Dc3o2D2t3WwqwvM6rLi+JY7kn/nYBHKxYf055j7ZRKc/I87g==
+"@axel669/aegis@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@axel669/aegis/-/aegis-0.2.6.tgz#8ec426ec3221ba58b1a5babce1f2688d089b98c3"
+  integrity sha512-f6WJr5n6Wj+Qr+f1VE0d9TrBG+wGJvhC/pRFTGKHiY972vVgFvpPpvnYl9RyEve5w4MuwidEb909agjVaYPhbg==
   dependencies:
     fast-glob "^3.2.11"
 

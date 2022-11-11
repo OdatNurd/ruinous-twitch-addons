@@ -38,7 +38,7 @@ async function request(endpoint, method, token, resolveJSON) {
  * separate location. */
  export async function test({Assert, Section}, context) {
   // You should not be able to uninstall an addon that is not yet installed.
-  Section('User Addons: Uninstall when not installed');
+  Section `User Addons: Uninstall when not installed`;
   const res1 = await request(`/api/v1/user/addons/${context.addonId}`, 'DELETE', context.authToken);
 
   Assert(res1)('status').eq(404);
@@ -46,20 +46,20 @@ async function request(endpoint, method, token, resolveJSON) {
   // ---------------------------------
 
   // When a valid addon is not installed, it should be installable.
-  Section('User Addons: Install of valid addon');
+  Section `User Addons: Install of valid addon`;
   const { res: res2, json: added } = await request(`/api/v1/user/addons/${context.addonId}`, 'POST', context.authToken, true);
 
   Assert(res2)('status').eq(201);
 
   // ---------------------------------
 
-  Section('User Addons: Schema validation for install record');
+  Section `User Addons: Schema validation for install record`;
   Assert(added)(validAddonInstall).eq(true);
 
   // ---------------------------------
 
   // It should not be possible to install an addon that is already installed.
-  Section('User Addons: Install when already installed');
+  Section `User Addons: Install when already installed`;
   const { res: res3, json: notAdded } = await request(`/api/v1/user/addons/${context.addonId}`, 'POST', context.authToken, true);
 
   Assert(res3)('status').eq(409);
@@ -68,7 +68,7 @@ async function request(endpoint, method, token, resolveJSON) {
   // ---------------------------------
 
   // It should not be possible to install an addon that does not exist
-  Section('User Addons: Install of invalid addon');
+  Section `User Addons: Install of invalid addon`;
   const { res: res4, json: nonexistant } = await request(`/api/v1/user/addons/${context.addonId}-invalid`, 'POST', context.authToken, true);
 
   Assert(res4)('status').eq(404);
@@ -77,7 +77,7 @@ async function request(endpoint, method, token, resolveJSON) {
   // ---------------------------------
 
   // We should be able to uninstall an addon that is actually installed
-  Section('User Addons: Uninstall when installed');
+  Section `User Addons: Uninstall when installed`;
   const res5 = await request(`/api/v1/user/addons/${context.addonId}`, 'DELETE', context.authToken);
 
   // This should result in a 404 error because this addon is not actually
@@ -87,7 +87,7 @@ async function request(endpoint, method, token, resolveJSON) {
   // ---------------------------------
 
   // You should not be able to uninstall an addon that does not exist
-  Section('User Addons: Uninstall of invalid addon');
+  Section `User Addons: Uninstall of invalid addon`;
   const res6 = await request(`/api/v1/user/addons/${context.addonId}-invalid`, 'DELETE', context.authToken);
 
   Assert(res6)('status').eq(404);
@@ -96,7 +96,7 @@ async function request(endpoint, method, token, resolveJSON) {
 
   // The list of addons that are installed should at this point be a known
   // quantity.
-  Section('User Addons: Validate installed addons');
+  Section `User Addons: Validate installed addons`;
 
   const { res: res7, json: addonList } = await request('/api/v1/user/addons', 'GET', context.authToken, true);
 
@@ -113,7 +113,7 @@ async function request(endpoint, method, token, resolveJSON) {
 
   // ---------------------------------
 
-  Section('User Addons: Schema validation for list of installed addons');
+  Section `User Addons: Schema validation for list of installed addons`;
   Assert(addonList)
      (validAddonList).eq(true);
 
@@ -121,7 +121,7 @@ async function request(endpoint, method, token, resolveJSON) {
 
   // The list of addons that are installed should cause an error if there is
   // no user.
-  Section('User Addons: Fetch installed with no user logged in');
+  Section `User Addons: Fetch installed with no user logged in`;
 
   const { res: res8, json: addonListFail } = await request('/api/v1/user/addons', 'GET', undefined, true);
 
@@ -131,7 +131,7 @@ async function request(endpoint, method, token, resolveJSON) {
   // ---------------------------------
 
   // Installation should fail when there is no user to install for
-  Section('User Addons: Install addon with no user logged in');
+  Section `User Addons: Install addon with no user logged in`;
 
   const { res: res9, json: addUnauth } = await request(`/api/v1/user/addons/${context.addonId}`, 'POST', undefined, true);
 
@@ -141,7 +141,7 @@ async function request(endpoint, method, token, resolveJSON) {
   // ---------------------------------
 
   // Uninstalling should fail when there is no user to uninstall for
-  Section('User Addons: Uninstall addon with no user logged in');
+  Section `User Addons: Uninstall addon with no user logged in`;
 
   const res10 = await request(`/api/v1/user/addons/${context.addonId}`, 'DELETE');
 
