@@ -54,7 +54,21 @@ const config = [
       ***NOTE:*** If the option to kick people whose nicks start with Z is
       turned on above, then poor Zeke is gonna get the shaft.
     `),
-    "values": ["first", "second", "third"],
+    "placeholder": "Select Zeke's Winnability",
+    "values": [
+      {
+        "label": "The first option",
+        "value": "first"
+      },
+      {
+        "label": "The middle option" ,
+        "value": "second"
+      },
+      {
+        "label": "The non sequiter option",
+        "value": "third"
+      }
+    ],
   },
 
   // A number slider; must have a minimum, maximum and a step value that

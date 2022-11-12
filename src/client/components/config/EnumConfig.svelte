@@ -7,7 +7,8 @@
 
 
 <select bind:value={value} class="select select-bordered w-full">
-  {#each config.values as option}
-    <option>{option}</option>
+  <option value="" disabled>{config.placeholder}</option>
+  {#each config.values as option (value)}
+    <option value={option.value}>{option.label}</option>
   {/each}
 </select>
