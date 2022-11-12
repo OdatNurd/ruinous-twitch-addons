@@ -1,22 +1,5 @@
-import { apiJSON } from '#test/utils';
+import { request, requestWithAuth } from '#test/utils';
 import { validAddonList } from '#test/validators';
-
-
-// =============================================================================
-
-
-/* Simple internal helper; all requests in this module require JSON, and some
- * may require a token. This wraps up the logic so the tests are clearer. */
-async function request(endpoint, token) {
-  const options = {}
-  if (token !== undefined) {
-    options.headers = {
-      'Cookie': token
-    }
-  }
-
-  return apiJSON(endpoint, options);
-}
 
 
 // =============================================================================
@@ -40,20 +23,20 @@ async function request(endpoint, token) {
   // With no user, the list of addons should contain all of the addons from the
   // seed data.
   Section `Addon List: Addon count with no current user`;
-  const { res: res1, json: emptyUser } = await request('/api/v1/addons');
+  const [ res1, emptyUser ] = await request('/api/v1/addons');
 
-  Assert(res1)('status').eq(200);
-  Assert(emptyUser)('length').eq(3);
+  Assert(res1) `status`.eq(200);
+  Assert(emptyUser) `length`.eq(3);
 
   // ---------------------------------
 
   // When there is a user, the result count should be the same as when there is
   // a user.
   Section `Addon List: Addon count with current user`;
-  const { res: res2, json: withUser } = await request('/api/v1/addons', context.authToken);
+  const [ res2, withUser ] = await requestWithAuth('/api/v1/addons', context.authToken);
 
-  Assert(res2)('status').eq(200);
-  Assert(withUser)('length').eq(emptyUser.length);
+  Assert(res2) `status`.eq(200);
+  Assert(withUser) `length`.eq(emptyUser.length);
 
   // ---------------------------------
 
@@ -64,9 +47,9 @@ async function request(endpoint, token) {
   // Should not be installed, which means no overlay info
   const userAddon1 = emptyUser.find(el => el.addonId === context.overlayAddonId)
   Assert(userAddon1)
-    ('installed').eq(false)
-    ('overlayId').eq('')
-    ('overlayUrl').eq('');
+    `installed`.eq(false)
+    `overlayId`.eq('')
+    `overlayUrl`.eq('');
 
 
   // ---------------------------------
@@ -78,9 +61,9 @@ async function request(endpoint, token) {
   // correct.
   const userAddon2 = withUser.find(el => el.addonId === context.overlayAddonId)
   Assert(userAddon2)
-    ('installed').eq(true)
-    ('overlayId').eq(context.overlayId)
-    ('overlayUrl')
+    `installed`.eq(true)
+    `overlayId`.eq(context.overlayId)
+    `overlayUrl`
       (url => url.endsWith(`/${context.overlayId}`)).eq(true)
 
   // ---------------------------------
@@ -92,9 +75,9 @@ async function request(endpoint, token) {
   // Should not be installed, which means no overlay info
   const userAddon3 = emptyUser.find(el => el.addonId === context.addonId)
   Assert(userAddon3)
-    ('installed').eq(false)
-    ('overlayId').eq('')
-    ('overlayUrl').eq('');
+    `installed`.eq(false)
+    `overlayId`.eq('')
+    `overlayUrl`.eq('');
 
   // ---------------------------------
 
@@ -105,9 +88,9 @@ async function request(endpoint, token) {
   // Should not be installed, which means no overlay info
   const userAddon4 = emptyUser.find(el => el.addonId === context.addonId)
   Assert(userAddon4)
-    ('installed').eq(false)
-    ('overlayId').eq('')
-    ('overlayUrl').eq('');
+    `installed`.eq(false)
+    `overlayId`.eq('')
+    `overlayUrl`.eq('');
 
   // ---------------------------------
 
@@ -120,7 +103,6 @@ async function request(endpoint, token) {
   Section `Addon List: Schema validation for addon list (no user)`;
   Assert(emptyUser)
     (validAddonList).eq(true);
-
 }
 
 

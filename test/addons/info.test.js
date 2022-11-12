@@ -1,23 +1,5 @@
-import { apiJSON } from '#test/utils';
-
+import { request, requestWithAuth } from '#test/utils';
 import { validAddon } from '#test/validators';
-
-
-// =============================================================================
-
-
-/* Simple internal helper; all requests in this module require JSON, and some
- * may require a token. This wraps up the logic so the tests are clearer. */
-async function request(endpoint, token) {
-  const options = {}
-  if (token !== undefined) {
-    options.headers = {
-      'Cookie': token
-    }
-  }
-
-  return apiJSON(endpoint, options);
-}
 
 
 // =============================================================================
@@ -32,19 +14,19 @@ async function request(endpoint, token) {
  export async function test({Assert, Section}, context) {
   // Search for information on an invalid addon should fail with no user
   Section `Addon Info: Fetch invalid addon info (no user)`;
-  const { res: res1, json: invalid1 } = await request(`/api/v1/addons/${context.addonId}-invalid`);
+  const [ res1, invalid1 ] = await request(`/api/v1/addons/${context.addonId}-invalid`);
 
-  Assert(res1)('status').eq(404);
-  Assert(invalid1)('success').eq(false);
+  Assert(res1) `status`.eq(404);
+  Assert(invalid1) `success`.eq(false);
 
   // ---------------------------------
 
   // Search for information on an invalid addon should fail even with a user
   Section `Addon Info: Fetch invalid addon info (with user)`;
-  const { res: res2, json: invalid2 } = await request(`/api/v1/addons/${context.addonId}-invalid`, context.authToken);
+  const [ res2, invalid2 ] = await requestWithAuth(`/api/v1/addons/${context.addonId}-invalid`, context.authToken);
 
-  Assert(res2)('status').eq(404);
-  Assert(invalid2)('success').eq(false);
+  Assert(res2) `status`.eq(404);
+  Assert(invalid2) `success`.eq(false);
 
   // ---------------------------------
 
@@ -52,12 +34,12 @@ async function request(endpoint, token) {
   // valid addon Info but not be flagged as installed at all if there is no user
   // logged in.
   Section `Addon Info: Fetch installed addon info (no user)`;
-  const { res: res3, json: valid1 } = await request(`/api/v1/addons/${context.overlayAddonId}`);
+  const [ res3, valid1 ] = await request(`/api/v1/addons/${context.overlayAddonId}`);
 
-  Assert(res3)('status').eq(200);
+  Assert(res3) `status`.eq(200);
   Assert(valid1)
-    ('installed').eq(false)
-    ('overlayUrl').eq('');
+    `installed`.eq(false)
+    `overlayUrl`.eq('');
 
   // ---------------------------------
 
@@ -71,12 +53,12 @@ async function request(endpoint, token) {
   // valid addon Info but and be flagged as installed when there is a user
   // logged in.
   Section `Addon Info: Fetch installed addon info (with user)`;
-  const { res: res4, json: valid2 } = await request(`/api/v1/addons/${context.overlayAddonId}`, context.authToken);
+  const [ res4, valid2 ] = await requestWithAuth(`/api/v1/addons/${context.overlayAddonId}`, context.authToken);
 
-  Assert(res4)('status').eq(200);
+  Assert(res4) `status`.eq(200);
   Assert(valid2)
-    ('installed').eq(true)
-    ('overlayUrl')
+    `installed`.eq(true)
+    `overlayUrl`
       (url => url.endsWith(`/${context.overlayId}`)).eq(true);
 
   // ---------------------------------
@@ -84,12 +66,12 @@ async function request(endpoint, token) {
   // Search for information on the test addon that we know is not installed
   // should return valid addon Info but not be flagged as installed.
   Section `Addon Info: Fetch uninstalled addon info (no user)`;
-  const { res: res5, json: valid3 } = await request(`/api/v1/addons/${context.addonId}`);
+  const [ res5, valid3 ] = await request(`/api/v1/addons/${context.addonId}`);
 
-  Assert(res5)('status').eq(200);
+  Assert(res5) `status`.eq(200);
   Assert(valid3)
-    ('installed').eq(false)
-    ('overlayUrl').eq('');
+    `installed`.eq(false)
+    `overlayUrl`.eq('');
 
   // ---------------------------------
 
@@ -102,12 +84,12 @@ async function request(endpoint, token) {
   // Search for information on the test addon that we know is not installed
   // should return valid addon Info but and be flagged as installed.
   Section `Addon Info: Fetch uninstalled addon info (with user)`;
-  const { res: res6, json: valid4 } = await request(`/api/v1/addons/${context.addonId}`, context.authToken);
+  const [ res6, valid4 ] = await requestWithAuth(`/api/v1/addons/${context.addonId}`, context.authToken);
 
-  Assert(res6)('status').eq(200);
+  Assert(res6) `status`.eq(200);
   Assert(valid3)
-    ('installed').eq(false)
-    ('overlayUrl').eq('');
+    `installed`.eq(false)
+    `overlayUrl`.eq('');
 }
 
 

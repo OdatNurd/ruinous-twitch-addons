@@ -1,22 +1,5 @@
-import { api, apiJSON, endpointMatch } from '#test/utils';
+import { endpointMatch, request } from '#test/utils';
 import { validOverlay } from '#test/validators';
-
-// =============================================================================
-
-
-
-/* Simple internal helper; all requests in this module require JSON, and some
- * may require a token. This wraps up the logic so the tests are clearer. */
-async function request(endpoint, token) {
-  const options = {}
-  if (token !== undefined) {
-    options.headers = {
-      'Cookie': token
-    }
-  }
-
-  return apiJSON(endpoint, options);
-}
 
 
 // =============================================================================
@@ -31,21 +14,22 @@ async function request(endpoint, token) {
 export async function test({Assert, Section}, context) {
   // Attempt to fetch information for a nonexistant overlay should fail
   Section `Overlays: Fetch invalid overlay info`;
-  const { res: res1, json: invalid } = await request(`/api/v1/overlay/${context.overlayId}-invalid`);
+  const [ res1, invalid ] = await request(`/api/v1/overlay/${context.overlayId}-invalid`);
 
-  Assert(res1)('status').eq(404);
-  Assert(invalid)('success').eq(false);
+  Assert(res1) `status`.eq(404);
+  Assert(invalid) `success`.eq(false);
 
   // ---------------------------------
 
   // We should be able to request information for a valid overlay.
   Section `Overlays: Fetch valid overlay info`;
-  const { res: res2, json: overlay } = await request(`/api/v1/overlay/${context.overlayId}`);
-  Assert(res2)('status').eq(200);
+  const [ res2, overlay ] = await request(`/api/v1/overlay/${context.overlayId}`);
+
+  Assert(res2) `status`.eq(200);
   Assert(overlay)
-    ('userId').eq(context.userInfo.userId)
-    ('addonId').eq(context.overlayAddonId)
-    ('overlayId').eq(context.overlayId)
+    `userId`.eq(context.userInfo.userId)
+    `addonId`.eq(context.overlayAddonId)
+    `overlayId`.eq(context.overlayId)
 
   // ---------------------------------
 
@@ -56,29 +40,29 @@ export async function test({Assert, Section}, context) {
   // ---------------------------------
 
   Section `Overlays: Redirect for invalid overlay ID`;
-  const res3 = await api(`/overlay/${context.overlayId}-invalid`);
+  const [ res3 ] = await request(`/overlay/${context.overlayId}-invalid`, {}, false);
 
   // All overlay requests should redirect, but a request for an invalid overlay
   // should redirect to a known error page.
   Assert(res3)
-    ('status').eq(200)
-    ('url')
+    `status`.eq(200)
+    `url`
       (url => endpointMatch(url, '/overlay/no_such_overlay.html')).eq(true);
 
   // ---------------------------------
 
 
   Section `Overlays: Redirect for valid overlay ID`;
-  const res4 = await api(`/overlay/${context.overlayId}`);
+  const [ res4 ] = await request(`/overlay/${context.overlayId}`, {}, false);
 
   // The valid overlay should not send us to the invalid overlay page, and the
   // page should have a hash on it that includes the overlayId, since that is
   // how the overlay knows what it represents when it loads.
   Assert(res4)
-    ('status').eq(200)
-    ('url')
+    `status`.eq(200)
+    `url`
       (url => endpointMatch(url, '/overlay/no_such_overlay.html')).eq(false)
-    ('url')
+    `url`
       (url => url.endsWith(`#${context.overlayId}`));
 }
 

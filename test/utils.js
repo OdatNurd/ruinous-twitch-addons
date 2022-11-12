@@ -24,22 +24,16 @@ export async function initializeDatabase(context) {
   // Some of our tests install addons; we need to make sure that those
   // installations are not present when we start.
   await Promise.all([context.addonId, context.overlayAddonId].map(async (item) => {
-    await api(`/api/v1/user/addons/${item}`, {
+    await requestWithAuth(`/api/v1/user/addons/${item}`, context.authToken, {
       method: 'DELETE',
-      headers: {
-        "Cookie": context.authToken
-      }
-    });
+    }, false);
   }));
 
   // In order to test overlays we need to have an addon installed that has one;
   // Install the overlay test addon now and capture the overlayId. Has to be
   // done here so taht the ID is ready when the test runs.
-  const { res, json: testAddon } = await apiJSON(`/api/v1/user/addons/${context.overlayAddonId}`, {
+  const [ res, testAddon ] = await requestWithAuth(`/api/v1/user/addons/${context.overlayAddonId}`, context.authToken, {
     method: 'POST',
-    headers: {
-      "Cookie": context.authToken
-    }
   });
   context.overlayId = testAddon.overlayId;
 }
@@ -75,34 +69,44 @@ export function generateTestCookie(userInfo) {
 
 
 /* This will execute an API call to the provided API endpoint (which should
- * include the entire URL fragment, e.g. `/api/v1/user`).
+ * include just the entire URL fragment, e.g. `/api/v1/user`).
  *
- * If options are provided, they are used in the query.
+ * If options are provided, they are used in the query; any fetch option can be
+ * used here, but for convenience the method is set to GET by default if not
+ * provided.
  *
- * The return value is the response object from the fetch call; this can be
- * introspected and the body can be handled as desired if needed. */
-export async function api(endpoint, options) {
+ * This function returns an array of two values; the first is the response
+ * object that is the result of the fetch, and the second is the body of the
+ * response as decoded JSON; this element will be undefined if getJSON is not
+ * true. */
+export async function request(endpoint, options={}, getJSON=true) {
   const URL = `http://localhost:${process.env.PORT}${endpoint}`;
-  options = options ?? {}
 
-  return await fetch(URL, options);
+  options = {
+    method: "GET",
+    ...options
+  }
+
+  const res = await fetch(URL, options);
+  return [res, (getJSON === true) ? await res.json() : undefined ];
 }
 
 
 // =============================================================================
 
 
-/* This is a friendly wrapper around api which assumes that the result that is
- * coming back will always contain valid JSON, and does the work of fetching
- * that data for you directly.
- *
- * The return value is an object that contains ther response object and the
- * JSON. */
-export async function apiJSON(endpoint, options) {
-  const res = await api(endpoint, options);
-  const json = await res.json();
+/* This is a wrapper helper around request() that functions identically except
+ * that it uses the provided authToken to set an appropriate header in the
+ * options object so you don't have to do that yourself. */
+export async function requestWithAuth(endpoint, authToken, options={}, getJSON=true) {
+  // Make sure there are options, and include the auth token in the headers,
+  // also keeping other headers present.
+  options.headers = {
+    "Cookie": authToken,
+    ...(options.headers ?? {})
+  }
 
-  return { res, json }
+  return request(endpoint, options, getJSON)
 }
 
 
@@ -113,6 +117,7 @@ export async function apiJSON(endpoint, options) {
 export function endpointMatch(inputURL, endpoint) {
   return inputURL === `http://localhost:${process.env.PORT}${endpoint}`;
 }
+
 
 // =============================================================================
 
