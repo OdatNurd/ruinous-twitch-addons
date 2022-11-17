@@ -106,11 +106,11 @@ export const config = convict({
   },
 
   db: {
-    // For connecting to the PostgreSQL database
+    // For connecting to the MongoDB database
     url: {
-      doc: 'The URL to connect to the PostgreSQL database with',
+      doc: 'The URL to connect to the MongoDB database with',
       format: required,
-      env: 'DATABASE_URL',
+      env: 'MONGODB_URL',
       sensitive: true,
       default: null,
     },
