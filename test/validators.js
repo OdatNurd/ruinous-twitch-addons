@@ -13,6 +13,72 @@ const userSchema = {
   "profilePic": "string",
 }
 
+
+/* Information about the various types of configuration objects that can appear
+ * in a list of configuration schema items; the schema on this varies depending
+ * on the type of the record. */
+const addonConfigSchema = {
+  "joker.type": "conditional",
+  condition: (item) => item.type,
+
+  "string": {
+    "type": "string",
+    "field": "string",
+    "default": "string",
+    "name": "string",
+    "description": "string",
+    "placeholder": "string",
+  },
+
+  "number": {
+    "type": "string",
+    "field": "string",
+    "default": "number",
+    "name": "string",
+    "description": "string",
+    "placeholder": "string",
+    "integer": "bool",
+    "minValue": "number",
+    "maxValue": "number",
+  },
+
+  "range": {
+    "type": "string",
+    "field": "string",
+    "default": "number",
+    "name": "string",
+    "description": "string",
+    "integer": "bool",
+    "minValue": "number",
+    "maxValue": "number",
+    "stepValue": "number",
+  },
+
+  "boolean": {
+    "type": "string",
+    "field": "string",
+    "default": "bool",
+    "name": "string",
+    "description": "string",
+    "labels": { "joker.type": "array", length: 2 },
+    "labels[]": "string",
+  },
+
+  "enum": {
+    "type": "string",
+    "field": "string",
+    "default": "string",
+    "name": "string",
+    "description": "string",
+    "placeholder": "string",
+    "values": { "joker.type": "array", min: 1 },
+    "values[]": {
+      "label": "string",
+      "value": "string"
+    },
+  }
+}
+
 /* Information about addons, both installed and uninstalled. These can be pulled
  * in a variety of ways, but all should conform to this structure. */
 const addonSchema = {
@@ -30,9 +96,9 @@ const addonSchema = {
   "staticFile": "string",
   "overlayId": "string",
   "overlayUrl": "string",
-  "configSchema[]": {
-  }
-}
+  "configSchema[]": addonConfigSchema
+};
+
 
 /* Information that is returned from a request to install a new addon; this
  * provides back some core information that is needed as a result of the
@@ -46,6 +112,7 @@ const addonInstallSchema = {
   "overlayUrl": "string",
   "config": {}
 }
+
 
 /* Information that is returned regarding the information on a specific overlay,
  * which includes details on who owns the overlay, the config, and information
@@ -71,7 +138,7 @@ const configResponseSchema = {
   "overlayId": "string",
   "overlayUrl": "string",
   "config": {},
-  "schema[]": {}
+  "schema[]": addonConfigSchema
 }
 
 

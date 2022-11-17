@@ -59,7 +59,7 @@
     "tailwindcss": "^3.1.8"
   },
   "dependencies": {
-    "@axel669/joker": "^0.2.1",
+    "@axel669/joker": "^0.2.3",
     "@labyrinthos/file-routes": "^0.1.5",
     "@prisma/client": "^4.6.1",
     "@rollup/plugin-commonjs": "^22.0.2",

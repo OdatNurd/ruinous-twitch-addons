@@ -9,10 +9,10 @@
   dependencies:
     fast-glob "^3.2.11"
 
-"@axel669/joker@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@axel669/joker/-/joker-0.2.1.tgz#2f56c8bcf493a8f247a55f9c7cba0b7bdce9f8ea"
-  integrity sha512-nu+/nWLs9ikYCs3zdAyqXWeOAiMAtbspTBpr21R6r/1Bk6/EXHqCrHW1BB6gKufdXiGtmL/+lRD77vZC3fwflg==
+"@axel669/joker@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@axel669/joker/-/joker-0.2.3.tgz#62384d2835add0ca2934f57d1035902ac918d64f"
+  integrity sha512-PFUFXdIRjYZF3GgJpyoZd8FrTEjOtbDqEMXw07Q9ZOWP7LIRHbrdTpAquDxxI8usXH5CoI91NC9UJrLrD7kqGQ==
 
 "@axel669/rollup-copy-static@^0.1.2":
   version "0.1.2"
