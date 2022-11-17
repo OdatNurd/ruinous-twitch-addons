@@ -31,18 +31,6 @@ const addonSchema = {
   "overlayId": "string",
   "overlayUrl": "string",
   "configSchema[]": {
-    "type": "string",
-    "field": "string",
-    // "default": "string",      // The default actually depends on the type
-    "name": "string",
-    "description": "string",
-    "?placeholder": "string", // only "string" and "number"; sets the placeholder text
-    "?labels[]": "string",    // only "boolean"; sets the label text
-    "?values[]": "string",    // only for "enum"; the list of options to pick
-    "?integer": "bool",       // Only for "range" and "number"; float or int?
-    "?minValue": "number",    // only for "range" and "number"; sets range
-    "?maxValue": "number",    // only for "range" and "number"; sets range
-    "?stepValue": "number",   // only for "range";  value change on slider
   }
 }
 
@@ -91,12 +79,12 @@ const configResponseSchema = {
 
 
 /* Validators that can test wether specific objects match their schema. */
-export const validUser = joker.compile({ root: userSchema });
-export const validAddonInstall = joker.compile({ root: addonInstallSchema });
-export const validAddon = joker.compile({ root: addonSchema });
-export const validAddonList = joker.compile({ "root[]": addonSchema });
-export const validOverlay = joker.compile({ root: overlaySchema });
-export const validConfigResponse = joker.compile( { root: configResponseSchema });
+export const validUser = joker.validator({ root: userSchema });
+export const validAddonInstall = joker.validator({ root: addonInstallSchema });
+export const validAddon = joker.validator({ root: addonSchema });
+export const validAddonList = joker.validator({ "root[]": addonSchema });
+export const validOverlay = joker.validator({ root: overlaySchema });
+export const validConfigResponse = joker.validator( { root: configResponseSchema });
 
 
 // =============================================================================
