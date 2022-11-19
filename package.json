@@ -43,7 +43,7 @@
     "#test/*": "./test/*.js"
   },
   "devDependencies": {
-    "@axel669/aegis": "^0.2.6",
+    "@axel669/aegis": "^0.2.7",
     "@axel669/rollup-copy-static": "^0.1.2",
     "@axel669/rollup-dollar-path": "^0.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
@@ -59,7 +59,7 @@
     "tailwindcss": "^3.1.8"
   },
   "dependencies": {
-    "@axel669/joker": "^0.2.3",
+    "@axel669/joker": "^0.2.4",
     "@labyrinthos/file-routes": "^0.1.5",
     "@prisma/client": "^4.6.1",
     "@rollup/plugin-commonjs": "^22.0.2",

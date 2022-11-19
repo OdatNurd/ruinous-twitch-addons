@@ -1,7 +1,8 @@
 import { config } from '#core/config';
 import { db, dbErrResponse } from '#lib/db';
 import { getAuthorizedUser } from '#lib/auth';
-import { NotFound } from '#lib/exceptions';
+import { NotFound, InvalidConfigError } from '#lib/exceptions';
+import { validateAddonConfig } from '#lib/schema';
 
 
 // =============================================================================
@@ -96,6 +97,20 @@ export const POST = {
         throw new SyntaxError('the provided JSON is not valid');
       }
 
+      // Attempt to validate the incoming JSON data; this returns either true,
+      // an object saying why it's bad, or null if this addon is unknown.
+      const isValid = validateAddonConfig(addonId, req.body);
+      if (isValid === null) {
+        throw new NotFound(`addon not installed`);
+      }
+
+      // If the potential configuration information is not valid, bomb; this
+      // will grab out all of the validation errors and include the reason(s)
+      // for the failure in the result.
+      if (isValid !== true) {
+        throw new InvalidConfigError(`invalid config: ${isValid.map(e => e.message).join(', ')}`);
+      }
+
       // Fetch out the configuration record; uniqueness constraints ensures that
       // there can only ever be at most one of these.
       const configInfo = await db.twitchUserAddons.findUnique({
@@ -109,10 +124,6 @@ export const POST = {
       if (configInfo === null) {
         throw new NotFound(`addon not installed`);
       }
-
-      // TODO: Validate the request body; this has to validate against the
-      // schema, and should ultimately contain only the fields specified there,
-      // so we should use jsonMask on this at some point.
 
       await db.twitchUserAddons.update({
         where: {

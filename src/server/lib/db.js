@@ -1,6 +1,6 @@
 import { config } from '#core/config';
 import { logger } from '#core/logger';
-import { Unauthorized, NotFound } from '#lib/exceptions';
+import { Unauthorized, NotFound, InvalidConfigError } from '#lib/exceptions';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 
@@ -84,7 +84,12 @@ export function dbErrResponse(errorObj, res) {
 
   // Is the error that some provided JSON did not properly parse?
   if (errorObj instanceof SyntaxError) {
-    return error(res, 400, msg)
+    return error(res, 400, msg);
+  }
+
+  // Is the error that a proposed configuration change has an invalid schema?
+  if (errorObj instanceof InvalidConfigError) {
+    return error(res, 400, msg);
   }
 
   // If this is a Prisma error, handle it specifically.

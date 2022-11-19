@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@axel669/aegis@^0.2.6":
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/@axel669/aegis/-/aegis-0.2.6.tgz#8ec426ec3221ba58b1a5babce1f2688d089b98c3"
-  integrity sha512-f6WJr5n6Wj+Qr+f1VE0d9TrBG+wGJvhC/pRFTGKHiY972vVgFvpPpvnYl9RyEve5w4MuwidEb909agjVaYPhbg==
+"@axel669/aegis@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@axel669/aegis/-/aegis-0.2.7.tgz#9a87e7ed0c3eacfc50219f17b4349306c404e325"
+  integrity sha512-WgfvLxLhOjb9Pnqr9MFulqKOmhEia0sl2YtEohyJUz20zhig9mFUyYOjjz26NG2Mbo+gP9LhNYtys6lM8n4uYg==
   dependencies:
     fast-glob "^3.2.11"
 
-"@axel669/joker@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@axel669/joker/-/joker-0.2.3.tgz#62384d2835add0ca2934f57d1035902ac918d64f"
-  integrity sha512-PFUFXdIRjYZF3GgJpyoZd8FrTEjOtbDqEMXw07Q9ZOWP7LIRHbrdTpAquDxxI8usXH5CoI91NC9UJrLrD7kqGQ==
+"@axel669/joker@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@axel669/joker/-/joker-0.2.4.tgz#914f33e60161b31919b8eb5a72b74b069910a3c7"
+  integrity sha512-mQjzWmPlMd4Dr5MN05c63A4R/rMxMUtDgnrCv5XlsFFWF+i5R4+dIQkZQzOoWLSD5lI/58EYN2XGbe2wJAvTiQ==
 
 "@axel669/rollup-copy-static@^0.1.2":
   version "0.1.2"

@@ -70,7 +70,7 @@ import objEqual from 'fast-deep-equal';
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      nickname: 'WhoDatNurd'
+      coolnessFactor: 10
     })
   });
 
@@ -89,7 +89,7 @@ import objEqual from 'fast-deep-equal';
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      nickname: 'WhoDatNurd'
+      coolnessFactor: 10
     })
   });
 
@@ -133,7 +133,6 @@ import objEqual from 'fast-deep-equal';
 
   Assert(res8) `status`.eq(204);
 
-
   // ---------------------------------
 
   // After setting the config, fetching it should produce the new value
@@ -147,6 +146,22 @@ import objEqual from 'fast-deep-equal';
       (obj => objEqual({ nickname: 'WhoDatNurd' }, obj)).eq(true);
 
   // ---------------------------------
+
+  // You should not be able to set the config if it doesn't match the schema (with user)
+  Section `User Addon Config: Update config for installed with non-matching config (with user)`;
+
+  const [ res10 ] = await requestWithAuth(`/api/v1/user/addons/${context.overlayAddonId}/config`, context.authToken, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      // This addon expects a nickname, so this is not a valid body.
+      coolnessFactor: 10
+    })
+  }, false);
+
+  Assert(res10) `status`.eq(400);
 
 }
 
