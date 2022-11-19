@@ -83,6 +83,7 @@ export const GET = {
         entry.overlayUrl = (entry.overlayId === '') ? '' : `${config.get('rootUrl')}/overlay/${userInfo.overlayId}`;
       });
       result.sort((a, b) => a.timestamp - b.timestamp);
+      result.forEach(e => delete e["timestamp"]);
 
       res.json(result);
     }
