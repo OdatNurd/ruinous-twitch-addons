@@ -17,7 +17,7 @@ const config = [
   // allows you to directly specify a value. If desired, you can force the
   // value selected to be an integer.
   {
-    "type": "range",
+    "type": "float-slider",
     "field": "coolnessFactor",
     "default": 10,
     "name": "Coolness Level",

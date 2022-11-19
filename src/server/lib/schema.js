@@ -2,6 +2,15 @@ import { addons } from '#seed/addons/index';
 
 import joker from '@axel669/joker';
 
+// What is missing:
+//
+// ints, floats and the range types need to validate that if they have a min and
+// a max, that they're appropriate ordered, AND that the default value falls
+// within them (this needs to happen here, but also at the schema level too).
+//
+// This currently seems like it might be problematic, since the int type is
+// built in and the docs say we can't extend it.
+
 
 /// =============================================================================
 
@@ -32,24 +41,23 @@ function createConfigSchema(addonInfo) {
     let validator;
 
     switch (entry.type) {
-      // Strings and booleans are just simple validations; their fields must be
-      // of the appropriate type.
-      // TODO: Name the internal boolean type bool so that it matches what
-      // joker uses, and then these two items can coalesce and all is nice.
+      // Strings, ints and booleans are just simple validations; their fields
+      // must be of the appropriate type.
       case 'string':
-        validator = 'string';
+      case 'bool':
+      case 'int':
+        validator = entry.type;
         break;
 
-      case 'boolean':
-        validator = 'bool';
+      // A float is just a renamed version of a number.
+      case 'float':
+      case 'float-slider':
+        validator = { 'joker.type': 'number', min: entry.minValue , max: entry.maxValue };
         break;
 
       // Numbers and ranges must be numbers in a specific range.
-      // TODO: This does not validate config.integer, which checks if the
-      //       value should be an integer or not.
-      case 'number':
-      case 'range':
-        validator = { 'joker.type': 'number', min: entry.minValue , max: entry.maxValue };
+      case 'int-slider':
+        validator = { 'joker.type': 'int', min: entry.minValue , max: entry.maxValue };
         break;
 
       // Enumerations must have a value in the configured list of valid items.

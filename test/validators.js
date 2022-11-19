@@ -30,31 +30,51 @@ const addonConfigSchema = {
     "placeholder": "string",
   },
 
-  "number": {
+  "int": {
+    "type": "string",
+    "field": "string",
+    "default": "int",
+    "name": "string",
+    "description": "string",
+    "placeholder": "string",
+    "?minValue": "int",
+    "?maxValue": "int",
+  },
+
+  "float": {
     "type": "string",
     "field": "string",
     "default": "number",
     "name": "string",
     "description": "string",
     "placeholder": "string",
-    "integer": "bool",
-    "minValue": "number",
-    "maxValue": "number",
+    "?minValue": "number",
+    "?maxValue": "number",
   },
 
-  "range": {
+  "int-slider": {
+    "type": "string",
+    "field": "string",
+    "default": "int",
+    "name": "string",
+    "description": "string",
+    "minValue": "int",
+    "maxValue": "int",
+    "stepValue": "int",
+  },
+
+  "float-slider": {
     "type": "string",
     "field": "string",
     "default": "number",
     "name": "string",
     "description": "string",
-    "integer": "bool",
     "minValue": "number",
     "maxValue": "number",
     "stepValue": "number",
   },
 
-  "boolean": {
+  "bool": {
     "type": "string",
     "field": "string",
     "default": "bool",

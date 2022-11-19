@@ -11,10 +11,16 @@
   // implements the settings for that type.
   const configMap = {
    "string": StringConfig,
-   "boolean": BooleanConfig,
-   "number": NumberConfig,
-   "range": RangeConfig,
+   "bool": BooleanConfig,
    "enum": EnumConfig,
+   // These should be represented by different classes, since they are, you
+   // know, distinct and stuff.
+   "int": NumberConfig,
+   "float": NumberConfig,
+   // These should be represented by different classes, since they are, you
+   // know, distinct and stuff.
+   "int-slider": RangeConfig,
+   "float-slider": RangeConfig,
   }
 
   export let slug = 'unknown';
@@ -44,11 +50,15 @@
   {/if}
 
   {#each addon.configSchema as config }
-    <div class="prose border my-4 p-4">
-      <h3>{config.name}</h3>
-      <MarkdownBox extraClasses="border-b-[1px] mb-2"  source={config.description} />
-      <svelte:component this={configMap[config.type]} {config} value={config.default}/>
-    </div>
+    {#if configMap[config.type] !== undefined}
+      <div class="prose border my-4 p-4">
+        <h3>{config.name}</h3>
+        <MarkdownBox extraClasses="border-b-[1px] mb-2"  source={config.description} />
+        <svelte:component this={configMap[config.type]} {config} value={config.default}/>
+      </div>
+    {:else}
+      <div>Unknown configuration item type for {config.name}: {config.type}</div>
+    {/if}
   {/each}
 {:catch}
   {navigate('/error')}
