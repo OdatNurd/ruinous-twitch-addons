@@ -24,7 +24,8 @@
     "test": "aegis \"test/**/*.test.{js,mjs}\" test/hooks.js",
     "test-addons": "aegis \"test/addons/**/*.test.{js,mjs}\" test/hooks.js",
     "test-overlays": "aegis \"test/overlays/**/*.test.{js,mjs}\" test/hooks.js",
-    "test-user": "aegis \"test/user/**/*.test.{js,mjs}\" test/hooks.js"
+    "test-user": "aegis \"test/user/**/*.test.{js,mjs}\" test/hooks.js",
+    "test-schema": "aegis \"test/schema/**/*.test.{js,mjs}\" test/hooks.js"
   },
   "engines": {
     "node": "16.x",
@@ -59,7 +60,7 @@
     "tailwindcss": "^3.1.8"
   },
   "dependencies": {
-    "@axel669/joker": "^0.2.4",
+    "@axel669/joker": "^0.2.5",
     "@labyrinthos/file-routes": "^0.1.5",
     "@prisma/client": "^4.6.1",
     "@rollup/plugin-commonjs": "^22.0.2",

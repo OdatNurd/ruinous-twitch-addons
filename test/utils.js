@@ -23,7 +23,7 @@ const TOKEN_TTL = 86400;
 export async function initializeDatabase(context) {
   // Some of our tests install addons; we need to make sure that those
   // installations are not present when we start.
-  await Promise.all([context.addonId, context.overlayAddonId].map(async (item) => {
+  await Promise.all([context.addonId, context.overlayAddonId, context.schemaAddonId].map(async (item) => {
     await requestWithAuth(`/api/v1/user/addons/${item}`, context.authToken, {
       method: 'DELETE',
     }, false);
@@ -36,6 +36,12 @@ export async function initializeDatabase(context) {
     method: 'POST',
   });
   context.overlayId = testAddon.overlayId;
+
+  // In order to test the schema handling code, we need to make sure that the
+  // addon with the full suite of configuration types is installed.
+  await requestWithAuth(`/api/v1/user/addons/${context.schemaAddonId}`, context.authToken, {
+    method: 'POST',
+  });
 }
 
 

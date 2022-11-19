@@ -92,10 +92,11 @@ import fetch from "node-fetch";
   const [ res7, addonList ] = await requestWithAuth('/api/v1/user/addons', context.authToken);
 
   Assert(res7) `status`.eq(200);
-  Assert(addonList) `length`.eq(1);
+  Assert(addonList) `length`.eq(2);
 
-  // We expect a single addon, which we also want to validate
-  const addon = (addonList.length === 1) ? addonList[0] : {};
+  // We expect to get two addons; we need to validate the one that is related
+  // to the overlayId.
+  const addon = addonList.find(e => e.addonId === context.overlayAddonId) ?? {};
 
   Assert(addon)
     `addonId`.eq(context.overlayAddonId)

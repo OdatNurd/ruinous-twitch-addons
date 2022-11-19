@@ -115,7 +115,11 @@ const addonSchema = {
   "overlayFile": "string",
   "staticFile": "string",
   "overlayId": "string",
-  "overlayUrl": "string",
+
+  // This is only present when the overlayId is not an empty string; when
+  // present it should be a URL, and that URL should contain the overlayId as
+  // a hashed value.
+  "?overlayUrl": "string",
   "configSchema[]": addonConfigSchema
 };
 

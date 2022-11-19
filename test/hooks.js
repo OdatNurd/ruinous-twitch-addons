@@ -30,8 +30,10 @@ export async function setup(context) {
 
   // Related to addons for a particular user, these are the fields that control
   // what addons commands are working with. The first is the id of the addon
-  // that we are going to use in our overlay tests, and the second is the one
-  // used in our addon tests.
+  // that we use to validate configuration schemas, the second is the one used
+  // to validate overlays, and the third is the one used in our general addon
+  // tests.
+  context.schemaAddonId = '2BNIO9lVnPY9lKgIMsBVQICBLAM';
   context.overlayAddonId = '2BNIa2BOEP7kF10eeOdObXjNsQk';
   context.addonId = '2C0usq54Rpo4TZtuQa7mDADAhjV';
 
